@@ -73,10 +73,10 @@ class AboutPage extends StatelessWidget {
                       _iconoBoton("ubu"),
                     ],
                   ),
-                  FloatingActionButton(
+                  /*FloatingActionButton(
                     onPressed: (){},//_initiateCall(),
                     child: Icon(Icons.phone)
-                  ),
+                  ),*/
                 ],
               ),
             ),
