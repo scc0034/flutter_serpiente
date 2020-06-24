@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /**
  * Clase que para controlar algunas de las opciones de la app
+ * Página persistencia de datos:
+ * https://pusher.com/tutorials/local-data-flutter
  */
 class SettingsPage extends StatefulWidget {
   @override
@@ -44,6 +46,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     );
   }
 
+  /**
+   * Método que crea el switch para controlar el darkMode
+   */
   Widget _crearSwitch(BuildContext context){
 
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
@@ -66,6 +71,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     );
   }
 
+  /**
+   * Función de persistencia, carga
+   */
   _loadCambiarColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -73,6 +81,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     });
   }
 
+  /**
+   * Función de persistencia, guarda.
+   */
   _storeCambiarColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
