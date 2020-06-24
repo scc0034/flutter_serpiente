@@ -7,6 +7,7 @@ final _icons = <String, IconData> {
   'home' : Icons.home,
   'snake' : Icons.videogame_asset,
   'about' : Icons.info_outline,
+  'settings' : Icons.settings,
 
 };
 

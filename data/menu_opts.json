@@ -12,6 +12,11 @@
             "texto": "Snake"
         },
         {
+            "ruta" : "settings",
+            "icon" : "settings",
+            "texto": "Settings"
+        },
+        {
             "ruta" : "about",
             "icon" : "about",
             "texto": "About"
