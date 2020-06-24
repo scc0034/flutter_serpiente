@@ -11,8 +11,35 @@ class AboutPage extends StatelessWidget {
       drawer: MenuLateral(),
         appBar: AppBar(
           title: Text("About Page"),
-          ),
-        body: Container()
+        ),
+        // Contenido de la parte de about
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundColor: Colors.cyan[100],
+                    backgroundImage: AssetImage('assets/avatar.jpg'),
+                    radius: 75,
+                  )
+                ],
+              ),
+            ),
+          )
+        ),
       );
   }
 }
+
+
+
+
+
+
+
+
+
