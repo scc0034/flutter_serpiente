@@ -91,15 +91,34 @@ class _SnakePageState extends State<SnakePage>{
           flex: 1,
           child: Container(
             color: Theme.of(context).primaryColor,
-            child: ListView(
-              physics: NeverScrollableScrollPhysics(),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.star),
-                  title: Text("Puntuación:  ${_puntuacion}"),
+                Icon(Icons.star),
+                Text("Puntuación:  ${_puntuacion}"),
+                FlatButton(
+                  color: Theme.of(context).textSelectionHandleColor,
+                  onPressed: () {
+                    setState(() {
+                      _dir = "der";
+                      _cabeza = 3;
+                      _cola = 0;
+                      _serpiente = [1,2,3,4];
+                      _inGame = false;
+                      _puntuacion = 0;
+                      _nuevaManzana();
+                      _iniciarJuego();
+                    });
+                  },
+                  child: Text(
+                    "Restart Game",
+                  ),
                 )
               ],
             ),
+            
+            
           ),
         )
       ],),
@@ -110,6 +129,7 @@ class _SnakePageState extends State<SnakePage>{
    * Método que se encarga de iniciar el juego
    */
   void _iniciarJuego(){
+    //_serpiente = [1,2,3,4];
     // Controlamos si ya estamos inGame
     if(!_inGame){
       _inGame = true;
@@ -118,8 +138,7 @@ class _SnakePageState extends State<SnakePage>{
       Timer.periodic(_tiempo, (Timer timer) {
         if (_gameOver()){
           timer.cancel();
-          _puntuacion=636131517;
-          _alerta();
+          _final();
         }else{
           _moverSerpiente();
         }
@@ -156,7 +175,7 @@ class _SnakePageState extends State<SnakePage>{
     _indexManzana = _semilla.nextInt(_indexManzana);
 
     // Miramos si la manzana esta dentro de la serpiente
-    while(_serpiente.contains(_indexManzana)){
+    while(_serpiente.contains(_indexManzana) || _indexManzana == 0){
       _indexManzana = _semilla.nextInt(_indexManzana);
     }
   }
@@ -258,6 +277,53 @@ class _SnakePageState extends State<SnakePage>{
       return true;
     }
     return false;
+  }
+  
+  void _final(){
+    showDialog(context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('GAME OVER'),
+        content: Text('You\'re score: $_puntuacion'),
+        actions: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('assets/gameover2.gif'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              FlatButton(
+                child: Text('Play Again'),
+                onPressed: () {
+                  setState(() {
+                      _dir = "der";
+                      _cabeza = 3;
+                      _cola = 0;
+                      _serpiente = [1,2,3,4];
+                      _inGame = false;
+                      _puntuacion = 0;
+                      _nuevaManzana();
+                      _iniciarJuego();
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text('Submit Score'),
+                onPressed: () {
+                  
+                },
+              )
+            ],
+          ),
+          
+        ],
+        );
+    }
+    );
   }
   
 }
