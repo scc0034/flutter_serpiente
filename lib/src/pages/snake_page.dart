@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -20,14 +21,18 @@ class SnakePage extends StatefulWidget {
 class _SnakePageState extends State<SnakePage>{
 
   // Atributos de la clase para controlar los estados
-  var _dir = "";          // Controla la dirección del juego
+  var _dir = "der";          // Controla la dirección del juego
   bool _inGame = false;   // Controla si tenemos el juego iniciado
   final int _nCol = 20;   // Número de columnas que tiene el grid
-  final int _nFil = 38;   // Número de filas del tablero
-  final double _escala = 1.9;
-  static int _maxIndexManzana = 700;
+  final int _nFil = 29;   // Número de filas del tablero
+  final double _escala = 1.45;
+  static int _maxIndexManzana = 580;
   int _indexManzana = _semilla.nextInt(_maxIndexManzana);
   static Random _semilla = Random();
+  int _puntuacion = 0;
+  List<int> _serpiente = [0,1,2,3];
+  int _cabeza = 3;
+  int _cola = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +47,6 @@ class _SnakePageState extends State<SnakePage>{
         )
       );
   }
-
 
   /**
    * Método que se encarga de dibujar el tablero del snake
@@ -92,7 +96,7 @@ class _SnakePageState extends State<SnakePage>{
               children: <Widget>[
                 ListTile(
                   leading: Icon(Icons.star),
-                  title: Text("Puntuación"),
+                  title: Text("Puntuación:  ${_puntuacion}"),
                 )
               ],
             ),
@@ -109,6 +113,17 @@ class _SnakePageState extends State<SnakePage>{
     // Controlamos si ya estamos inGame
     if(!_inGame){
       _inGame = true;
+      // Creamos el temporizador para que se mueva la serpiete cada x tiempo
+      final _tiempo = const Duration(milliseconds: 500);
+      Timer.periodic(_tiempo, (Timer timer) {
+        if (_gameOver()){
+          timer.cancel();
+          _puntuacion=636131517;
+          _alerta();
+        }else{
+          _moverSerpiente();
+        }
+       });
     }
   }
 
@@ -139,6 +154,11 @@ class _SnakePageState extends State<SnakePage>{
    */
   void _nuevaManzana (){
     _indexManzana = _semilla.nextInt(_indexManzana);
+
+    // Miramos si la manzana esta dentro de la serpiente
+    while(_serpiente.contains(_indexManzana)){
+      _indexManzana = _semilla.nextInt(_indexManzana);
+    }
   }
 
   /**
@@ -147,21 +167,97 @@ class _SnakePageState extends State<SnakePage>{
   Widget _pintar(int index){
     // Variable para pintar el color del grid
     Color colorFondo;
-    print(index);
+    BorderRadius _radio;
+
     //Miramos que index es, para saber el contenido de la casilla
-    if(_indexManzana == index){
+    if (_indexManzana == index){
       colorFondo = Colors.redAccent;
+      _radio = BorderRadius.circular(0);
+    }else if(_serpiente.contains(index)){
+      colorFondo = Colors.green;
+      _radio = BorderRadius.circular(0);
     }else {
-      colorFondo = Colors.green[300];
+      colorFondo = Colors.green[200];
+      _radio = BorderRadius.circular(0);
     }
+
     return Container(
-      padding: EdgeInsets.all(1.5),
+
+      padding: EdgeInsets.all(0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: _radio,
         child: Container(
+          /*child: FadeInImage(
+            placeholder: AssetImage('assets/original.gif'), 
+            image: NetworkImage('https://picsum.photos/500/300/?image=1'),
+          ),*/
           color : colorFondo,
         ),
       ),
     );
   }
+
+  /**
+   * Método que sirve para actualizar la posición de la serpiente
+   */
+  void _moverSerpiente(){
+    setState(() {
+      _cola = _serpiente.first;
+      switch (_dir) {
+        case 'der':
+          _cabeza +=1;
+          _serpiente.add(_cabeza);
+        break;
+
+        case 'abajo':
+          _cabeza +=20;
+          _serpiente.add(_cabeza);
+        break;
+
+        case 'arriba':
+          _cabeza -=20;
+          _serpiente.add(_cabeza);
+        break;
+
+        case 'izq':
+          _cabeza -=1;
+          _serpiente.add(_cabeza);
+        break;
+
+      }
+    });
+
+    if(_cabeza == _indexManzana){
+      _nuevaManzana();
+      _puntuacion+=1;
+    }else{
+      _serpiente.remove(_cola);
+    }
+  }
+
+  bool _gameOver(){
+    print(_cola);
+    //Pared izquierda
+    if((_cabeza< 0 || _cabeza % (19)==0) && _dir.compareTo("izq") == 0){
+      return true;
+    }else
+    //Pared derecha
+    if((_cabeza > _maxIndexManzana || _cabeza % (20)==0) && _dir.compareTo("der") == 0){
+      return true;
+    }else
+    // Control de abajo
+    if(_cabeza>_maxIndexManzana){
+      return true;
+    }else
+    // Control de arriba
+    if (_cabeza< 0){
+      return true;
+    }else
+    //Colision consigo misma
+    if (_serpiente.sublist(0,_serpiente.length-2).contains(_cabeza)){
+      return true;
+    }
+    return false;
+  }
+  
 }

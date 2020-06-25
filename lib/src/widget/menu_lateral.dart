@@ -47,7 +47,7 @@ class MenuLateral extends StatelessWidget {
   Widget _createMenu(BuildContext context){
     return ListView(
         padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           _createHeader(),
           _createListaMenu(context),
