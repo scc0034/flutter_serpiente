@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
@@ -20,6 +22,12 @@ class _SnakePageState extends State<SnakePage>{
   // Atributos de la clase para controlar los estados
   var _dir = "";          // Controla la dirección del juego
   bool _inGame = false;   // Controla si tenemos el juego iniciado
+  final int _nCol = 20;   // Número de columnas que tiene el grid
+  final int _nFil = 38;   // Número de filas del tablero
+  final double _escala = 1.9;
+  static int _maxIndexManzana = 700;
+  int _indexManzana = _semilla.nextInt(_maxIndexManzana);
+  static Random _semilla = Random();
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +65,43 @@ class _SnakePageState extends State<SnakePage>{
             // Dibujamos el tablero
             child: Container(
               child: GridView.builder(
-                // Controlador del grid
-                gridDelegate: null,
-                // Crea las casillas del tablero 
-                itemBuilder: null
+                shrinkWrap: true,
+                // Definimos el número de columnas del grid
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _nCol,
+                ),
+                // Evitamos que se pueda hacer scroll en pantalla
+                physics: NeverScrollableScrollPhysics(),
+                // Crea las casillas del tablero por defecto
+                itemCount: 580,
+                itemBuilder: (BuildContext context, int index) {
+                    return _pintar(index);
+                },
               ),
             ),// Tablero
           ),
-        )
+        ),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                alignment: Alignment.center,
+                height: 50,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.blue, Colors.blueAccent],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text('Your widget at the end'))
+              ],
+            ),
+          )
       ],),
     );
   }
@@ -101,4 +138,34 @@ class _SnakePageState extends State<SnakePage>{
     }
   }
   
+  /**
+   * Método para dar nuevos valores a la mazana una vez sea comida
+   */
+  void _nuevaManzana (){
+    _indexManzana = _semilla.nextInt(_indexManzana);
+  }
+
+  /**
+   * Método para pintar cada una de las casillas del tablero
+   */
+  Widget _pintar(int index){
+    // Variable para pintar el color del grid
+    Color colorFondo;
+    print(index);
+    //Miramos que index es, para saber el contenido de la casilla
+    if(_indexManzana == index){
+      colorFondo = Colors.redAccent;
+    }else {
+      colorFondo = Colors.green[300];
+    }
+    return Container(
+      padding: EdgeInsets.all(1.5),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(5),
+        child: Container(
+          color : colorFondo,
+        ),
+      ),
+    );
+  }
 }
