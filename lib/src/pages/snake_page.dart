@@ -49,9 +49,11 @@ class _SnakePageState extends State<SnakePage>{
    */
   Widget _dibujarTablero(BuildContext context){
     return Container(
-      child: Column(children: <Widget>[
+      child: Column(
+        children: <Widget>[
         // Hacemos que ocupe toda la pantalla con un Expanded
         Expanded(
+          flex: 8,
           // EL tablero tiene que estar dentro del gesture para detectar los cambios
           child: GestureDetector(
             // Controlamos acciones que se hacen en la pantalla del tablero
@@ -81,27 +83,21 @@ class _SnakePageState extends State<SnakePage>{
             ),// Tablero
           ),
         ),
-        Padding(
-            padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
+        Expanded(
+          flex: 1,
+          child: Container(
+            color: Theme.of(context).primaryColor,
+            child: ListView(
+              physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
-                Container(
-                alignment: Alignment.center,
-                height: 50,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blue, Colors.blueAccent],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text('Your widget at the end'))
+                ListTile(
+                  leading: Icon(Icons.star),
+                  title: Text("Puntuación"),
+                )
               ],
             ),
-          )
+          ),
+        )
       ],),
     );
   }
