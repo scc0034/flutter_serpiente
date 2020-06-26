@@ -1,11 +1,13 @@
 # Flutter Serpiente 
 ## Trabajo Final de Grado
 ### Grado en Ingeniería Informática, Universidad de Burgos
-[![made-with-dart](https://img.shields.io/badge/dart-blue?logo=dart)](https://dart.dev/)
+[![](https://img.shields.io/badge/flutter-blue?logo=flutter)](https://flutter-es.io/)
 [![](https://img.shields.io/badge/dart-blue?logo=dart)](https://dart.dev/)
 
+
 **Autor**  
-- [Samuel Casal Cantero](https://www.linkedin.com/in/samuel-casal-cantero-631022188/)<br/>
+- [Samuel Casal Cantero](https://www.linkedin.com/in/samuel-casal-cantero-631022188/)
+
 **Tutores**
 - [Cesár García Osorio](https://github.com/cgosorio)<br/>
 - [Jose Francisco Diez Pastor](https://github.com/joseFranciscoDiez)<br>
