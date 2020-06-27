@@ -23,17 +23,25 @@ class _SnakePageState extends State<SnakePage>{
   // Atributos de la clase para controlar los estados
   var _dir = "der";          // Controla la dirección del juego
   bool _inGame = false;   // Controla si tenemos el juego iniciado
+  bool _end = false;      // Guarda si se ha terminado la partida
   final int _nCol = 20;   // Número de columnas que tiene el grid
   final int _nFil = 29;   // Número de filas del tablero
-  final double _escala = 1.45;
-  static int _maxIndexManzana = 580;
-  int _indexManzana = _semilla.nextInt(_maxIndexManzana);
-  static Random _semilla = Random();
-  int _puntuacion = 0;
-  List<int> _serpiente = [0,1,2,3];
-  int _cabeza = 3;
-  int _cola = 0;
+  final double _escala = 1.45;  // Relación entre el numero de col y de filas
+  static int _maxIndexManzana = 579;  // Número de casillas
+  int _indexManzana = _semilla.nextInt(_maxIndexManzana); //Indice de la manzana inicial
+  static Random _semilla = Random();  // Semilla para generar aleaatorios
+  int _puntuacion = 0;    // Puntuación de la partida
+  List<int> _serpiente = [0,1,2,3]; // Posición de las partes de la serpiente
+  int _cabeza = 3;        // Cabeza serpiente
+  int _cola = 0;          // Cola serpiente
+  int _nBloques = 10 ;    // Número de bloques en el tablero
+  List<int> _bloques = [];     // Bloques aleatorios como dificultad
+  final _velocidad = const Duration(milliseconds: 500);
 
+  // Constructor de la clase
+  _SnakePageState(){
+    _rellenarBloques();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,14 +109,7 @@ class _SnakePageState extends State<SnakePage>{
                   color: Theme.of(context).textSelectionHandleColor,
                   onPressed: () {
                     setState(() {
-                      _dir = "der";
-                      _cabeza = 3;
-                      _cola = 0;
-                      _serpiente = [1,2,3,4];
-                      _inGame = false;
-                      _puntuacion = 0;
-                      _nuevaManzana();
-                      _iniciarJuego();
+                      _restartGame();
                     });
                   },
                   child: Text(
@@ -133,9 +134,8 @@ class _SnakePageState extends State<SnakePage>{
     // Controlamos si ya estamos inGame
     if(!_inGame){
       _inGame = true;
-      // Creamos el temporizador para que se mueva la serpiete cada x tiempo
-      final _tiempo = const Duration(milliseconds: 500);
-      Timer.periodic(_tiempo, (Timer timer) {
+      
+      Timer.periodic(_velocidad, (Timer timer) {
         if (_gameOver()){
           timer.cancel();
           _final();
@@ -172,11 +172,10 @@ class _SnakePageState extends State<SnakePage>{
    * Método para dar nuevos valores a la mazana una vez sea comida
    */
   void _nuevaManzana (){
-    _indexManzana = _semilla.nextInt(_indexManzana);
-
+    _indexManzana = _semilla.nextInt(_maxIndexManzana);
     // Miramos si la manzana esta dentro de la serpiente
-    while(_serpiente.contains(_indexManzana) || _indexManzana == 0){
-      _indexManzana = _semilla.nextInt(_indexManzana);
+    while(_serpiente.contains(_indexManzana) ){
+      _indexManzana = _semilla.nextInt(_maxIndexManzana);
     }
   }
 
@@ -187,24 +186,35 @@ class _SnakePageState extends State<SnakePage>{
     // Variable para pintar el color del grid
     Color colorFondo;
     BorderRadius _radio;
-
+    String image = "";
     //Miramos que index es, para saber el contenido de la casilla
     if (_indexManzana == index){
       colorFondo = Colors.redAccent;
-      _radio = BorderRadius.circular(0);
+      //_radio = BorderRadius.circular(0);
     }else if(_serpiente.contains(index)){
       colorFondo = Colors.green;
-      _radio = BorderRadius.circular(0);
-    }else {
+      if(_bloques.contains(index)){
+        colorFondo = Colors.brown[200];
+        image = "block.png";
+      }
+      //_radio = BorderRadius.circular(0);
+    }else if(_bloques.contains(index)){
+      colorFondo = Colors.brown[200];
+      //_radio = BorderRadius.circular(0);
+    }else{
       colorFondo = Colors.green[200];
-      _radio = BorderRadius.circular(0);
+      //_radio = BorderRadius.circular(0);
+    }
+
+    if(_end == true){
+      colorFondo = colorFondo = Colors.green[200];
     }
 
     return Container(
 
       padding: EdgeInsets.all(0),
       child: ClipRRect(
-        borderRadius: _radio,
+        //borderRadius: _radio,
         child: Container(
           /*child: FadeInImage(
             placeholder: AssetImage('assets/original.gif'), 
@@ -221,6 +231,9 @@ class _SnakePageState extends State<SnakePage>{
    */
   void _moverSerpiente(){
     setState(() {
+      if(_end){
+        _gameOver();
+      }
       _cola = _serpiente.first;
       switch (_dir) {
         case 'der':
@@ -254,31 +267,52 @@ class _SnakePageState extends State<SnakePage>{
     }
   }
 
+  /**
+   * Método que controla si se produce un fallo y como consecuencia el final de la partida
+   */
   bool _gameOver(){
-    print(_cola);
+    print("cabeza = $_cabeza");
     //Pared izquierda
-    if((_cabeza< 0 || _cabeza % (19)==0) && _dir.compareTo("izq") == 0){
+    if((_cabeza< 0 || _cabeza % (_nCol-1)==0) && _dir.compareTo("izq") == 0){
+      _end = true;
+      print("fallo izquierda _cabeza = $_cabeza");
       return true;
     }else
     //Pared derecha
-    if((_cabeza > _maxIndexManzana || _cabeza % (20)==0) && _dir.compareTo("der") == 0){
+    if((_cabeza > _maxIndexManzana || _cabeza % (_nCol)==0) && _dir.compareTo("der") == 0){
+      _end = true;
+      print("fallo der");
       return true;
     }else
     // Control de abajo
     if(_cabeza>_maxIndexManzana){
+      _end = true;
+      print("fallo abajo");
       return true;
     }else
     // Control de arriba
     if (_cabeza< 0){
+      _end = true;
+      print("fallo arriba");
       return true;
     }else
     //Colision consigo misma
     if (_serpiente.sublist(0,_serpiente.length-2).contains(_cabeza)){
+      _end = true;
+      print("fallo serpiente");
+      return true;
+    }else if(_bloques.contains(_cabeza)){
+      _end = true;
+      print("fallo BLOQUE");
       return true;
     }
+
     return false;
   }
   
+  /**
+   * Mostrar la ventana de que se ha terminado la partida
+   */
   void _final(){
     showDialog(context: context,
     builder: (BuildContext context) {
@@ -299,14 +333,7 @@ class _SnakePageState extends State<SnakePage>{
                 child: Text('Play Again'),
                 onPressed: () {
                   setState(() {
-                      _dir = "der";
-                      _cabeza = 3;
-                      _cola = 0;
-                      _serpiente = [1,2,3,4];
-                      _inGame = false;
-                      _puntuacion = 0;
-                      _nuevaManzana();
-                      _iniciarJuego();
+                      _restartGame();
                   });
                   Navigator.of(context).pop();
                 },
@@ -326,4 +353,43 @@ class _SnakePageState extends State<SnakePage>{
     );
   }
   
+  void  _rellenarBloques(){
+    print("Dentro de rellenar los bloques");
+    int pos;
+    _bloques.clear();
+    List<int> listaValidacion = [];
+    listaValidacion.addAll(_serpiente);
+    listaValidacion.add(_indexManzana);
+    for (var i = 0; i < _nBloques; i++) {
+      do {
+
+        pos = _semilla.nextInt(_maxIndexManzana);
+        print("Posición del bloque");
+        print(pos);
+      } while (listaValidacion.contains(pos));
+
+      listaValidacion.add(pos);
+      _bloques.add(pos);
+    }
+
+    print("final de rellenar los bloques");
+  }
+
+  /**
+   * Método que reinicia el contenido de las variables
+   */
+  void _restartGame(){
+    _dir = "der";
+    _cabeza = 3;
+    _cola = 0;
+    _serpiente = [1,2,3,4];
+    _inGame = false;
+    _end = false;
+    _puntuacion = 0;
+    _nuevaManzana();
+    _rellenarBloques();
+    _iniciarJuego();
+  }
+
+
 }
