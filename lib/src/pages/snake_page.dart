@@ -406,7 +406,7 @@ class _SnakePageState extends State<SnakePage>{
   void _loadSettings() async {
     final VariablesPersistentes variableVelocidad = await dbService.getVar("selectorVelocidad");
     if(variableVelocidad != null){
-      _velocidad = Duration(milliseconds: 250);
+      _velocidad = Duration(milliseconds: 500);
     }
   }
 }
