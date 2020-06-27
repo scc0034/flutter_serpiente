@@ -3,6 +3,9 @@ import 'package:flutter_snake/src/utils/theme.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_snake/src/models/variables_persistentes.dart';
+import 'package:flutter_snake/src/services/database_service.dart';
+
 
 /**
  * Clase que para controlar algunas de las opciones de la app
@@ -17,13 +20,20 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
 
+  // Servicios de la base de datos
+  //Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  DatabaseService dbService = DatabaseService.instance;
   // Variable que controla el botón de darkMode
-  bool _cambiarColor = false;
+  bool _selectorColor = false;
+  Map<int,bool> _mapaValores = {
+    0 : true,
+    1: false,
+  };
 
   @override
   void initState() {
     super.initState();
-    _loadCambiarColor();
+    _loadVarFromDb("selectorColor");
   }
 
   @override
@@ -54,40 +64,61 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
     
     return SwitchListTile(
-      value: _cambiarColor,
+      value: _selectorColor,
       title: Text('Dark Mode'),
       subtitle: Text('This app helps to activate the Android night mode on devices that do not provide this option in the system settings.'),
       onChanged: (valor) {
         setState(() {
-          _cambiarColor = valor;
-          _storeCambiarColor();
-          if (valor){
+          print("valor del selector = $valor");
+          if(valor){
+            _saveVarToDb(1, "selectorColor");
             _themeChanger.setTheme(ThemeData.dark());
           }else{
+            _saveVarToDb(0, "selectorColor");
             _themeChanger.setTheme(ThemeData.light());
-          };
+          }
+          print("Que tenemos dentro del selectorColor");
+          print(_selectorColor);
         });
       },
     );
   }
 
-  /**
-   * Función de persistencia, carga
-   */
-  _loadCambiarColor() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  void _saveVarToDb(int valor, String nombre) async {
+    print("Valor al guardar $valor");
+    // Creamos la variable que tenemos que insertar
+    final variable = VariablesPersistentes.fromMap({
+      "value": valor,
+      "nombre" : nombre,
+      "createdTime": DateTime.now()
+    });
+
+    // Hacemos el update, en el caso de que sea 0, tenemos que insertar
+    final int filasCambiadas = await dbService.updateVar(nombre, valor);
+    print("filas cambiadas");
+    print(filasCambiadas);
+    if (filasCambiadas == 0){
+      final int id = await dbService.insertVar(variable);
+    }
     setState(() {
-      _cambiarColor = (prefs.getBool('cambiarColor') ?? false);
+      if(nombre.compareTo("selectorColor") == 0){
+
+        _selectorColor = _mapaValores[valor];
+      }
     });
   }
 
-  /**
-   * Función de persistencia, guarda.
-   */
-  _storeCambiarColor() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  void _loadVarFromDb(String nombre) async {
+    final VariablesPersistentes variable = await dbService.getVar(nombre);
     setState(() {
-      prefs.setBool('cambiarColor', _cambiarColor);
+      if(nombre.compareTo("selectorColor") == 0){
+        if (variable == null){
+        _selectorColor = false;
+        }else{
+          _selectorColor = _mapaValores[variable.value];
+        }  
+      }
     });
   }
+
 }
