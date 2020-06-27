@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_snake/src/models/variables_persistentes.dart';
+import 'package:flutter_snake/src/services/database_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 /**
@@ -36,12 +39,21 @@ class _SnakePageState extends State<SnakePage>{
   int _cola = 0;          // Cola serpiente
   int _nBloques = 10 ;    // Número de bloques en el tablero
   List<int> _bloques = [];     // Bloques aleatorios como dificultad
-  final _velocidad = const Duration(milliseconds: 500);
+  Duration _velocidad =  Duration(milliseconds: 500);
+  DatabaseService dbService = DatabaseService.instance;
 
   // Constructor de la clase
   _SnakePageState(){
     _rellenarBloques();
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+    print("Velocidad = $_velocidad");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -391,5 +403,10 @@ class _SnakePageState extends State<SnakePage>{
     _iniciarJuego();
   }
 
-
+  void _loadSettings() async {
+    final VariablesPersistentes variableVelocidad = await dbService.getVar("selectorVelocidad");
+    if(variableVelocidad != null){
+      _velocidad = Duration(milliseconds: 250);
+    }
+  }
 }
