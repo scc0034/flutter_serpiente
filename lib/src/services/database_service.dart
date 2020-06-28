@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import './../models/variables_persistentes.dart';
@@ -7,6 +6,7 @@ import './../models/variables_persistentes.dart';
 
 /**
  * Clase que controla los servicios de comunicación con la base de datos
+ * https://dev.to/thepythongeeks/step-by-step-to-store-data-locally-in-flutter-1mc9
  */
 class DatabaseService {
   //  Variables de la base de datos

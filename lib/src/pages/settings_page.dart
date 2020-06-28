@@ -29,6 +29,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     1: true,
   };
   bool _selectorVelocidad = false;
+  bool _selectorBloques = false;
 
   @override
   void initState() {
@@ -51,6 +52,8 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
             _crearSwitch(context),
             Divider(),
             _crearSwitchVelocidad(context),
+            Divider(),
+            _crearSwitchBloques(context),
           ],
         )  
       ),
@@ -82,7 +85,11 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     );
   }
 
-    Widget _crearSwitchVelocidad(BuildContext context){
+
+  /**
+   * Método que añade a la lista de opciones la de Velocidad de la serpiente
+   */
+  Widget _crearSwitchVelocidad(BuildContext context){
     
     return SwitchListTile(
       value: _selectorVelocidad,
@@ -94,6 +101,27 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
             _saveVarToDb(1, "selectorVelocidad");
           }else{
             _saveVarToDb(0, "selectorVelocidad");
+          }
+        });
+      },
+    );
+  }
+
+  /**
+  * Método que se encarga de crear el switch de selección de bloques  
+  */
+  Widget _crearSwitchBloques(BuildContext context){
+    
+    return SwitchListTile(
+      value: _selectorVelocidad,
+      title: Text('Bloks mode'),
+      subtitle: Text('Place repatted blocks across the board.'),
+      onChanged: (valor) {
+        setState(() {
+          if(valor){
+            _saveVarToDb(1, "selectorBloques");
+          }else{
+            _saveVarToDb(0, "selectorBloques");
           }
         });
       },
@@ -120,6 +148,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
       if(nombre.compareTo("selectorVelocidad") == 0){
         _selectorVelocidad = _mapaValores[valor];
       }
+      if(nombre.compareTo("selectorBloques") == 0){
+        _selectorBloques= _mapaValores[valor];
+      }
     });
   }
 
@@ -127,24 +158,28 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     final VariablesPersistentes variable = await dbService.getVar(nombre);
     setState(() {
       if(nombre.compareTo("selectorColor") == 0){
-        if (variable == null){
-        _selectorColor = false;
-          Provider.of<ThemeChanger>(context).setTheme(ThemeData.light());
-        }else{
-          if(variable.value == 0){
+          if(variable.value == 0 || variable == null){
             _selectorColor = _mapaValores[variable.value];
             Provider.of<ThemeChanger>(context).setTheme(ThemeData.light());
           }else{
             _selectorColor = _mapaValores[variable.value];
             Provider.of<ThemeChanger>(context).setTheme(ThemeData.dark());
           }
-        }  
       }
+
       if(nombre.compareTo("selectorVelocidad") == 0){
-        if (variable == null){
+        if (variable == null || variable.value == 0){
         _selectorVelocidad = false;
         }else{
           _selectorVelocidad = _mapaValores[variable.value];
+        }  
+      }
+
+      if(nombre.compareTo("selectorBloques") == 0){
+        if (variable == null || variable.value == 0){
+          _selectorBloques = false;
+        }else{
+          _selectorBloques = _mapaValores[variable.value];
         }  
       }
     });

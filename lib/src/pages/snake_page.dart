@@ -39,7 +39,7 @@ class _SnakePageState extends State<SnakePage>{
   int _cola = 0;          // Cola serpiente
   int _nBloques = 10 ;    // Número de bloques en el tablero
   List<int> _bloques = [];     // Bloques aleatorios como dificultad
-  Duration _velocidad =  Duration(milliseconds: 500);
+  Duration _velocidad ;
   DatabaseService dbService = DatabaseService.instance;
 
   // Constructor de la clase
@@ -51,7 +51,6 @@ class _SnakePageState extends State<SnakePage>{
   void initState() {
     super.initState();
     _loadSettings();
-    print("Velocidad = $_velocidad");
   }
 
   @override
@@ -199,6 +198,7 @@ class _SnakePageState extends State<SnakePage>{
     Color colorFondo;
     BorderRadius _radio;
     String image = "";
+    Image img;
     //Miramos que index es, para saber el contenido de la casilla
     if (_indexManzana == index){
       colorFondo = Colors.redAccent;
@@ -366,7 +366,6 @@ class _SnakePageState extends State<SnakePage>{
   }
   
   void  _rellenarBloques(){
-    print("Dentro de rellenar los bloques");
     int pos;
     _bloques.clear();
     List<int> listaValidacion = [];
@@ -374,10 +373,8 @@ class _SnakePageState extends State<SnakePage>{
     listaValidacion.add(_indexManzana);
     for (var i = 0; i < _nBloques; i++) {
       do {
-
         pos = _semilla.nextInt(_maxIndexManzana);
-        print("Posición del bloque");
-        print(pos);
+        pos -= _nCol;
       } while (listaValidacion.contains(pos));
 
       listaValidacion.add(pos);
@@ -404,9 +401,15 @@ class _SnakePageState extends State<SnakePage>{
   }
 
   void _loadSettings() async {
+    // Carga de la velocidad de la serpiente
     final VariablesPersistentes variableVelocidad = await dbService.getVar("selectorVelocidad");
-    if(variableVelocidad != null){
+    if(variableVelocidad == null || variableVelocidad.value== 0){
       _velocidad = Duration(milliseconds: 500);
+    }else{
+      _velocidad = Duration(milliseconds: 250);
     }
+
+    // Carga de si tenemos bloques en mitad del camino
+    final VariablesPersistentes variableBloques = await dbService.getVar("selectorVelocidad");
   }
 }

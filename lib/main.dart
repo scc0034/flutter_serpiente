@@ -68,10 +68,7 @@ class _MaterialAppWithThemeState extends State<MaterialAppWithTheme> {
 
    _loadSettings(BuildContext context) async {
     final VariablesPersistentes varColor = await dbService.getVar("selectorColor");
-    if(varColor != null){
-      Provider.of<ThemeChanger>(context).setTheme(ThemeData.light());
-    }
-    if(varColor.value == 0){
+    if(varColor.value == 0 || varColor == null){
       Provider.of<ThemeChanger>(context).setTheme(ThemeData.light());
     }else{
       Provider.of<ThemeChanger>(context).setTheme(ThemeData.dark());
