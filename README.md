@@ -9,8 +9,8 @@
 - [Samuel Casal Cantero](https://www.linkedin.com/in/samuel-casal-cantero-631022188/)
 
 **Tutores**
-- [Cesár García Osorio](https://github.com/cgosorio)<br/>
-- [Jose Francisco Diez Pastor](https://github.com/joseFranciscoDiez)<br>
+- [César García Osorio](https://github.com/cgosorio)<br/>
+- [José Francisco Diez Pastor](https://github.com/joseFranciscoDiez)<br>
 
 ---
 
