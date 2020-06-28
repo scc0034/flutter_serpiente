@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/providers/menu_provider.dart';
 import 'package:flutter_snake/src/utils/icon_string_util.dart';
+import 'package:flutter_snake/src/services/sing_in_service.dart';
+import "package:flutter_snake/src/pages/login_page.dart";
+
+
 
 /**
  * Clase encargada de generar el menu lateral para toda la apliación.
@@ -21,7 +25,7 @@ class MenuLateral extends StatelessWidget {
    * Método que nos devuelve el Widget de la cabecera,
    * este tiene que ir el primero de la lista
   */
-  Widget _createHeader() {
+  Widget _createHeader(BuildContext context) {
     return DrawerHeader(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,
@@ -30,14 +34,21 @@ class MenuLateral extends StatelessWidget {
                 fit: BoxFit.fill,
                 image: AssetImage('assets/snake.jpg'))),
         child: Stack(children: <Widget>[
-          Positioned(
-              bottom: 12.0,
-              left: 16.0,
-              child: Text("Flutter Snake",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w500))),
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+
+            ),
+            accountEmail: Text(emailGoogle,style: TextStyle(fontWeight: FontWeight.bold)),
+            accountName: Text(nameGoogle,style: TextStyle(fontWeight: FontWeight.bold)),
+            currentAccountPicture: GestureDetector(
+                onTap: () {
+                 _mostrarAlerta(context);
+                },
+                child: CircleAvatar(
+                backgroundImage: NetworkImage(imageUrlGoogle,),
+              ), 
+           ),
+          ),
         ]));
   }
 
@@ -49,7 +60,7 @@ class MenuLateral extends StatelessWidget {
         padding: EdgeInsets.zero,
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
-          _createHeader(),
+          _createHeader(context),
           _createListaMenu(context),
         ],
       );
@@ -111,4 +122,54 @@ class MenuLateral extends StatelessWidget {
 
     return opciones;
   }
+
+  /**
+   * Método para mostrar la alerta
+  */
+  void _mostrarAlerta(BuildContext context){
+
+    // Tenemos que pasar el context para que la función sepa de que va la cosa
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Permite pulsar fuera para salir
+      builder: (context) {
+        return AlertDialog(
+          title : Text('Sign Out'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min, // Controla que la ventana se ajuste al contenido
+            children: <Widget>[
+              CircleAvatar(
+                maxRadius: 50,
+                minRadius: 25,
+                backgroundImage: NetworkImage(imageUrlGoogle,),
+              ),
+              SizedBox(height: 25,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Image.asset("assets/google_logo.png",height: 14,),
+                  SizedBox(),
+                  Text(emailGoogle),
+              ],)
+            ],
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel'),
+              // Funcionalidad para volver atrás de la ventana
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            FlatButton(
+              child: Text('Sign Out'),
+              onPressed: (){
+                signOutGoogle();
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return LoginPage();}), ModalRoute.withName('/'));
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }   
 }

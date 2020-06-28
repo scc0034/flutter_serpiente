@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
 import 'package:flutter_snake/src/pages/home_page.dart';
-import 'package:flutter_snake/src/pages/login_page.dart';
 import 'package:flutter_snake/src/routes/routes.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +61,7 @@ class _MaterialAppWithThemeState extends State<MaterialAppWithTheme> {
 
           // En caso de que no encuentre la ruta, vuelve al homePage
           return MaterialPageRoute(
-            builder: (BuildContext context ) => LoginPage(),
+            builder: (BuildContext context ) => HomePage(),
           );
         },
     );
