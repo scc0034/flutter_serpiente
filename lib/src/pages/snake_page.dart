@@ -39,13 +39,14 @@ class _SnakePageState extends State<SnakePage>{
   int _cola = 0;          // Cola serpiente
   int _nBloques = 10 ;    // Número de bloques en el tablero
   List<int> _bloques = [];     // Bloques aleatorios como dificultad
-  Duration _velocidad ;
-  DatabaseService dbService = DatabaseService.instance;
+  bool _selectorBloques = false;  // Controla si la opción de velocidad se ha seleccionado
+  String _selectorBloquesString = "selectorBloques";// String de la variable en la base de datos
+  Duration _velocidad ;   // Variable que mide el tiempo en el que se actualiza la pantalla
+  DatabaseService dbService = DatabaseService.instance; // Instancia de la base de datos local
+
 
   // Constructor de la clase
-  _SnakePageState(){
-    _rellenarBloques();
-  }
+  _SnakePageState(){}
 
   @override
   void initState() {
@@ -365,23 +366,29 @@ class _SnakePageState extends State<SnakePage>{
     );
   }
   
+  /**
+   * Método que se encarga de generar los bloques en el tablero
+   */
   void  _rellenarBloques(){
-    int pos;
-    _bloques.clear();
-    List<int> listaValidacion = [];
-    listaValidacion.addAll(_serpiente);
-    listaValidacion.add(_indexManzana);
-    for (var i = 0; i < _nBloques; i++) {
-      do {
-        pos = _semilla.nextInt(_maxIndexManzana);
-        pos -= _nCol;
-      } while (listaValidacion.contains(pos));
+    setState(() {
+      if (_selectorBloques){
+        int pos;
+        _bloques.clear();
+        List<int> listaValidacion = [];
+        listaValidacion.addAll(_serpiente);
+        listaValidacion.add(_indexManzana);
+        for (var i = 0; i < _nBloques; i++) {
+          do {
+            pos = _semilla.nextInt(_maxIndexManzana-_nCol);
+            // En la primera fila no puede haber bloques porque superponen a la serpiente
+            pos += _nCol;
+          } while (listaValidacion.contains(pos));
 
-      listaValidacion.add(pos);
-      _bloques.add(pos);
-    }
-
-    print("final de rellenar los bloques");
+          listaValidacion.add(pos);
+          _bloques.add(pos);
+        }
+      }
+    });
   }
 
   /**
@@ -410,6 +417,16 @@ class _SnakePageState extends State<SnakePage>{
     }
 
     // Carga de si tenemos bloques en mitad del camino
-    final VariablesPersistentes variableBloques = await dbService.getVar("selectorVelocidad");
+    final VariablesPersistentes variableBloques = await dbService.getVar(_selectorBloquesString);
+    if(variableBloques == null || variableBloques.value== 0){
+      _selectorBloques = false;
+    }else{
+      _selectorBloques = true;
+      print("dentro de if de rellenar los bloques");
+      _rellenarBloques();
+    }
+
+    print("Dentro del load del juego");
+    print("Lo que tenemos dentro de la variable de bloques = $_selectorBloques");
   }
 }

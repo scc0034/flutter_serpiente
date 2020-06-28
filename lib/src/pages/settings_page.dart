@@ -30,11 +30,16 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
   };
   bool _selectorVelocidad = false;
   bool _selectorBloques = false;
+  String _selectorBloquesString = "selectorBloques";
+  String _selectorColorString = "selectorColor";
+  String _selectorVelocidadString = "selectorVelocidad";
 
   @override
   void initState() {
     super.initState();
-    _loadVarFromDb("selectorColor", context);
+    _loadVarFromDb(_selectorColorString, context);
+    _loadVarFromDb(_selectorVelocidadString, context);
+    _loadVarFromDb(_selectorBloquesString, context);
   }
 
   @override
@@ -74,10 +79,10 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
       onChanged: (valor) {
         setState(() {
           if(valor){
-            _saveVarToDb(1, "selectorColor");
+            _saveVarToDb(1, _selectorColorString);
             _themeChanger.setTheme(ThemeData.dark());
           }else{
-            _saveVarToDb(0, "selectorColor");
+            _saveVarToDb(0, _selectorColorString);
             _themeChanger.setTheme(ThemeData.light());
           }
         });
@@ -98,9 +103,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
       onChanged: (valor) {
         setState(() {
           if(valor){
-            _saveVarToDb(1, "selectorVelocidad");
+            _saveVarToDb(1, _selectorVelocidadString);
           }else{
-            _saveVarToDb(0, "selectorVelocidad");
+            _saveVarToDb(0, _selectorVelocidadString);
           }
         });
       },
@@ -113,15 +118,15 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
   Widget _crearSwitchBloques(BuildContext context){
     
     return SwitchListTile(
-      value: _selectorVelocidad,
+      value: _selectorBloques,
       title: Text('Bloks mode'),
       subtitle: Text('Place repatted blocks across the board.'),
       onChanged: (valor) {
         setState(() {
           if(valor){
-            _saveVarToDb(1, "selectorBloques");
+            _saveVarToDb(1, _selectorBloquesString);
           }else{
-            _saveVarToDb(0, "selectorBloques");
+            _saveVarToDb(0, _selectorBloquesString);
           }
         });
       },
@@ -142,13 +147,13 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
       final int id = await dbService.insertVar(variable);
     }
     setState(() {
-      if(nombre.compareTo("selectorColor") == 0){
+      if(nombre.compareTo(_selectorColorString) == 0){
         _selectorColor = _mapaValores[valor];
       }
-      if(nombre.compareTo("selectorVelocidad") == 0){
+      if(nombre.compareTo(_selectorVelocidadString) == 0){
         _selectorVelocidad = _mapaValores[valor];
       }
-      if(nombre.compareTo("selectorBloques") == 0){
+      if(nombre.compareTo(_selectorBloquesString) == 0){
         _selectorBloques= _mapaValores[valor];
       }
     });
@@ -157,9 +162,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
   void _loadVarFromDb(String nombre, BuildContext context) async {
     final VariablesPersistentes variable = await dbService.getVar(nombre);
     setState(() {
-      if(nombre.compareTo("selectorColor") == 0){
-          if(variable.value == 0 || variable == null){
-            _selectorColor = _mapaValores[variable.value];
+      if(nombre.compareTo(_selectorColorString) == 0){
+          if(variable == null || variable.value == 0 ){
+            _selectorColor = false;
             Provider.of<ThemeChanger>(context).setTheme(ThemeData.light());
           }else{
             _selectorColor = _mapaValores[variable.value];
@@ -167,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
           }
       }
 
-      if(nombre.compareTo("selectorVelocidad") == 0){
+      if(nombre.compareTo(_selectorVelocidadString) == 0){
         if (variable == null || variable.value == 0){
         _selectorVelocidad = false;
         }else{
@@ -175,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
         }  
       }
 
-      if(nombre.compareTo("selectorBloques") == 0){
+      if(nombre.compareTo(_selectorBloquesString) == 0){
         if (variable == null || variable.value == 0){
           _selectorBloques = false;
         }else{
