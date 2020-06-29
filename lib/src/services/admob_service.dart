@@ -22,4 +22,14 @@ class AdMobService {
     }
     return null;
   }
+
+  String getIntersticialAd(){
+    if(Platform.isAndroid){
+      const String appId = "ca-app-pub-7462396340145780/8871642021";
+      return appId ;
+    }
+    return null;
+  }
+
+  
 }
