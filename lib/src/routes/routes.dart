@@ -4,6 +4,7 @@ import 'package:flutter_snake/src/pages/home_page.dart';
 import 'package:flutter_snake/src/pages/login_page.dart';
 import 'package:flutter_snake/src/pages/snake_page.dart';
 import 'package:flutter_snake/src/pages/settings_page.dart';
+import 'package:flutter_snake/src/pages/rank_form.dart';
 
 /**
  * Método que se encarga de devolver un mapa de las rutas que tenemos en la app
@@ -15,6 +16,6 @@ Map<String,WidgetBuilder> getAplicationRoutes(){
     'about' : (BuildContext context) => AboutPage(),
     'settings' : (BuildContext context) => SettingsPage(),
     "login" : (BuildContext context) => LoginPage(),
-    
+    "rankForm" : (BuildContext context) => RankFromPage(),
   };
 }

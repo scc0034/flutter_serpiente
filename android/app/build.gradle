@@ -39,8 +39,8 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.flutter_snake"
-        minSdkVersion 24
-        // minSdkVersion 16
+        minSdkVersion 21 // Version de kitkat
+        // minSdkVersion 16 // muy viejo
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
