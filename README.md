@@ -3,6 +3,9 @@
 ### Grado en Ingeniería Informática, Universidad de Burgos
 [![](https://img.shields.io/badge/flutter-blue?logo=flutter)](https://flutter-es.io/)
 [![](https://img.shields.io/badge/dart-blue?logo=dart)](https://dart.dev/)
+[![](https://img.shields.io/badge/firebase-orange?logo=firebase)](https://firebase.google.com/)
+
+
 
 
 **Autor**  
