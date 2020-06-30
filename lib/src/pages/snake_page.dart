@@ -38,7 +38,7 @@ class _SnakePageState extends State<SnakePage>{
   List<int> _serpiente = [0,1,2,3]; // Posición de las partes de la serpiente
   int _cabeza = 3;        // Cabeza serpiente
   int _cola = 0;          // Cola serpiente
-  int _nBloques = 10 ;    // Número de bloques en el tablero
+  int _nBloques = 18 ;    // Número de bloques en el tablero
   List<int> _bloques = [];     // Bloques aleatorios como dificultad
   bool _selectorBloques = false;  // Controla si la opción de velocidad se ha seleccionado
   String _selectorBloquesString = "selectorBloques";// String de la variable en la base de datos
@@ -200,20 +200,21 @@ class _SnakePageState extends State<SnakePage>{
     Color colorFondo;
     BorderRadius _radio;
     String image = "";
-    Image img;
+    String imgUrl = "https://i.imgur.com/5NINkEr.png";
     //Miramos que index es, para saber el contenido de la casilla
     if (_indexManzana == index){
-      colorFondo = Colors.redAccent;
+      colorFondo = Colors.green[200];
+      imgUrl = "https://media.giphy.com/media/dld7AZN8odVSM/giphy.gif";
       //_radio = BorderRadius.circular(0);
     }else if(_serpiente.contains(index)){
       colorFondo = Colors.green;
       if(_bloques.contains(index)){
         colorFondo = Colors.brown[200];
-        image = "block.png";
       }
       //_radio = BorderRadius.circular(0);
     }else if(_bloques.contains(index)){
       colorFondo = Colors.brown[200];
+      imgUrl = "https://lh3.googleusercontent.com/ZWSW33OuzBbl1lwheWx3pAhvLLP6aNZFEZZEl644dOp1acrXE-IcV8oxvWHITExiu9q5vTcPvoAme9n03Y_mEu4=s400";
       //_radio = BorderRadius.circular(0);
     }else{
       colorFondo = Colors.green[200];
@@ -230,10 +231,10 @@ class _SnakePageState extends State<SnakePage>{
       child: ClipRRect(
         //borderRadius: _radio,
         child: Container(
-          /*child: FadeInImage(
-            placeholder: AssetImage('assets/original.gif'), 
-            image: NetworkImage('https://picsum.photos/500/300/?image=1'),
-          ),*/
+          child: FadeInImage(
+            placeholder: AssetImage('assets/original2.gif'), 
+            image: NetworkImage(imgUrl.toString()),
+          ),
           color : colorFondo,
         ),
       ),
