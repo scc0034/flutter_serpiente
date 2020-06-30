@@ -6,7 +6,13 @@ class RankPage extends StatefulWidget {
   @override
   _RankPageState createState() => _RankPageState();
 }
-
+/*
+ * Clase para controlar los datos que se meten en la colección de la base de datos
+ * de Ranking, el packete que uso es : 
+ * https://pub.dev/packages/cloud_firestore
+ * Video que he seguigo para saber como hacerlo:
+ * https://www.youtube.com/watch?v=osp1WL7W9Wo
+ * */
 class _RankPageState extends State<RankPage> {
   @override
   Widget build(BuildContext context) {
@@ -41,8 +47,9 @@ class _RankPageState extends State<RankPage> {
                     backgroundImage: NetworkImage(data['imageUrl'].toString()),
                     ),
                     title: Text(data['nombre'].toString()),
-                    subtitle: Text(data['email'].toString()),
-                    trailing: Icon(Icons.keyboard_arrow_right),
+                    subtitle: Text("Puntos: ${data['puntos'].toString()}"),
+                    //trailing: Icon(Icons.keyboard_arrow_right),
+                    
                     onTap: () {
                       Text('Another data');
                     },

@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
+import 'package:flutter_snake/src/pages/rank_form.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
@@ -355,7 +356,9 @@ class _SnakePageState extends State<SnakePage>{
                 child: Text('Submit Score'),
                 onPressed: () {
                   // Nos movemos a la página de formulario
-                  Navigator.pushNamed(context, "rankForm");
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => RankFromPage(value : _puntuacion),
+                  ));
                 },
               )
             ],

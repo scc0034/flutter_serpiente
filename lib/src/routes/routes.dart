@@ -18,6 +18,6 @@ Map<String,WidgetBuilder> getAplicationRoutes(){
     'settings' : (BuildContext context) => SettingsPage(),
     "login" : (BuildContext context) => LoginPage(),
     "rank" : (BuildContext context) => RankPage(),
-    "rankForm" : (BuildContext context) => RankFromPage(),
+    "rankForm" : (BuildContext context) => RankFromPage(value : 0),
   };
 }
