@@ -141,27 +141,15 @@ class _RankFromPageState extends State<RankFromPage> {
   Future<void> _guardarBD() async{
     // Dentro de guardar mostrar
     print("Dentro de guardar");
-    // Miramos si existe en al base de datos 
-    QuerySnapshot result = await firestoreDB.collection("ranking")
-        .where("email", isEqualTo: _correoForm.toString())
-        .limit(1)
-        .getDocuments();
-    List<DocumentSnapshot> documents = result.documents;
-    if (documents.length == 0){
-      // Creamos el nuevo documento
-      firestoreDB.collection("ranking")
-      .add({
-        'email': 'Flutter in Action',
-        'imageUrl': imageUrlGoogle,
-        'nombre': 'Complete Programming Guide to learn Flutter',
-        'puntos': _puntosForm
-      });
-    }else{
-      //Update del documento
-      for (var d in documents) {
-        print(d);
-      }
-    }
+    // COgemos el documento por el correo del user, en el caso de que no exista crea uno 
+    DocumentReference doc = await firestoreDB.collection("ranking").document(_correoForm);
+    Map<String,dynamic> data = {
+      "imageUrl" : imageUrlGoogle,
+      "nombre" : _nombreForm,
+      "puntos" : _puntosForm 
+    };
+
+    doc.updateData(data);
   }
 
 }
