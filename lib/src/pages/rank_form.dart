@@ -149,7 +149,16 @@ class _RankFromPageState extends State<RankFromPage> {
       "puntos" : _puntosForm 
     };
 
-    doc.updateData(data);
+    
+    try{
+      /**
+       * Crea el documento en el caso de que no este en la base de datos, 
+       * con los datos anteriores, de data.
+       */
+      doc.setData(data);
+    }catch (err){
+      print("El error del update es: $err");
+    }
   }
 
 }
