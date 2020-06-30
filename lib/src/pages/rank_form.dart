@@ -23,33 +23,7 @@ class _RankFromPageState extends State<RankFromPage> {
         appBar: AppBar(
           title : Text("RankForm Page"),
         ),
-        body: Container(
-          child: StreamBuilder(
-            /**
-             * Stremea los datos de la base de datos
-             */
-            stream: Firestore.instance.collection('ranking').snapshots(),
-            /**
-             * QuerySnapshot es lo que devuelve firestore
-             */
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-              // En el caso de que no tengamos datos mostramos la barra de progreso
-              if(!snapshot.hasData){
-                return Center(child: CircularProgressIndicator(),);
-              }
-              List<DocumentSnapshot> docs = snapshot.data.documents;
-              return ListView.builder(
-                itemCount: docs.length,
-                itemBuilder: (context, index){
-                  Map<String,dynamic> data = docs[index].data;
-                  return ListTile(
-                    title: Text(data['nombre']),
-                    );
-                }
-              );
-            },
-          ),
-        )
+        
     );
   }
 }
