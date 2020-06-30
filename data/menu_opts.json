@@ -12,6 +12,11 @@
             "texto": "Snake"
         },
         {
+            "ruta" : "rank",
+            "icon" : "rank",
+            "texto": "Ranking"
+        },
+        {
             "ruta" : "settings",
             "icon" : "settings",
             "texto": "Settings"

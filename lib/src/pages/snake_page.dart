@@ -354,7 +354,8 @@ class _SnakePageState extends State<SnakePage>{
               FlatButton(
                 child: Text('Submit Score'),
                 onPressed: () {
-                  
+                  // Nos movemos a la página de formulario
+                  Navigator.pushNamed(context, "rankForm");
                 },
               )
             ],

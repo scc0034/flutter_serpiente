@@ -49,8 +49,12 @@ dependencies:
   firebase_core_web: ^0.1.1+2
   google_sign_in: ^4.5.1  
   firebase_admob: ^0.9.3+2 
+  # Control de los anuncios
   admob_flutter: "^0.3.4"
-  arcore_flutter_plugin: ^0.0.5+1
+  # Control de la base de datos
+  cloud_firestore: ^0.13.7
+
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3

@@ -4,6 +4,7 @@ import 'package:flutter_snake/src/pages/home_page.dart';
 import 'package:flutter_snake/src/pages/login_page.dart';
 import 'package:flutter_snake/src/pages/snake_page.dart';
 import 'package:flutter_snake/src/pages/settings_page.dart';
+import 'package:flutter_snake/src/pages/rank_page.dart';
 import 'package:flutter_snake/src/pages/rank_form.dart';
 
 /**
@@ -16,6 +17,7 @@ Map<String,WidgetBuilder> getAplicationRoutes(){
     'about' : (BuildContext context) => AboutPage(),
     'settings' : (BuildContext context) => SettingsPage(),
     "login" : (BuildContext context) => LoginPage(),
+    "rank" : (BuildContext context) => RankPage(),
     "rankForm" : (BuildContext context) => RankFromPage(),
   };
 }
