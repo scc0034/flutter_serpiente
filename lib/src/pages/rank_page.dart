@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 class RankPage extends StatefulWidget {
   @override
@@ -8,8 +9,12 @@ class RankPage extends StatefulWidget {
 class _RankPageState extends State<RankPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
+      drawer: MenuLateral(),
+        appBar: AppBar(
+          title : Text("RankForm Page"),
+        ),
+        body: Container()
     );
   }
 }
