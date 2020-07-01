@@ -32,19 +32,20 @@ class _SnakePageState extends State<SnakePage>{
   final int _nFil = 29;   // Número de filas del tablero
   final double _escala = 1.45;  // Relación entre el numero de col y de filas
   static int _maxIndexManzana = 579;  // Número de casillas
-  int _indexManzana = _semilla.nextInt(_maxIndexManzana); //Indice de la manzana inicial
+  int _indexManzana = -1; //Indice de la manzana inicial
   static Random _semilla = Random();  // Semilla para generar aleaatorios
   int _puntuacion = 0;    // Puntuación de la partida
-  List<int> _serpiente = [0,1,2,3]; // Posición de las partes de la serpiente
-  int _cabeza = 3;        // Cabeza serpiente
-  int _cola = 0;          // Cola serpiente
-  int _nBloques = 18 ;    // Número de bloques en el tablero
+  List<int> _serpiente = [21,22,23]; // Posición de las partes de la serpiente
+  int _cabeza = 23;        // Cabeza serpiente
+  int _cola = 21;          // Cola serpiente
+  int _nBloques = 15 ;    // Número de bloques en el tablero
   List<int> _bloques = [];     // Bloques aleatorios como dificultad
   bool _selectorBloques = false;  // Controla si la opción de velocidad se ha seleccionado
   String _selectorBloquesString = "selectorBloques";// String de la variable en la base de datos
   Duration _velocidad ;   // Variable que mide el tiempo en el que se actualiza la pantalla
   DatabaseService dbService = DatabaseService.instance; // Instancia de la base de datos local
-
+  List<int> _pared = [];
+  List<int> _tuberia = [];
 
   // Constructor de la clase
   _SnakePageState(){}
@@ -52,7 +53,10 @@ class _SnakePageState extends State<SnakePage>{
   @override
   void initState() {
     super.initState();
+    _loadPared();
+    _loadTuberia();
     _loadSettings();
+    _nuevaManzana();
   }
 
   @override
@@ -184,10 +188,10 @@ class _SnakePageState extends State<SnakePage>{
   /**
    * Método para dar nuevos valores a la mazana una vez sea comida
    */
-  void _nuevaManzana (){
+  void _nuevaManzana(){
     _indexManzana = _semilla.nextInt(_maxIndexManzana);
     // Miramos si la manzana esta dentro de la serpiente
-    while(_serpiente.contains(_indexManzana) ){
+    while(_serpiente.contains(_indexManzana) || _pared.contains(_indexManzana) || _bloques.contains(_indexManzana) ){
       _indexManzana = _semilla.nextInt(_maxIndexManzana);
     }
   }
@@ -198,27 +202,38 @@ class _SnakePageState extends State<SnakePage>{
   Widget _pintar(int index){
     // Variable para pintar el color del grid
     Color colorFondo;
-    BorderRadius _radio;
-    String image = "";
     String imgUrl = "https://i.imgur.com/5NINkEr.png";
+    Map<int,String> mapFood = {
+      0: "https://media.giphy.com/media/LMt9638dO8dftAjtco/giphy.gif",//python
+      1: "https://media.giphy.com/media/Ri2TUcKlaOcaDBxFpY/giphy.gif", // Firebase
+      2 : "https://media.giphy.com/media/ln7z2eWriiQAllfVcn/giphy.gif",//JavaScript
+      3 : "https://media.giphy.com/media/XEDIHHp3i8bVoEdxd7/giphy.gif",//Angular
+      4 : "https://media.giphy.com/media/Sr8xDpMwVKOHUWDVRD/giphy.gif",//Bootstrap
+      5 : "https://media.giphy.com/media/XAxylRMCdpbEWUAvr8/giphy.gif",//html,
+      6 : "https://media.giphy.com/media/KzJkzjggfGN5Py6nkT/giphy.gif" ,//github
+    };
+
     //Miramos que index es, para saber el contenido de la casilla
     if (_indexManzana == index){
-      colorFondo = Colors.green[200];
-      imgUrl = "https://media.giphy.com/media/dld7AZN8odVSM/giphy.gif";
-      //_radio = BorderRadius.circular(0);
-    }else if(_serpiente.contains(index)){
-      colorFondo = Colors.green;
-      if(_bloques.contains(index)){
-        colorFondo = Colors.brown[200];
+      colorFondo = Colors.green[300];
+      int nImg = _puntuacion;
+      if(_puntuacion>=mapFood.length){
+        nImg = _puntuacion % mapFood.length;
       }
-      //_radio = BorderRadius.circular(0);
-    }else if(_bloques.contains(index)){
-      colorFondo = Colors.brown[200];
+      print("Numero frita = $nImg");
+
+      imgUrl = mapFood[nImg];
+    }else if(_serpiente.contains(index)){
+      colorFondo = Colors.green[900];
+      if(_bloques.contains(index) || _pared.contains(index)){
+        colorFondo = Colors.brown[300];
+        imgUrl = "https://lh3.googleusercontent.com/ZWSW33OuzBbl1lwheWx3pAhvLLP6aNZFEZZEl644dOp1acrXE-IcV8oxvWHITExiu9q5vTcPvoAme9n03Y_mEu4=s400";
+      }
+    }else if(_pared.contains(index) || _bloques.contains(index) ){
+      colorFondo = Colors.brown[300];
       imgUrl = "https://lh3.googleusercontent.com/ZWSW33OuzBbl1lwheWx3pAhvLLP6aNZFEZZEl644dOp1acrXE-IcV8oxvWHITExiu9q5vTcPvoAme9n03Y_mEu4=s400";
-      //_radio = BorderRadius.circular(0);
     }else{
-      colorFondo = Colors.green[200];
-      //_radio = BorderRadius.circular(0);
+      colorFondo = Colors.green[300];
     }
 
     if(_end == true){
@@ -234,6 +249,7 @@ class _SnakePageState extends State<SnakePage>{
           child: FadeInImage(
             placeholder: AssetImage('assets/original2.gif'), 
             image: NetworkImage(imgUrl.toString()),
+            height: 15,
           ),
           color : colorFondo,
         ),
@@ -286,42 +302,15 @@ class _SnakePageState extends State<SnakePage>{
    * Método que controla si se produce un fallo y como consecuencia el final de la partida
    */
   bool _gameOver(){
-    print("cabeza = $_cabeza");
-    //Pared izquierda
-    if((_cabeza< 0 || _cabeza % (_nCol-1)==0) && _dir.compareTo("izq") == 0){
+    if(_pared.contains(_cabeza) || _bloques.contains(_cabeza) ){
       _end = true;
-      print("fallo izquierda _cabeza = $_cabeza");
       return true;
-    }else
-    //Pared derecha
-    if((_cabeza > _maxIndexManzana || _cabeza % (_nCol)==0) && _dir.compareTo("der") == 0){
-      _end = true;
-      print("fallo der");
-      return true;
-    }else
-    // Control de abajo
-    if(_cabeza>_maxIndexManzana){
-      _end = true;
-      print("fallo abajo");
-      return true;
-    }else
-    // Control de arriba
-    if (_cabeza< 0){
-      _end = true;
-      print("fallo arriba");
-      return true;
-    }else
-    //Colision consigo misma
+    }
     if (_serpiente.sublist(0,_serpiente.length-2).contains(_cabeza)){
       _end = true;
       print("fallo serpiente");
       return true;
-    }else if(_bloques.contains(_cabeza)){
-      _end = true;
-      print("fallo BLOQUE");
-      return true;
     }
-
     return false;
   }
   
@@ -382,11 +371,13 @@ class _SnakePageState extends State<SnakePage>{
         List<int> listaValidacion = [];
         listaValidacion.addAll(_serpiente);
         listaValidacion.add(_indexManzana);
+        listaValidacion.addAll(_pared);
+        listaValidacion.addAll(_tuberia);
         for (var i = 0; i < _nBloques; i++) {
           do {
-            pos = _semilla.nextInt(_maxIndexManzana-_nCol);
+            pos = _semilla.nextInt(_maxIndexManzana-(_nCol*2));
             // En la primera fila no puede haber bloques porque superponen a la serpiente
-            pos += _nCol;
+            pos += _nCol*2;
           } while (listaValidacion.contains(pos));
 
           listaValidacion.add(pos);
@@ -401,9 +392,9 @@ class _SnakePageState extends State<SnakePage>{
    */
   void _restartGame(){
     _dir = "der";
-    _cabeza = 3;
-    _cola = 0;
-    _serpiente = [1,2,3,4];
+    _cabeza = 23;
+    _cola = 21;
+    _serpiente = [21,22,23];
     _inGame = false;
     _end = false;
     _puntuacion = 0;
@@ -434,4 +425,34 @@ class _SnakePageState extends State<SnakePage>{
     print("Dentro del load del juego");
     print("Lo que tenemos dentro de la variable de bloques = $_selectorBloques");
   }
+
+  /**
+   * Método que coloca los bloques en la pared
+   */
+  void _loadPared(){
+    for (var i = 0; i <= _maxIndexManzana; i++) {
+      if(i<=_nCol-1 || i>=_maxIndexManzana-_nCol+1 || i%_nCol == 0 || i == _maxIndexManzana){
+        if (i%_nCol == 0){
+          _pared.add(i-1);
+        }
+        _pared.add(i);
+      }
+    }
+  }
+
+  void _loadTuberia(){
+    int ale = _semilla.nextInt(_maxIndexManzana);
+    while(_pared.contains(ale) || ale<(_nCol*2)){
+      ale = _semilla.nextInt(_maxIndexManzana);
+    }
+    _tuberia.add(ale);
+    ale = _semilla.nextInt(_maxIndexManzana);
+    while(_pared.contains(ale) || ale<(_nCol*2)){
+      ale = _semilla.nextInt(_maxIndexManzana);
+    }
+    _tuberia.add(ale);
+
+    print("tuberia = $_tuberia");
+  }
+
 }
