@@ -203,6 +203,7 @@ class _SnakePageState extends State<SnakePage>{
     // Variable para pintar el color del grid
     Color colorFondo;
     String imgUrl = "https://i.imgur.com/5NINkEr.png";
+    String imgLocal ='assets/original2.gif';
     Map<int,String> mapFood = {
       0: "https://media.giphy.com/media/LMt9638dO8dftAjtco/giphy.gif",//python
       1: "https://media.giphy.com/media/Ri2TUcKlaOcaDBxFpY/giphy.gif", // Firebase
@@ -220,9 +221,9 @@ class _SnakePageState extends State<SnakePage>{
       if(_puntuacion>=mapFood.length){
         nImg = _puntuacion % mapFood.length;
       }
-      print("Numero frita = $nImg");
-
+      imgLocal = 'assets/seta.gif';
       imgUrl = mapFood[nImg];
+
     }else if(_serpiente.contains(index)){
       colorFondo = Colors.green[900];
       if(_bloques.contains(index) || _pared.contains(index)){
@@ -247,7 +248,7 @@ class _SnakePageState extends State<SnakePage>{
         //borderRadius: _radio,
         child: Container(
           child: FadeInImage(
-            placeholder: AssetImage('assets/original2.gif'), 
+            placeholder: AssetImage(imgLocal), 
             image: NetworkImage(imgUrl.toString()),
             height: 15,
           ),
