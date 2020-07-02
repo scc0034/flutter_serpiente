@@ -340,7 +340,7 @@ class _SnakePageState extends State<SnakePage>{
 
     if(puntosMejores<_puntuacion){
       mejoraPuntos = true;
-      cabecera = "You\'re score is: $_puntuacion, you\'ve improved it $puntosMejores points";
+      cabecera = "You\'re score is: $_puntuacion, you\'ve improved he previous one by ${_puntuacion-puntosMejores} points";
       texto = "Submit Score";
     }
 
@@ -349,7 +349,7 @@ class _SnakePageState extends State<SnakePage>{
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('GAME OVER'),
-        content: Text('You\'re score: $_puntuacion'),
+        content: Text(cabecera),
         actions: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,

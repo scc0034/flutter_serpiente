@@ -54,8 +54,13 @@ class _RankPageState extends State<RankPage> {
                       ),
                       title: Text(data['nombre'].toString()),
                       subtitle: Text("Puntos: ${data['puntos'].toString()}"),
-                      trailing: Container(
+                      trailing: AnimatedContainer(
                         child: _img(index),
+                        height: 100,
+                        width: 100,
+                        duration: Duration(seconds: 1),
+                        curve: Curves.fastOutSlowIn,
+                        onEnd: (){},
                       ),
                       
                       onTap: () {
