@@ -49,11 +49,13 @@ class _SnakePageState extends State<SnakePage>{
   DatabaseService dbService = DatabaseService.instance; // Instancia de la base de datos local
   List<int> _pared = [];  // Vector que contiene las posiciones de la pared
   List<int> _tuberia = [];  // Posible tuberia para mover la serpiente entre origen y destino
+  //Variables de control musical, dos reporoductores para sonidos simultaneos
   AudioPlayer advancedPlayer; // Reproductor de sonidos
   AudioPlayer advancedPlayer2;
-  AudioCache audioCacheBase;
+  AudioCache audioCacheBase;  // Cache de los sonidos
   AudioCache audioCacheSonidos;
-  Future<int> _mPaused;
+  bool _enableMusica = false; 
+  String _selectorMusicaString = "selectorMusica";
 
   // Constructor de la clase
   _SnakePageState(){}
@@ -65,7 +67,7 @@ class _SnakePageState extends State<SnakePage>{
     _loadTuberia();
     _loadSettings();
     _nuevaManzana();
-    _loadMusic();
+    //_loadMusic();
   }
 
   @override
@@ -160,8 +162,7 @@ class _SnakePageState extends State<SnakePage>{
   /**
    * Método que se encarga de iniciar el juego
    */
-  void _iniciarJuego(){
-    //_serpiente = [1,2,3,4];
+  void _iniciarJuego(){ 
     // Controlamos si ya estamos inGame
     if(!_inGame){
       _inGame = true;
@@ -320,21 +321,23 @@ class _SnakePageState extends State<SnakePage>{
    * Método que controla si se produce un fallo y como consecuencia el final de la partida
    */
   bool _gameOver () {
+    bool terminar = false;
     if(_pared.contains(_cabeza) || _bloques.contains(_cabeza) ){
-      _end = true;
-      audioCacheSonidos.play("impact.mp3");
-      _mPaused =  advancedPlayer.stop();
-      return true;
+      terminar = true;
     }
     if (_serpiente.sublist(0,_serpiente.length-2).contains(_cabeza)){
-      _end = true;
-      audioCacheSonidos.play("impact.mp3");
-      _mPaused =  advancedPlayer.stop();
-      print("fallo serpiente");
-      return true;
+      terminar = true;
     }
+    if(terminar){
+      _end = true;
+      if(_enableMusica){
+        audioCacheSonidos.play("impact.mp3");
+        advancedPlayer.stop();
+      }
+    }
+     
 
-    return false;
+    return terminar;
   }
   
   /**
@@ -477,15 +480,19 @@ class _SnakePageState extends State<SnakePage>{
       _selectorBloques = false;
     }else{
       _selectorBloques = true;
-      print("dentro de if de rellenar los bloques");
       _rellenarBloques();
     }
 
-    print("Dentro del load del juego");
-    print("Lo que tenemos dentro de la variable de bloques = $_selectorBloques");
+    final VariablesPersistentes variableMusica = await dbService.getVar(_selectorMusicaString);
+    if(variableMusica == null || variableMusica.value== 0){
+      _enableMusica = false;
+    }else{
+      _enableMusica = true;
+      _loadMusic();
+    }
   }
 
-  /**
+  /*
    * Método que coloca los bloques en la pared
    */
   void _loadPared(){
@@ -514,24 +521,29 @@ class _SnakePageState extends State<SnakePage>{
     print("tuberia = $_tuberia");
   }
 
-  /**
+  /*
    * Método que se encarga de reporducir la música al iniciar el juego
    */
   void _loadMusic()  {
-    // Creamos el reproductor de audio del sistema
-    advancedPlayer = new AudioPlayer();
-    advancedPlayer2 = new AudioPlayer();
-    // Creamos la cache, que tiene las cancioens
-    audioCacheBase = new AudioCache(fixedPlayer: advancedPlayer,prefix: 'audio/');
-    audioCacheSonidos = new AudioCache(fixedPlayer: advancedPlayer2,prefix: 'audio/');
-    // Limpiamos por si acaso
-    audioCacheBase.clearCache();
-    audioCacheSonidos.clearCache();
-    // Cogemos las canciones que vamos a usar
-    audioCacheBase.loadAll(["snake_short.mp3"]);
-    // Comenzamos con el juego de la serpiente
-    audioCacheBase.loop("snake_short.mp3");
-    // Cargamos el resto de sonidos
-    audioCacheSonidos.loadAll(["eat.mp3","impact.mp3"]);
+    setState(() {
+      // Creamos el reproductor de audio del sistema
+      advancedPlayer = new AudioPlayer();
+      advancedPlayer2 = new AudioPlayer();
+      // Creamos la cache, que tiene las cancioens
+      audioCacheBase = new AudioCache(fixedPlayer: advancedPlayer,prefix: 'audio/');
+      audioCacheSonidos = new AudioCache(fixedPlayer: advancedPlayer2,prefix: 'audio/');
+      // Limpiamos por si acaso
+      audioCacheBase.clearCache();
+      audioCacheSonidos.clearCache();
+      if (_enableMusica == true){
+
+        // Cogemos las canciones que vamos a usar
+        audioCacheBase.loadAll(["snake_short.mp3"]);
+        // Comenzamos con el juego de la serpiente
+        audioCacheBase.loop("snake_short.mp3");
+        // Cargamos el resto de sonidos
+        audioCacheSonidos.loadAll(["eat.mp3","impact.mp3"]);
+      }
+    });
   }
 }

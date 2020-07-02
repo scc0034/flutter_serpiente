@@ -30,9 +30,11 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
   };
   bool _selectorVelocidad = false;
   bool _selectorBloques = false;
+  bool _selectorMusica = false;
   String _selectorBloquesString = "selectorBloques";
   String _selectorColorString = "selectorColor";
   String _selectorVelocidadString = "selectorVelocidad";
+  String _selectorMusicaString= "selectorMusica";
 
   @override
   void initState() {
@@ -40,6 +42,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     _loadVarFromDb(_selectorColorString, context);
     _loadVarFromDb(_selectorVelocidadString, context);
     _loadVarFromDb(_selectorBloquesString, context);
+    _loadVarFromDb(_selectorMusicaString, context);
   }
 
   @override
@@ -59,6 +62,8 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
             _crearSwitchVelocidad(context),
             Divider(),
             _crearSwitchBloques(context),
+            Divider(),
+            _crearSwitchMusica(context),
           ],
         )  
       ),
@@ -89,7 +94,6 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
       },
     );
   }
-
 
   /**
    * Método que añade a la lista de opciones la de Velocidad de la serpiente
@@ -133,6 +137,24 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     );
   }
 
+  Widget _crearSwitchMusica(BuildContext context){
+    
+    return SwitchListTile(
+      value: _selectorMusica,
+      title: Text('Music'),
+      subtitle: Text('Enable or disable game music'),
+      onChanged: (valor) {
+        setState(() {
+          if(valor){
+            _saveVarToDb(1, _selectorMusicaString);
+          }else{
+            _saveVarToDb(0, _selectorMusicaString);
+          }
+        });
+      },
+    );
+  }
+
   void _saveVarToDb(int valor, String nombre) async {
     // Creamos la variable que tenemos que insertar
     final variable = VariablesPersistentes.fromMap({
@@ -155,6 +177,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
       }
       if(nombre.compareTo(_selectorBloquesString) == 0){
         _selectorBloques= _mapaValores[valor];
+      }
+      if(nombre.compareTo(_selectorMusicaString) == 0){
+        _selectorMusica = _mapaValores[valor];
       }
     });
   }
@@ -185,6 +210,13 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
           _selectorBloques = false;
         }else{
           _selectorBloques = _mapaValores[variable.value];
+        }  
+      }
+      if(nombre.compareTo(_selectorMusicaString) == 0){
+        if (variable == null || variable.value == 0){
+          _selectorMusica = false;
+        }else{
+          _selectorMusica = _mapaValores[variable.value];
         }  
       }
     });
