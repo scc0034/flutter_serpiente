@@ -88,9 +88,9 @@ class _RankPageState extends State<RankPage> {
 
   Image _img(int index){
     if(index<3){
-      return Image.asset("assets/medal${index+1}.png");
+      return Image.asset("assets/img/medal${index+1}.png");
     }else{
-      return Image.asset("assets/TRANSPA.gif");
+      return Image.asset("assets/img/TRANSPA.gif");
     }
   }
 }

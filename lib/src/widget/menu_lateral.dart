@@ -32,7 +32,7 @@ class MenuLateral extends StatelessWidget {
         decoration: BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fill,
-                image: AssetImage('assets/snake.jpg'))),
+                image: AssetImage('assets/img/snake.jpg'))),
         child: Stack(children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
@@ -148,7 +148,7 @@ class MenuLateral extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Image.asset("assets/google_logo.png",height: 14,),
+                  Image.asset("assets/img/google_logo.png",height: 14,),
                   SizedBox(),
                   Text(emailGoogle),
               ],)

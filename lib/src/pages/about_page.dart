@@ -43,7 +43,7 @@ class AboutPage extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     backgroundColor: Colors.cyan[100],
-                    backgroundImage: AssetImage('assets/avatar.jpg'),
+                    backgroundImage: AssetImage('assets/img/avatar.jpg'),
                     radius: 75,
                   ),
                   _separador(),
@@ -95,7 +95,7 @@ class AboutPage extends StatelessWidget {
       icon: SizedBox(
         width: 20,
         height: 20,
-        child: Image.asset('assets/$k.png')),
+        child: Image.asset('assets/img/$k.png')),
       label: Text(k.toString()),
       onPressed:(){
         if(k.toString().compareTo("gmail") == 0){

@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:math';
-
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
@@ -9,6 +8,8 @@ import 'package:flutter_snake/src/pages/rank_form.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 /**
  * Clase que contiene información relevante sobre la aplicación.
@@ -46,8 +47,13 @@ class _SnakePageState extends State<SnakePage>{
   String _selectorBloquesString = "selectorBloques";// String de la variable en la base de datos
   Duration _velocidad ;   // Variable que mide el tiempo en el que se actualiza la pantalla
   DatabaseService dbService = DatabaseService.instance; // Instancia de la base de datos local
-  List<int> _pared = [];
-  List<int> _tuberia = [];
+  List<int> _pared = [];  // Vector que contiene las posiciones de la pared
+  List<int> _tuberia = [];  // Posible tuberia para mover la serpiente entre origen y destino
+  AudioPlayer advancedPlayer; // Reproductor de sonidos
+  AudioPlayer advancedPlayer2;
+  AudioCache audioCacheBase;
+  AudioCache audioCacheSonidos;
+  Future<int> _mPaused;
 
   // Constructor de la clase
   _SnakePageState(){}
@@ -59,6 +65,12 @@ class _SnakePageState extends State<SnakePage>{
     _loadTuberia();
     _loadSettings();
     _nuevaManzana();
+    _loadMusic();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -205,7 +217,7 @@ class _SnakePageState extends State<SnakePage>{
     // Variable para pintar el color del grid
     Color colorFondo;
     String imgUrl = "https://i.imgur.com/5NINkEr.png";
-    String imgLocal ='assets/original2.gif';
+    String imgLocal ='assets/img/original2.gif';
     Map<int,String> mapFood = {
       0: "https://media.giphy.com/media/LMt9638dO8dftAjtco/giphy.gif",//python
       1: "https://media.giphy.com/media/Ri2TUcKlaOcaDBxFpY/giphy.gif", // Firebase
@@ -223,7 +235,7 @@ class _SnakePageState extends State<SnakePage>{
       if(_puntuacion>=mapFood.length){
         nImg = _puntuacion % mapFood.length;
       }
-      imgLocal = 'assets/seta.gif';
+      imgLocal = 'assets/img/seta.gif';
       imgUrl = mapFood[nImg];
 
     }else if(_serpiente.contains(index)){
@@ -296,6 +308,9 @@ class _SnakePageState extends State<SnakePage>{
     if(_cabeza == _indexManzana){
       _nuevaManzana();
       _puntuacion+=1;
+      // Sonido de que comemos la manzana
+      audioCacheSonidos.play("eat.mp3");
+
     }else{
       _serpiente.remove(_cola);
     }
@@ -304,16 +319,21 @@ class _SnakePageState extends State<SnakePage>{
   /**
    * Método que controla si se produce un fallo y como consecuencia el final de la partida
    */
-  bool _gameOver(){
+  bool _gameOver () {
     if(_pared.contains(_cabeza) || _bloques.contains(_cabeza) ){
       _end = true;
+      audioCacheSonidos.play("impact.mp3");
+      _mPaused =  advancedPlayer.stop();
       return true;
     }
     if (_serpiente.sublist(0,_serpiente.length-2).contains(_cabeza)){
       _end = true;
+      audioCacheSonidos.play("impact.mp3");
+      _mPaused =  advancedPlayer.stop();
       print("fallo serpiente");
       return true;
     }
+
     return false;
   }
   
@@ -357,7 +377,7 @@ class _SnakePageState extends State<SnakePage>{
             
             children: <Widget>[
               FadeInImage(
-                  placeholder: AssetImage("assets/gameover.png"), 
+                  placeholder: AssetImage("assets/img/gameover.png"), 
                   image: NetworkImage("http://pngimg.com/uploads/game_over/game_over_PNG38.png"),
                  
               ),
@@ -439,6 +459,7 @@ class _SnakePageState extends State<SnakePage>{
     _nuevaManzana();
     _rellenarBloques();
     _iniciarJuego();
+    _loadMusic();
   }
 
   void _loadSettings() async {
@@ -493,4 +514,24 @@ class _SnakePageState extends State<SnakePage>{
     print("tuberia = $_tuberia");
   }
 
+  /**
+   * Método que se encarga de reporducir la música al iniciar el juego
+   */
+  void _loadMusic()  {
+    // Creamos el reproductor de audio del sistema
+    advancedPlayer = new AudioPlayer();
+    advancedPlayer2 = new AudioPlayer();
+    // Creamos la cache, que tiene las cancioens
+    audioCacheBase = new AudioCache(fixedPlayer: advancedPlayer,prefix: 'audio/');
+    audioCacheSonidos = new AudioCache(fixedPlayer: advancedPlayer2,prefix: 'audio/');
+    // Limpiamos por si acaso
+    audioCacheBase.clearCache();
+    audioCacheSonidos.clearCache();
+    // Cogemos las canciones que vamos a usar
+    audioCacheBase.loadAll(["snake_short.mp3"]);
+    // Comenzamos con el juego de la serpiente
+    audioCacheBase.loop("snake_short.mp3");
+    // Cargamos el resto de sonidos
+    audioCacheSonidos.loadAll(["eat.mp3","impact.mp3"]);
+  }
 }
