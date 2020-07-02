@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 class RankPage extends StatefulWidget {
@@ -41,18 +42,26 @@ class _RankPageState extends State<RankPage> {
                 itemCount: docs.length,
                 itemBuilder: (context, index){
                   Map<String,dynamic> data = docs[index].data;
-                  return ListTile(
-                    leading: CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    backgroundImage: NetworkImage(data['imageUrl'].toString()),
+                  return Container(
+                    decoration: new BoxDecoration (
+                      color: _miScore(data['imageUrl'].toString() ),
                     ),
-                    title: Text(data['nombre'].toString()),
-                    subtitle: Text("Puntos: ${data['puntos'].toString()}"),
-                    //trailing: Icon(Icons.keyboard_arrow_right),
-                    
-                    onTap: () {
-                      Text('Another data');
-                    },
+                    child: ListTile(
+                      
+                      leading: CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      backgroundImage: NetworkImage(data['imageUrl'].toString()),
+                      ),
+                      title: Text(data['nombre'].toString()),
+                      subtitle: Text("Puntos: ${data['puntos'].toString()}"),
+                      trailing: Container(
+                        child: _img(index),
+                      ),
+                      
+                      onTap: () {
+                        Text('Another data');
+                      },
+                    ),
                   );
                 }, 
                 separatorBuilder: (context, index) {
@@ -63,5 +72,20 @@ class _RankPageState extends State<RankPage> {
           ),
         )
     );
+  }
+
+  Color _miScore(String img){
+    if(img.compareTo(imageUrlGoogle)==0){
+      return new Color.fromARGB(200, 255, 224, 51);
+    }
+    return new Color.fromARGB(0, 255, 224, 51);
+  }
+
+  Image _img(int index){
+    if(index<3){
+      return Image.asset("assets/medal${index+1}.png");
+    }else{
+      return Image.asset("assets/TRANSPA.gif");
+    }
   }
 }

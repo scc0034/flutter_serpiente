@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
 import 'package:flutter_snake/src/pages/rank_form.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
+import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 /**
@@ -318,7 +320,31 @@ class _SnakePageState extends State<SnakePage>{
   /**
    * Mostrar la ventana de que se ha terminado la partida
    */
-  void _final(){
+  void _final()async{
+    // Primero tenemos que validar si se produce una mejora de la puntuación
+    Firestore firestoreDB = Firestore.instance;
+    bool mejoraPuntos = false;
+    int puntosMejores = 0;
+    String texto = "Ranking";
+    String cabecera = "You\'re score is: $_puntuacion";
+    // Hacemos la consulta de los datos del usuario
+    try {
+      await firestoreDB.collection("ranking").document(emailGoogle).get().then((doc) {
+        if(doc.exists){
+          puntosMejores = doc.data["puntos"];
+        }
+      });
+    } catch (e) {
+      mejoraPuntos = false;
+    }
+
+    if(puntosMejores<_puntuacion){
+      mejoraPuntos = true;
+      cabecera = "You\'re score is: $_puntuacion, you\'ve improved it $puntosMejores points";
+      texto = "Submit Score";
+    }
+
+
     showDialog(context: context,
     builder: (BuildContext context) {
       return AlertDialog(
@@ -327,8 +353,14 @@ class _SnakePageState extends State<SnakePage>{
         actions: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            
             children: <Widget>[
-              Image.asset('assets/gameover2.gif'),
+              FadeInImage(
+                  placeholder: AssetImage("assets/gameover.png"), 
+                  image: NetworkImage("http://pngimg.com/uploads/game_over/game_over_PNG38.png"),
+                 
+              ),
             ],
           ),
           Row(
@@ -344,12 +376,17 @@ class _SnakePageState extends State<SnakePage>{
                 },
               ),
               FlatButton(
-                child: Text('Submit Score'),
+                child: Text(texto),
+                hoverColor: Theme.of(context).toggleableActiveColor,
                 onPressed: () {
-                  // Nos movemos a la página de formulario
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => RankFromPage(value : _puntuacion),
-                  ));
+                  if(mejoraPuntos){
+                    // Nos movemos a la página de formulario
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => RankFromPage(value : _puntuacion),
+                    ));
+                  }else{
+                    Navigator.pushNamed(context, "rank");
+                  }
                 },
               )
             ],

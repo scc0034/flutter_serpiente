@@ -133,6 +133,11 @@ class _RankFromPageState extends State<RankFromPage> {
       color:Theme.of(context).primaryColor,
       onPressed: (){
         _guardarBD();
+        Future.delayed(const Duration(milliseconds: 500), () {
+          setState(() {
+            Navigator.pushNamed(context, "rank");
+          });
+        });
       },
       child: Text("Submit",style: TextStyle(color: Colors.white),),
     );
