@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-/**
- * Clase que controla las animaciones de Flutter
+/*
+ * Clase que controla las animaciones de Flutter del menu
  */
 class DelayedAnimation extends StatefulWidget {
   // Atributos de la clase
@@ -16,9 +16,6 @@ class DelayedAnimation extends StatefulWidget {
   _DelayedAnimationState createState() => _DelayedAnimationState();
 }
 
-/**
- * Clase con estado
- */
 class _DelayedAnimationState extends State<DelayedAnimation>
     with TickerProviderStateMixin {
   AnimationController _controller;
@@ -31,7 +28,7 @@ class _DelayedAnimationState extends State<DelayedAnimation>
 
     // Controlador de las animaciones
     _controller =
-        AnimationController(vsync:this, duration: Duration(milliseconds: 800));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     final curve =
         CurvedAnimation(curve: Curves.decelerate, parent: _controller);
     _animOffset =
@@ -53,7 +50,7 @@ class _DelayedAnimationState extends State<DelayedAnimation>
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller.dispose(); // Cerramos el controlador
   }
 
   @override

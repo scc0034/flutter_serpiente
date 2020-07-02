@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_admob/firebase_admob.dart';
-import 'dart:io';
 import 'package:flutter_snake/src/services/admob_service.dart';
 
 // VARIABLES DE CONTROL DE LOS ANUNCIOS
@@ -9,7 +8,7 @@ import 'package:flutter_snake/src/services/admob_service.dart';
 final _admobService = AdMobService();
 final _appid = _admobService.getAdMobAppId();
 
-/**
+/*
  * https://medium.com/@sravanyakatta6/showing-ads-in-flutter-app-f9f1b72eec51
  * https://www.youtube.com/watch?v=rXYmbTBT3Yo
  * https://pub.dev/packages/admob_flutter#-readme-tab-
@@ -20,17 +19,19 @@ class AdBanner extends StatefulWidget {
 }
 
 class _AdBannerState extends State<AdBanner> {
+  /// Datos para el anuncio
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices: <String>[] ,
-    keywords: <String>['games', 'code','flutter'],
+    testDevices: <String>[],
+    keywords: <String>['games', 'code', 'flutter'],
     contentUrl: 'http://foo.com/bar.html',
     childDirected: true,
     nonPersonalizedAds: true,
   );
-
+  // Atributos
   BannerAd _bannerAd;
   int _coins = 0;
 
+  ///Método que nos devuelve el banner
   BannerAd createBannerAd() {
     return BannerAd(
       adUnitId: _admobService.getBannerHome(),
@@ -42,19 +43,20 @@ class _AdBannerState extends State<AdBanner> {
     );
   }
 
-
   @override
   void initState() {
     print("Lo que tenemos dentro del appID = $_appid");
     super.initState();
     FirebaseAdMob.instance.initialize(appId: _appid);
-    _bannerAd = createBannerAd()..load()..show(
-      anchorOffset: 60.0,
-      // Positions the banner ad 10 pixels from the center of the screen to the right
-      horizontalCenterOffset: 10.0,
-      // Banner Position
-      anchorType: AnchorType.bottom,
-    );
+    _bannerAd = createBannerAd()
+      ..load()
+      ..show(
+        anchorOffset: 60.0,
+        // Positions the banner ad 10 pixels from the center of the screen to the right
+        horizontalCenterOffset: 10.0,
+        // Banner Position
+        anchorType: AnchorType.bottom,
+      );
 
     print("Dentro del initState");
     RewardedVideoAd.instance.listener =
@@ -94,7 +96,7 @@ class _AdBannerState extends State<AdBanner> {
                       horizontalCenterOffset: 10.0,
                       // Banner Position
                       anchorType: AnchorType.bottom,
-                                    );
+                    );
                 }),
             RaisedButton(
                 child: const Text('SHOW BANNER WITH OFFSET'),
@@ -109,16 +111,13 @@ class _AdBannerState extends State<AdBanner> {
                 onPressed: () {
                   _bannerAd?.dispose();
                   _bannerAd = null;
-                }
-            ),
+                }),
             RaisedButton(
               child: const Text('SHOW REWARDED VIDEO'),
               onPressed: () {
                 RewardedVideoAd.instance.show();
               },
             ),
-
-
             Text("You have $_coins coins."),
           ].map((Widget button) {
             return Padding(

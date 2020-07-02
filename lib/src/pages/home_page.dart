@@ -3,18 +3,15 @@ import 'package:flutter_snake/src/widget/ad_banner.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 class HomePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      drawer: MenuLateral(),
+        drawer: MenuLateral(),
         appBar: AppBar(
-          title : Text("Home Page"),
+          title: Text("Home Page"),
         ),
         body: Scaffold(
-          body :AdBanner(),
-        )
-    );
+          body: AdBanner(),
+        ));
   }
 }

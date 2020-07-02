@@ -3,22 +3,24 @@ import 'package:flutter_snake/src/pages/home_page.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/utils/delayed_animation.dart';
 
-/**
- * Clase que se encarga del login de las personas con gmail
+/*
+ * Clase que se encarga del login de los usuarios con gmail
  */
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
   // Atributos de la clase para controlar la animación
   final int delayedAmount = 500;
-  double _scale;
+  //double _scale;
   AnimationController _controller;
 
   @override
   void initState() {
+    // Controlador de la animación de los elementos
     _controller = AnimationController(
       vsync: this,
       duration: Duration(
@@ -31,6 +33,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,38 +50,33 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
               ),
               SizedBox(height: 50),
               DelayedAnimation(
-                  child: Text(
-                    "Flutter_snake",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35.0),
-                  ),
-                  delay: delayedAmount + 1000,
+                child: Text(
+                  "Flutter_snake",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35.0),
+                ),
+                delay: delayedAmount + 1000,
               ),
               SizedBox(height: 50),
               DelayedAnimation(
-                  child: Text(
-                    "Samuel Casal Cantero",
-                    style: TextStyle(
-                        fontSize: 18.0),
-                  ),
-                  delay: delayedAmount + 1000,
+                child: Text(
+                  "Samuel Casal Cantero",
+                  style: TextStyle(fontSize: 18.0),
                 ),
+                delay: delayedAmount + 1000,
+              ),
               SizedBox(height: 15),
               DelayedAnimation(
-                  child: Text(
-                    "Universidad de Burgos",
-                    style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: 18.0),
-                  ),
-                  delay: delayedAmount + 1000,
+                child: Text(
+                  "Universidad de Burgos",
+                  style: TextStyle(fontFamily: "Roboto", fontSize: 18.0),
                 ),
+                delay: delayedAmount + 1000,
+              ),
               SizedBox(height: 50),
               DelayedAnimation(
-                  child: _signInButton(),
-                  delay: delayedAmount + 1000,
-                ),
+                child: _signInButton(),
+                delay: delayedAmount + 1000,
+              ),
             ],
           ),
         ),
@@ -86,6 +84,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     );
   }
 
+  ///Método qe nos devuelve el botón de login a la página
   Widget _signInButton() {
     return OutlineButton(
       splashColor: Colors.grey,
@@ -110,7 +109,8 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: AssetImage("assets/img/google_logo.png"), height: 28.0),
+            Image(
+                image: AssetImage("assets/img/google_logo.png"), height: 28.0),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(

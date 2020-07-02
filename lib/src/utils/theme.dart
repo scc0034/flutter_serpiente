@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/*
+* Clase para controlar temas de la aplicación
+*/
 class ThemeChanger with ChangeNotifier {
   ThemeData _themeData;
 

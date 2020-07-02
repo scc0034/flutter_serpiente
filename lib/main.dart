@@ -19,10 +19,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ThemeChanger>(
-        builder: (_) => ThemeChanger(ThemeData.light()),
-        child: new MaterialAppWithTheme(
-        
-        ),
+      builder: (_) => ThemeChanger(ThemeData.light()),
+      child: new MaterialAppWithTheme(),
     );
   }
 }
@@ -33,10 +31,10 @@ class MaterialAppWithTheme extends StatefulWidget {
 }
 
 class _MaterialAppWithThemeState extends State<MaterialAppWithTheme> {
-  // Servicios de la base de datos
+  // Servicios de la base de datos local
   DatabaseService dbService = DatabaseService.instance;
 
-@override
+  @override
   void initState() {
     super.initState();
     _loadSettings(context);
@@ -49,29 +47,28 @@ class _MaterialAppWithThemeState extends State<MaterialAppWithTheme> {
     return MaterialApp(
       theme: theme.getTheme(),
       title: "Flutter Snake",
-        // Quitamos el banner que aparece de debug en el movil
-        debugShowCheckedModeBanner: false,
-        //home: LoginPage(),
-        /**
-         * RUTAS
-         */
-        initialRoute: 'login',
-        routes: getAplicationRoutes(),// Cogemos las rutas de routes.dart
-        onGenerateRoute: (RouteSettings settings){
-
-          // En caso de que no encuentre la ruta, vuelve al homePage
-          return MaterialPageRoute(
-            builder: (BuildContext context ) => HomePage(),
-          );
-        },
+      // Quitamos el banner que aparece de debug en el movil
+      debugShowCheckedModeBanner: false,
+      //home: LoginPage(), en el caso de que la queramos hacer principal
+      //RUTAS
+      initialRoute: 'login',
+      routes: getAplicationRoutes(), // Cogemos las rutas de routes.dart
+      onGenerateRoute: (RouteSettings settings) {
+        // En caso de que no encuentre la ruta, vuelve al homePage
+        return MaterialPageRoute(
+          builder: (BuildContext context) => HomePage(),
+        );
+      },
     );
   }
 
-   _loadSettings(BuildContext context) async {
-    final VariablesPersistentes varColor = await dbService.getVar("selectorColor");
-    if(varColor == null || varColor.value == 0  ){
+  /// Método de carga de las opciones de la aplicación
+  _loadSettings(BuildContext context) async {
+    final VariablesPersistentes varColor =
+        await dbService.getVar("selectorColor");
+    if (varColor == null || varColor.value == 0) {
       Provider.of<ThemeChanger>(context).setTheme(ThemeData.light());
-    }else{
+    } else {
       Provider.of<ThemeChanger>(context).setTheme(ThemeData.dark());
     }
   }

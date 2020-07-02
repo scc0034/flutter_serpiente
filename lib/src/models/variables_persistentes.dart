@@ -21,7 +21,7 @@ class VariablesPersistentes {
   Map<String, dynamic> toMap() {
     return {
       "value": this.value,
-      "nombre" : this.nombre,
+      "nombre": this.nombre,
       "createdTime": this.createdTime.toString(),
     };
   }

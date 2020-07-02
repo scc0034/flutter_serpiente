@@ -8,9 +8,7 @@ String nameGoogle;
 String emailGoogle;
 String imageUrlGoogle;
 
-/**
- * Método para conectarnos con Google
- */
+///Método para conectarnos con Google
 Future<String> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   final GoogleSignInAuthentication googleSignInAuthentication =
@@ -42,25 +40,18 @@ Future<String> signInWithGoogle() async {
   assert(user.uid == currentUser.uid);
 
   return 'signInWithGoogle succeeded: $user';
-
-
 }
 
-/**
- * Método para salir de la cuenta de Goolge
- */
-void signOutGoogle() async{
+///Método para salir de la cuenta de Goolge
+void signOutGoogle() async {
   await googleSignIn.signOut();
-
   print("User Sign Out");
 }
 
-
-/**
+/*
  * Comando para generar nuevas claves, se debe de ejecutar desde el directorio bin del sdk de java
   * keytool -list -v -keystore "C:\Users\Samuel Casal Cantero\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android 
  
  Exception has occurred.
 PlatformException (PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 10: , null))
  */
-
