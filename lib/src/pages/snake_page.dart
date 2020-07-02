@@ -137,7 +137,7 @@ class _SnakePageState extends State<SnakePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Icon(Icons.star),
-                  Text("Puntuación:  $_puntuacion"),
+                  Text("Puntuación: $_puntuacion"),
                   FlatButton(
                     color: Theme.of(context).textSelectionHandleColor,
                     onPressed: () {
@@ -211,6 +211,7 @@ class _SnakePageState extends State<SnakePage> {
     Color colorFondo;
     String imgUrl = "https://i.imgur.com/5NINkEr.png";
     String imgLocal = 'assets/img/original2.gif';
+    /// TODO: Mejorar esto
     Map<int, String> mapFood = {
       0: "https://media.giphy.com/media/LMt9638dO8dftAjtco/giphy.gif", //python
       1: "https://media.giphy.com/media/Ri2TUcKlaOcaDBxFpY/giphy.gif", // Firebase
@@ -348,8 +349,11 @@ class _SnakePageState extends State<SnakePage> {
       mejoraPuntos = false;
     }
 
-    if (puntosMejores < _puntuacion) {
+    if (puntosMejores == null || puntosMejores < _puntuacion) {
       mejoraPuntos = true;
+      if (puntosMejores == null){
+        puntosMejores = 0;
+      }
       cabecera =
           "You\'re score is: $_puntuacion, you\'ve improved he previous one by ${_puntuacion - puntosMejores} points";
       texto = "Submit Score";

@@ -1,43 +1,42 @@
 {
   "project_info": {
-    "project_number": "846206431642",
-    "firebase_url": "https://flutterserpiente.firebaseio.com",
-    "project_id": "flutterserpiente",
-    "storage_bucket": "flutterserpiente.appspot.com"
+    "project_number": "66474218378",
+    "firebase_url": "https://flutterserpiente2.firebaseio.com",
+    "project_id": "flutterserpiente2",
+    "storage_bucket": "flutterserpiente2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:846206431642:android:78afef2422f351ba19ca23",
+        "mobilesdk_app_id": "1:66474218378:android:dfca726c209b7a0ea06e73",
         "android_client_info": {
-          "package_name": "com.example.flutter_snake"
+          "package_name": "com.ubu.flutter_snake"
         }
       },
       "oauth_client": [
         {
-          "client_id": "846206431642-govr1ace9e18n77n3iphgmdfb15obvfq.apps.googleusercontent.com",
+          "client_id": "66474218378-c32kj0tepp9bleapoigc3ekmb5jpui5l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.flutter_serpiente",
+            "package_name": "com.ubu.flutter_snake",
             "certificate_hash": "8aa991f820f74731872ee34b4f46e34b219c9b1a"
           }
         },
         {
-          "client_id": "846206431642-3jn5gtnijl42rd4v12s91bckj5h92rpp.apps.googleusercontent.com",
+          "client_id": "66474218378-ulikh2ufgq5m6o87ups31q1da50kk8d4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAaCDb-rRqjhYl1Bj95e61xCMI37IsIulw"
+          "current_key": "AIzaSyDVYLQOWA565esV3j7GyRCI4ZGdF-w3MEk"
         }
       ],
       "services": {
-        "admob_app_id": "ca-app-pub-7462396340145780~9379634838",
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "846206431642-3jn5gtnijl42rd4v12s91bckj5h92rpp.apps.googleusercontent.com",
+              "client_id": "66474218378-ulikh2ufgq5m6o87ups31q1da50kk8d4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

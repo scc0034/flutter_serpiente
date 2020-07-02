@@ -54,4 +54,8 @@ void signOutGoogle() async {
  
  Exception has occurred.
 PlatformException (PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 10: , null))
+ 
+ keytool -genkey -v -keystore "C:\Users\Samuel Casal Cantero\flutterKeyRelease.jks" -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias flutterKeyRelease
+
+ 
  */
