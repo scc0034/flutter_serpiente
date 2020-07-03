@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/utils/theme.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 import 'package:provider/provider.dart';
@@ -11,11 +12,19 @@ import 'package:flutter_snake/src/services/database_service.dart';
  * https://pusher.com/tutorials/local-data-flutter
  */
 class SettingsPage extends StatefulWidget {
+  bool ads = false;
+  SettingsPage({this.ads});
+
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  _SettingsPageState createState() => _SettingsPageState(ads : this.ads);
 }
 
 class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
+
+  bool ads = false;
+
+  _SettingsPageState({this.ads});
+
   // Servicios de la base de datos
   DatabaseService dbService = DatabaseService.instance;
 
@@ -38,6 +47,11 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
   @override
   void initState() {
     super.initState();
+    if(ads){
+      AdMobService.showBannerAd();
+    }else{
+      AdMobService.hideBannerAd();
+    }
     // Carga de los valores
     _loadVarFromDb(_selectorColorString, context);
     _loadVarFromDb(_selectorVelocidadString, context);

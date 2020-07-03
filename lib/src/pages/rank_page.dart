@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 class RankPage extends StatefulWidget {
+  bool ads = false;
+  RankPage({this.ads});
+
   @override
-  _RankPageState createState() => _RankPageState();
+  _RankPageState createState() => _RankPageState(ads : this.ads);
 }
 
 /*
@@ -16,6 +20,21 @@ class RankPage extends StatefulWidget {
  * https://www.youtube.com/watch?v=osp1WL7W9Wo
  * */
 class _RankPageState extends State<RankPage> {
+
+  bool ads = false;
+
+  _RankPageState({this.ads});
+
+  @override
+  void initState() {
+    if(ads){
+      AdMobService.showBannerAd();
+    }else{
+      AdMobService.hideBannerAd();
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -56,7 +56,7 @@ class _MaterialAppWithThemeState extends State<MaterialAppWithTheme> {
       onGenerateRoute: (RouteSettings settings) {
         // En caso de que no encuentre la ruta, vuelve al homePage
         return MaterialPageRoute(
-          builder: (BuildContext context) => HomePage(),
+          builder: (BuildContext context) => HomePage(ads : true),
         );
       },
     );

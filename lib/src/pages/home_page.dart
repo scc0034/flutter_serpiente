@@ -6,7 +6,11 @@ import 'package:flutter_snake/src/widget/menu_lateral.dart';
 class HomePage extends StatelessWidget {
 
   bool ads = false;
-  HomePage({this.ads});
+  HomePage({this.ads}){
+    if(this.ads == null){
+      this.ads = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_snake/src/services/admob_service.dart';
 import 'dart:async';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 import 'package:url_launcher/url_launcher.dart'; // Permite abrir el navegador web
@@ -18,7 +19,33 @@ import 'package:flutter_snake/src/widget/carousel.dart'; // corousel imagenes
  * Libreria para abrir el compose de email
  */
 // ignore: must_be_immutable
-class AboutPage extends StatelessWidget {
+class AboutPage extends StatefulWidget {
+  bool ads = false;
+  AboutPage({this.ads});
+
+  @override
+  _AboutPageState createState() => _AboutPageState(ads : this.ads);
+
+
+}
+
+class _AboutPageState extends State<AboutPage> {
+
+  bool ads = false;
+  int _coins = 0;
+
+  _AboutPageState({this.ads});
+  
+  @override
+  void initState() {
+    if(ads){
+      AdMobService.showBannerAd();
+    }else{
+      AdMobService.hideBannerAd();
+    }
+    super.initState();
+  }
+
   //Atributos de la clase
   final Map<String, String> _mapaUrl = {
     "linkedin": "https://www.linkedin.com/in/samuel-casal-cantero-631022188/",
