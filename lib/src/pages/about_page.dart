@@ -32,7 +32,6 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
 
   bool ads = false;
-  int _coins = 0;
 
   _AboutPageState({this.ads});
   

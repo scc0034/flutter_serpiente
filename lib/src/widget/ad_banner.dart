@@ -1,6 +1,4 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 
 // VARIABLES DE CONTROL DE LOS ANUNCIOS
@@ -12,6 +10,7 @@ import 'package:flutter_snake/src/services/admob_service.dart';
  * https://www.youtube.com/watch?v=rXYmbTBT3Yo
  * https://pub.dev/packages/admob_flutter#-readme-tab-
  */
+// ignore: must_be_immutable
 class AdBanner extends StatefulWidget {
   bool ads = false;
   AdBanner({this.ads});
@@ -29,9 +28,11 @@ class _AdBannerState extends State<AdBanner> {
   void initState() {
     if(ads){
       AdMobService.showBannerAd();
+      //AdMobService.showInterstitialAd();
     }else{
       AdMobService.hideBannerAd();
-    }
+      //AdMobService.hideInterstitialAd();
+    }   
     /*
     FirebaseAdMob.instance.initialize(appId: _appid);
     _bannerAd = createBannerAd()
@@ -72,6 +73,7 @@ class _AdBannerState extends State<AdBanner> {
                 onPressed: () {
                   AdMobService.hideBannerAd();
                 }),
+            
           ]
             /*RaisedButton(
                 child: const Text('SHOW BANNER'),

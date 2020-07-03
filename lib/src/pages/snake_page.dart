@@ -17,6 +17,7 @@ import 'package:audioplayers/audio_cache.dart';
  * Esta página tiene que ser statefulWidget porque tenemos 
  * que hacer muchos cambios en la pantalla.
  */
+// ignore: must_be_immutable
 class SnakePage extends StatefulWidget {
   bool ads = false;
   SnakePage({this.ads});

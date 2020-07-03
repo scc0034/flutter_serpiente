@@ -4,6 +4,7 @@ import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
+// ignore: must_be_immutable
 class RankPage extends StatefulWidget {
   bool ads = false;
   RankPage({this.ads});

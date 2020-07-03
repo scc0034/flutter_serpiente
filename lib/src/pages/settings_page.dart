@@ -11,6 +11,7 @@ import 'package:flutter_snake/src/services/database_service.dart';
  * Página persistencia de datos:
  * https://pusher.com/tutorials/local-data-flutter
  */
+// ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
   bool ads = false;
   SettingsPage({this.ads});

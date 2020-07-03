@@ -38,20 +38,30 @@ class AdMobService {
   ///Devuelve el id del banner de ads
   static String getIdBanner() {
     if (Platform.isAndroid) {
-      const String appId = "ca-app-pub-7462396340145780/9142410233";
-      return appId;
+      const String unitId = "ca-app-pub-7462396340145780/9142410233";
+      return unitId;
     }
     return null;
   }
 
-  /// Devuelve el id del intersticial (iFrame de html), algo parecido
-  /*String getIntersticialAd() {
+  ///Devuelve el id del banner de ads
+  static String getIdInterstitial() {
     if (Platform.isAndroid) {
-      const String appId = "ca-app-pub-7462396340145780/8871642021";
-      return appId;
+      const String unitId = "ca-app-pub-7462396340145780/2167321238";
+      return unitId;
     }
     return null;
-  }*/
+  }
+
+  static InterstitialAd _createInterstitialAd(String adId){
+    return InterstitialAd(
+      adUnitId: InterstitialAd.testAdUnitId,
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event is $event");
+      },
+    );
+  }
   
   /// Método que devuelve un bannerAd
   static BannerAd _createBannerAd(String adId) {
@@ -77,5 +87,21 @@ class AdMobService {
   static void hideBannerAd() async {
     await _bannerAd.dispose();
     _bannerAd = null;
+  }
+
+  /// Método que carga el banner
+  static void showInterstitialAd() {
+    if (_interstitialAd == null) _interstitialAd = _createInterstitialAd(getIdInterstitial());
+    _interstitialAd
+      ..load()
+      ..show(anchorType: AnchorType.bottom,
+          anchorOffset: 0.0,
+          horizontalCenterOffset: 0.0,);
+  }
+
+  /// Método que deseacitva el banner, dejandolo a null
+  static void hideInterstitialAd() async {
+    await _interstitialAd.dispose();
+    _interstitialAd = null;
   }
 }
