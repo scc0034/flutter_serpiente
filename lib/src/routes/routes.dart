@@ -10,8 +10,8 @@ import 'package:flutter_snake/src/pages/rank_form.dart';
 ///Método que se encarga de devolver un mapa de las rutas que tenemos en la app
 Map<String, WidgetBuilder> getAplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (BuildContext context) => HomePage(),
-    'snake': (BuildContext context) => SnakePage(),
+    '/': (BuildContext context) => HomePage(ads: true),
+    'snake': (BuildContext context) => SnakePage(ads: false,),
     'about': (BuildContext context) => AboutPage(),
     'settings': (BuildContext context) => SettingsPage(),
     "login": (BuildContext context) => LoginPage(),

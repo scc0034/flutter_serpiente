@@ -1,3 +1,4 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
@@ -5,8 +6,6 @@ import 'package:flutter_snake/src/services/admob_service.dart';
 // VARIABLES DE CONTROL DE LOS ANUNCIOS
 //const String testDevice = 'YOUR_DEVICE_ID';
 // ID del anuncio banner creado en admob
-final _admobService = AdMobService();
-final _appid = _admobService.getAdMobAppId();
 
 /*
  * https://medium.com/@sravanyakatta6/showing-ads-in-flutter-app-f9f1b72eec51
@@ -14,39 +13,26 @@ final _appid = _admobService.getAdMobAppId();
  * https://pub.dev/packages/admob_flutter#-readme-tab-
  */
 class AdBanner extends StatefulWidget {
+  bool ads = false;
+  AdBanner({this.ads});
+
   @override
-  _AdBannerState createState() => _AdBannerState();
+  _AdBannerState createState() => _AdBannerState(ads : this.ads);
 }
 
 class _AdBannerState extends State<AdBanner> {
-  /// Datos para el anuncio
-  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices: <String>[],
-    keywords: <String>['games', 'code', 'flutter'],
-    contentUrl: 'http://foo.com/bar.html',
-    childDirected: true,
-    nonPersonalizedAds: true,
-  );
-  // Atributos
-  BannerAd _bannerAd;
+  bool ads = false;
   int _coins = 0;
 
-  ///Método que nos devuelve el banner
-  BannerAd createBannerAd() {
-    return BannerAd(
-      adUnitId: _admobService.getBannerHome(),
-      size: AdSize.smartBanner,
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("BannerAd event $event");
-      },
-    );
-  }
-
+  _AdBannerState({this.ads});
   @override
   void initState() {
-    print("Lo que tenemos dentro del appID = $_appid");
-    super.initState();
+    if(ads){
+      AdMobService.showBannerAd();
+    }else{
+      AdMobService.hideBannerAd();
+    }
+    /*
     FirebaseAdMob.instance.initialize(appId: _appid);
     _bannerAd = createBannerAd()
       ..load()
@@ -67,24 +53,27 @@ class _AdBannerState extends State<AdBanner> {
           _coins += rewardAmount;
         });
       }
-    };
-  }
-
-  @override
-  void dispose() {
-    _bannerAd?.dispose();
-    super.dispose();
+    };*/
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            Text("Dentro del home, debería de mostrarse el banner!"),
             RaisedButton(
+                child: const Text('REMOVE BANNER TEST '),
+                onPressed: () {
+                  AdMobService.hideBannerAd();
+                }),
+          ]
+            /*RaisedButton(
                 child: const Text('SHOW BANNER'),
                 onPressed: () {
                   _bannerAd ??= createBannerAd();
@@ -124,9 +113,14 @@ class _AdBannerState extends State<AdBanner> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: button,
             );
-          }).toList(),
+          }).toList(),*/
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

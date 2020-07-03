@@ -50,9 +50,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!--Código de la aplicación en firebase para el control de la publicidad-->
         <meta-data
               android:name="com.google.android.gms.ads.APPLICATION_ID"
-              android:value="ca-app-pub-7462396340145780~9379634838"
+              android:value="ca-app-pub-7462396340145780~9170330392"
               />
     </application>
 </manifest>

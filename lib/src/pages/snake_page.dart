@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
 import 'package:flutter_snake/src/pages/rank_form.dart';
+import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
@@ -17,8 +18,11 @@ import 'package:audioplayers/audio_cache.dart';
  * que hacer muchos cambios en la pantalla.
  */
 class SnakePage extends StatefulWidget {
+  bool ads = false;
+  SnakePage({this.ads});
+
   @override
-  _SnakePageState createState() => _SnakePageState();
+  _SnakePageState createState() => _SnakePageState(anuncios: ads);
 }
 
 /*
@@ -59,17 +63,24 @@ class _SnakePageState extends State<SnakePage> {
   AudioCache audioCacheSonidos;
   bool _enableMusica = false;
   String _selectorMusicaString = "selectorMusica";
+  bool anuncios = false; // Controla el muestreo de los anuncios
 
   // Constructor de la clase
-  _SnakePageState();
+  _SnakePageState({this.anuncios});
 
   @override
   void initState() {
-    super.initState();
+    if(anuncios){
+      AdMobService.showBannerAd();
+    }else{
+      AdMobService.hideBannerAd();
+    }
+    
     _loadPared();
     _loadTuberia();
     _loadSettings();
     _nuevaManzana();
+    super.initState();
   }
 
   @override
