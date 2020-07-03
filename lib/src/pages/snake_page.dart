@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math';
 //import 'package:admob_flutter/admob_flutter.dart'; //Publicidad
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
 import 'package:flutter_snake/src/pages/rank_form.dart';
+import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
@@ -30,7 +32,7 @@ class SnakePage extends StatefulWidget {
  * Clase que se encarga de controlar 
  */
 class _SnakePageState extends State<SnakePage> {
-  // Atributos de la clase para controlar los estados
+  // Atributos de la clase para controlar los estados y demás del juego
   var _dir = "der"; // Controla la dirección del juego
   bool _inGame = false; // Controla si tenemos el juego iniciado
   bool _end = false; // Guarda si se ha terminado la partida
@@ -64,7 +66,9 @@ class _SnakePageState extends State<SnakePage> {
   AudioCache audioCacheSonidos;
   bool _enableMusica = false;
   String _selectorMusicaString = "selectorMusica";
+  // Variable de control de los anuncios
   bool anuncios = false; // Controla el muestreo de los anuncios
+  int _vida = 0;
 
   // Constructor de la clase
   _SnakePageState({this.anuncios});
@@ -76,11 +80,19 @@ class _SnakePageState extends State<SnakePage> {
     }else{
       AdMobService.hideBannerAd();
     }
-    
     _loadPared();
     _loadTuberia();
     _loadSettings();
     _nuevaManzana();
+    RewardedVideoAd.instance.listener =
+        (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
+      print("RewardedVideoAd event $event");
+      if (event == RewardedVideoAdEvent.rewarded) {
+        setState(() {
+          _vida += rewardAmount;
+        });
+      }
+    };
     super.initState();
   }
 

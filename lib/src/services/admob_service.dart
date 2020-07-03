@@ -104,4 +104,9 @@ class AdMobService {
     await _interstitialAd.dispose();
     _interstitialAd = null;
   }
+
+  /// Método que devuelve la información del target para usar en los videos fuera de la clase
+  MobileAdTargetingInfo getMobileTargetInfo (){
+    return targetingInfo;
+  }
 }
