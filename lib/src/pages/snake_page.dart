@@ -564,12 +564,10 @@ class _SnakePageState extends State<SnakePage> {
     setState(() {
       _end = false;
       _inGame = false;
-      _dir = "der";
       int colision = _serpiente.removeLast();
       _cabeza = _serpiente.last;
       // Cambiamos la dirección
       _cambiarDir(colision);
-      _iniciarJuego();
     });
   }
 
@@ -580,7 +578,7 @@ class _SnakePageState extends State<SnakePage> {
         child: Row(
           children: [
             new Text(_isButtonDisabled ? "Not Video" : "Video"),
-            SizedBox(),
+            SizedBox(width: 10,),
             Icon(_isButtonDisabled ? Icons.lock_outline  :  Icons.ondemand_video)
           ],
         ),
@@ -591,7 +589,11 @@ class _SnakePageState extends State<SnakePage> {
           await RewardedVideoAd.instance.show().catchError((e) => print("error in showing ad: ${e.toString()}"));
           _loaded = false;
           // Cerramos el cuadro de dialogo
-          Navigator.of(context).pop();
+          
+          
+          // Volvemos a jugar
+          
+          
         } else {
           print("no mostramos el video!");
         } 
@@ -602,11 +604,19 @@ class _SnakePageState extends State<SnakePage> {
     RewardedVideoAd.instance.listener =
         (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
       print("RewardedVideoAd event $event");
+      if (event == RewardedVideoAdEvent.closed){
+        setState(() {
+          _continuar();
+          Future.delayed(const Duration(milliseconds: 1000), () {    
+              _iniciarJuego();
+          });
+          Navigator.of(context).pop();
+        });
+      }
       if (event == RewardedVideoAdEvent.rewarded) {
         setState(() {
           _vida += rewardAmount;
           _videoVisto = true;
-          _continuar();
         });
       }
     };
@@ -623,11 +633,18 @@ class _SnakePageState extends State<SnakePage> {
     if (_dir == "arriba" || _dir == "abajo"){
       int cabezaIzq = _cabeza-1;
       int cabezaDer = _cabeza +1;
-      
-      if (!_controlChoque(cabezaIzq)){
-        nuevaDir = "izq";
-      }else if(!_controlChoque(cabezaDer)){
-        nuevaDir = "izq";
+      if(_cabeza<=(_nCol/2)){
+        if (!_controlChoque(cabezaDer)){
+          nuevaDir = "der";
+        }else if(!_controlChoque(cabezaIzq)){
+          nuevaDir = "izq";
+        }
+      }else{
+        if (!_controlChoque(cabezaIzq)){
+          nuevaDir = "izq";
+        }else if(!_controlChoque(cabezaDer)){
+          nuevaDir = "der";
+        }
       }
     }
 
@@ -635,10 +652,18 @@ class _SnakePageState extends State<SnakePage> {
       int cabezaArriba = _cabeza-_nCol;
       int cabezaAbajo = _cabeza +_nCol;
       
-      if (!_controlChoque(cabezaArriba)){
-        nuevaDir = "arriba";
-      }else if(!_controlChoque(cabezaAbajo)){
-        nuevaDir = "abajo";
+      if(_cabeza<=(_maxIndexManzana/2)){
+        if (!_controlChoque(cabezaAbajo)){
+          nuevaDir = "abajo";
+        }else if(!_controlChoque(cabezaArriba)){
+          nuevaDir = "arriba";
+        }
+      }else{
+        if (!_controlChoque(cabezaArriba)){
+          nuevaDir = "arriba";
+        }else if(!_controlChoque(cabezaAbajo)){
+          nuevaDir = "abajo";
+        }
       }
     }
     // Cambiamos el valor de la dirección
