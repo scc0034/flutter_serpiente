@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/pages/about_page.dart';
 import 'package:flutter_snake/src/pages/home_page.dart';
 import 'package:flutter_snake/src/pages/login_page.dart';
-import 'package:flutter_snake/src/pages/snake_page.dart';
+import 'package:flutter_snake/src/pages/games/snake/snake_page.dart';
 import 'package:flutter_snake/src/pages/settings_page.dart';
 import 'package:flutter_snake/src/pages/rank_page.dart';
 import 'package:flutter_snake/src/pages/rank_form.dart';

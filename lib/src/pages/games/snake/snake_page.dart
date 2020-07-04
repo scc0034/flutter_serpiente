@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math';
-//import 'package:admob_flutter/admob_flutter.dart'; //Publicidad
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
+import 'package:flutter_snake/src/pages/games/snake/snake_model.dart';
 import 'package:flutter_snake/src/pages/rank_form.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
@@ -24,70 +24,71 @@ class SnakePage extends StatefulWidget {
   SnakePage({this.ads});
 
   @override
-  _SnakePageState createState() => _SnakePageState(anuncios: ads);
+  _SnakePageState createState() => _SnakePageState(ads: ads);
 }
 
 /*
  * Clase que se encarga de controlar 
  */
 class _SnakePageState extends State<SnakePage> {
-  // Atributos de la clase para controlar los estados y demás del juego
-  var _dir = "der"; // Controla la dirección del juego
-  bool _inGame = false; // Controla si tenemos el juego iniciado
-  bool _end = false; // Guarda si se ha terminado la partida
-  final int _nCol = 20; // Número de columnas que tiene el grid
-  //final int _nFil = 29; // Número de filas del tablero
-  //final double _escala = 1.45; // Relación entre el numero de col y de filas
-  static int _maxIndexManzana = 579; // Número de casillas
-  int _indexManzana = -1; //Indice de la manzana inicial
-  static Random _semilla = Random(); // Semilla para generar aleaatorios
+
+  //ATRIBUTOS DE LA CLASE SNAKEPAGESTATE
+  //TABLERO
+  List<int> _serpiente = [21, 22, 23];      // Vector la serpiente
+  int _cabeza = 23;                         // Cabeza serpiente
+  int _cola = 21;                           // Cola serpiente
+  List<int> _bloques = [];                  // Vector de los bloques
+  int _nBloques = 15;                       // Número de bloques en el tablero
+  List<int> _pared = [];                    // Vector pared borde tablero
+  List<int> _tuberia = [];                  // Vector tuberias
+  List<String> _tuberiaDir = [];            // Vector dir de la tuberia
+  static final int _nCol = 20;              // Número de columnas
+  static final int _nFil = 29;              // Número de filas 
+  static int _nCasillas = 579;              // Número de casillas
+  int _indexFood = -1;                      //Indice de la manzana inicial
+  static final Random _semilla = Random();  // Semilla para generar aleaatorios
   int _puntuacion = 0; // Puntuación de la partida
-  List<int> _serpiente = [21, 22, 23]; // Posición de las partes de la serpiente
-  int _cabeza = 23; // Cabeza serpiente
-  int _cola = 21; // Cola serpiente
-  int _nBloques = 15; // Número de bloques en el tablero
-  List<int> _bloques = []; // Bloques aleatorios como dificultad
-  bool _selectorBloques =
-      false; // Controla si la opción de velocidad se ha seleccionado
-  String _selectorBloquesString =
-      "selectorBloques"; // String de la variable en la base de datos
-  Duration
-      _velocidad; // Variable que mide el tiempo en el que se actualiza la pantalla
-  DatabaseService dbService =
-      DatabaseService.instance; // Instancia de la base de datos local
-  List<int> _pared = []; // Vector que contiene las posiciones de la pared
-  List<int> _tuberia = []; // PTuneria entre origen y destino
-  List<String> _tuberiaDir = [];
-  int auxTubSerp = 0; // Control aux de la tuberia serpiente
-  //Variables de control musical, https://pub.dev/packages/audioplayers#-example-tab-
-  AudioPlayer advancedPlayer; // Reproductor de sonidos
+
+  // CONTROL JUEGO
+  String _dir = "der";                      // Direccion
+  bool _inGame = false;                     // En juego?
+  bool _end = false;                        // Partida end ?
+  
+  //BASE DE DATOS LOCAL
+  DatabaseService dbService = DatabaseService.instance;
+  bool _selectorBloques = false;            // Bloques
+  bool _selectorMusica = false;             //Musica
+  Duration _velocidad;                      // Velocidad
+  bool _selectorTuberias = false;           //Tuberias
+
+  //CONTROL MUSICAL, https://pub.dev/packages/audioplayers#-example-tab-
+  AudioPlayer advancedPlayer;               // Reproductor de sonidos
   AudioPlayer advancedPlayer2;
-  AudioCache audioCacheBase; // Cache de los sonidos
+  AudioCache audioCacheBase;                // Cache de los sonidos
   AudioCache audioCacheSonidos;
-  bool _enableMusica = false;
-  String _selectorMusicaString = "selectorMusica";
-  // Variable de control de los anuncios video de recompensa
-  bool anuncios = false; // Controla el muestreo de los anuncios
+
+  // ADMOB PUBLICIDAD
+  bool ads = false; 
   int _vida = 0;
   bool _loaded = false;
   bool _videoVisto = false;
   bool _isButtonDisabled = false;
+
   // Constructor de la clase
-  _SnakePageState({this.anuncios});
+  _SnakePageState({this.ads});
 
   @override
   void initState() {
-    if(anuncios){
-      AdMobService.showBannerAd();
-    }else{
-      AdMobService.hideBannerAd();
-    }
+    //Mostramos anuncios segun ads
+    ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
+
+    // Número de casillas 
+    _nCasillas = (_nCol*_nFil)-1;
     _loadPared();
-    _loadTuberia();
     _loadSettings();
+    _loadTuberia();
     _nuevaManzana();
     _loadVideoReward();
-
     super.initState();
   }
 
@@ -120,8 +121,7 @@ class _SnakePageState extends State<SnakePage> {
             // EL tablero tiene que estar dentro del gesture para detectar los cambios
             child: GestureDetector(
               // Controlamos acciones que se hacen en la pantalla del tablero
-              onTap:
-                  _iniciarJuego, // Sin parentesis para que se haga solo una vez el tap
+              onTap:() => _iniciarJuego(), // Sin parentesis para que se haga solo una vez el tap
               onVerticalDragUpdate: (details) {
                 _controlVertical(details);
               },
@@ -182,7 +182,6 @@ class _SnakePageState extends State<SnakePage> {
     // Controlamos si ya estamos inGame
     if (!_inGame) {
       _inGame = true;
-
       //Temporizador que actualiza la pantalla, segun la _velocidad
       Timer.periodic(_velocidad, (Timer timer) {
         if (_gameOver()) {
@@ -215,97 +214,59 @@ class _SnakePageState extends State<SnakePage> {
 
   ///Método para dar nuevos valores a la mazana una vez sea comida
   void _nuevaManzana() {
-    _indexManzana = _semilla.nextInt(_maxIndexManzana);
+    _indexFood = _semilla.nextInt(_nCasillas);
     // Miramos si la manzana esta dentro de la serpiente
-    while (_serpiente.contains(_indexManzana) ||
-        _pared.contains(_indexManzana) ||
-        _bloques.contains(_indexManzana)) {
-      _indexManzana = _semilla.nextInt(_maxIndexManzana);
+    while (_controlChoque(_indexFood, null)) {
+      _indexFood = _semilla.nextInt(_nCasillas);
     }
   }
 
   ///Método para pintar cada una de las casillas del tablero
   Widget _pintar(int index) {
     // Variable para pintar el color del grid
-    Color colorFondo;
+    String colorBack;
     
     String imgUrl = "https://i.imgur.com/5NINkEr.png";
-    String imgLocal = 'assets/img/original2.gif';
-    /// TODO: Mejorar esto
-    Map<int, String> mapFood = {
-      0: "https://media.giphy.com/media/LMt9638dO8dftAjtco/giphy.gif", //python
-      1: "https://media.giphy.com/media/Ri2TUcKlaOcaDBxFpY/giphy.gif", // Firebase
-      2: "https://media.giphy.com/media/ln7z2eWriiQAllfVcn/giphy.gif", //JavaScript
-      3: "https://media.giphy.com/media/XEDIHHp3i8bVoEdxd7/giphy.gif", //Angular
-      4: "https://media.giphy.com/media/Sr8xDpMwVKOHUWDVRD/giphy.gif", //Bootstrap
-      5: "https://media.giphy.com/media/XAxylRMCdpbEWUAvr8/giphy.gif", //html,
-      6: "https://media.giphy.com/media/KzJkzjggfGN5Py6nkT/giphy.gif", //github
-    };
-
-    Map<int, String> mapFoodLocal = {
-      0: "assets/img/food/python.gif", //python
-      1: "assets/img/food/firebase.gif", // Firebase
-      2: "assets/img/food/javascript.gif", //JavaScript
-      3: "assets/img/food/angular.gif", //Angular
-      4: "assets/img/food/bootstrap.gif", //Bootstrap
-      5: "assets/img/food/html.gif", //html,
-      6: "assets/img/food/github.gif", //github
-      7: "assets/img/food/vscode.gif", //vscode
-    };
-
-    Map<String, String> mapTuberiaDir = {
-      "arriba": "https://i.imgur.com/cXSpz6c.png", //arriba
-      "der": "https://i.imgur.com/S3kmQqH.png", // der
-      "abajo": "https://i.imgur.com/SIqUFVj.png", //abajo
-      "izq": "https://i.imgur.com/j5P2eAa.png", //Angular
-    };
-
-    Map<String, String> mapTuberiaDirLocal = {
-      "arriba": "assets/tuberia_suelo_arriba.png", //arriba
-      "der": "assets/tuberia_suelo_der.png", // der
-      "abajo": "assets/tuberia_suelo_abajo.png", //abajo
-      "izq": "assets/tuberia_suelo_izq.png", //Angular
-    };
+    String imgLocal = 'assets/img/snake/transparente.png';
 
     //Miramos que index es, para saber el contenido de la casilla
     // FOOD
-    if (_indexManzana == index) {
-      colorFondo = Colors.green[300];
+    if (_indexFood == index) {
+      colorBack = "food";
       int nImg = _puntuacion;
-      if (_puntuacion >= mapFood.length) {
-        nImg = _puntuacion % mapFood.length;
+      if (_puntuacion >= SnakeModel.mapFoodUrl.length) {
+        nImg = _puntuacion % SnakeModel.mapFoodUrl.length;
       }
-      imgLocal = mapFoodLocal[nImg];
-      imgUrl = mapFood[nImg];
+      imgLocal = SnakeModel.mapFoodLocal[nImg];
+      imgUrl = SnakeModel.mapFoodUrl[nImg];
     // SERPIENTE
     } else if (_serpiente.contains(index)) {
-      colorFondo = Colors.green[900];
+      colorBack = "serpiente";
       if (_bloques.contains(index) || _pared.contains(index)) {
-        colorFondo = Colors.brown[300];
-        imgUrl =
-            "https://lh3.googleusercontent.com/ZWSW33OuzBbl1lwheWx3pAhvLLP6aNZFEZZEl644dOp1acrXE-IcV8oxvWHITExiu9q5vTcPvoAme9n03Y_mEu4=s400";
-      }
-      if (_tuberia.contains(index)) {
-        colorFondo = Colors.green[300];
-        imgUrl = mapTuberiaDir[_tuberiaDir[_tuberia.indexOf(index)]];
+        colorBack = "block";
+        imgLocal = SnakeModel.mapBlock["local"];  
+        imgUrl = SnakeModel.mapBlock["url"];            
+      }else if (_tuberia.contains(index)) {
+        colorBack = "block";
+        imgLocal = SnakeModel.mapTuberiaLocal[_tuberiaDir[_tuberia.indexOf(index)]];  
+        imgUrl = SnakeModel.mapTuberiaUrl[_tuberiaDir[_tuberia.indexOf(index)]];
       }
     //BLOQUES
     } else if (_pared.contains(index) || _bloques.contains(index)) {
-      colorFondo = Colors.brown[300];
-      imgUrl =
-          "https://lh3.googleusercontent.com/ZWSW33OuzBbl1lwheWx3pAhvLLP6aNZFEZZEl644dOp1acrXE-IcV8oxvWHITExiu9q5vTcPvoAme9n03Y_mEu4=s400";
+      colorBack = "block";
+      imgUrl = SnakeModel.mapBlock["url"];
+      imgLocal = SnakeModel.mapBlock["local"];
     //TUBERIA
     } else if(_tuberia.contains(index)){
-      colorFondo = Colors.green[300];
-      imgUrl = mapTuberiaDir[_tuberiaDir[_tuberia.indexOf(index)]];
-      imgLocal = mapTuberiaDirLocal[_tuberiaDir[_tuberia.indexOf(index)]];
+      colorBack = "block";
+      imgLocal = SnakeModel.mapTuberiaLocal[_tuberiaDir[_tuberia.indexOf(index)]];  
+      imgUrl = SnakeModel.mapTuberiaUrl[_tuberiaDir[_tuberia.indexOf(index)]];
     }else{
-      colorFondo = Colors.green[300];
+      index%2 == 0? colorBack = "par" : colorBack = "impar";
     }
 
-    if (_end == true) {
-      colorFondo = colorFondo = Colors.green[200];
-    }
+    // ignore: unnecessary_statements
+    _end==true ? colorBack= "end" : null;
 
     return Container(
       padding: EdgeInsets.all(0),
@@ -317,7 +278,7 @@ class _SnakePageState extends State<SnakePage> {
             image: NetworkImage(imgUrl.toString()),
             height: 15,
           ),
-          color: colorFondo,
+          color: SnakeModel.mapColor[colorBack],
         ),
       ),
     );
@@ -333,80 +294,63 @@ class _SnakePageState extends State<SnakePage> {
       switch (_dir) {
         case 'der':
           _cabeza += 1;
-          _serpiente.add(_cabeza);
           break;
 
         case 'abajo':
           _cabeza += _nCol;
-          _serpiente.add(_cabeza);
           break;
 
         case 'arriba':
           _cabeza -= _nCol;
-          _serpiente.add(_cabeza);
           break;
 
         case 'izq':
           _cabeza -= 1;
-          _serpiente.add(_cabeza);
           break;
       }
-    });
-    //Entramos por la tuberia
-    if(_tuberia.contains(_cabeza)){
-      print("DENTRO TUBERIA");
-      print(_serpiente);
-      _serpiente.remove(_cabeza);
-      print("SERPIENTE MENOS CABE = $_serpiente");
-      // Miramos origen, para saber el destino
-      int origen = _tuberia.indexOf(_cabeza);
-      int destino = null;
-      origen == 1 ? destino = 0 : destino = 1; 
-      int posTubDestino = _tuberia[destino];
-      String dirTubDestino = _tuberiaDir[destino]; 
-      
-      if (dirTubDestino == "der"){
-        _cabeza = posTubDestino+1;
-        _dir = "der";
-      }
-      if (dirTubDestino == "izq"){
-        _cabeza = posTubDestino-1;
-        _dir = "izq";
-      } 
-      if (dirTubDestino == "arriba"){
-        _cabeza = posTubDestino-_nCol;
-        _dir = "arriba";
-      } 
-      if (dirTubDestino == "abajo"){
-        _cabeza = posTubDestino+_nCol;
-        _dir = "abajo";
-      }    
-    
-      _serpiente.add(_cabeza); 
-    }
-    print(_serpiente);
-    print(_cabeza);
-    
-    if(_cola == auxTubSerp){
-      print("serpiente $_serpiente");
-      print("cola  $_cola");
-      print("REMOVE COLA");
 
-      //_serpiente.remove(_cola);
-      //_serpiente.remove(_serpiente.first);
-      //_cola = _serpiente.first;
-      print("serpiente $_serpiente");
-      print("cola  $_cola");
-    }
-    // Cuando come la serpiente
-    if (_cabeza == _indexManzana) {
-      _nuevaManzana();
-      _puntuacion += 1;
-      // Sonido de que comemos la manzana
-      audioCacheSonidos.play("eat.mp3");
-    } else {
-      _serpiente.remove(_cola);
-    }
+      _serpiente.add(_cabeza);
+
+      //Entramos por la tuberia
+      if(_tuberia.contains(_cabeza)){
+        _serpiente.remove(_cabeza);
+        // Miramos origen, para saber el destino
+        int origen = _tuberia.indexOf(_cabeza);
+        int destino;
+        origen == 1 ? destino = 0 : destino = 1; 
+        int posTubDestino = _tuberia[destino];
+        String dirTubDestino = _tuberiaDir[destino]; 
+        
+        if (dirTubDestino == "der"){
+          _cabeza = posTubDestino+1;
+          _dir = "der";
+        }
+        if (dirTubDestino == "izq"){
+          _cabeza = posTubDestino-1;
+          _dir = "izq";
+        } 
+        if (dirTubDestino == "arriba"){
+          _cabeza = posTubDestino-_nCol;
+          _dir = "arriba";
+        } 
+        if (dirTubDestino == "abajo"){
+          _cabeza = posTubDestino+_nCol;
+          _dir = "abajo";
+        }    
+      
+        _serpiente.add(_cabeza); 
+      }
+      
+      // Cuando come la serpiente
+      if (_cabeza == _indexFood) {
+        _nuevaManzana();
+        _puntuacion += 1;
+        // Sonido de que comemos la manzana
+        audioCacheSonidos.play("eat.mp3");
+      } else {
+        _serpiente.remove(_cola);
+      }
+    });
   }
 
   ///Método que controla si se produce un fallo y como consecuencia el final de la partida
@@ -416,7 +360,7 @@ class _SnakePageState extends State<SnakePage> {
 
     if (terminar) {
       _end = true;
-      if (_enableMusica) {
+      if (_selectorMusica) {
         audioCacheSonidos.play("impact.mp3");
         advancedPlayer.stop();
       }
@@ -470,15 +414,12 @@ class _SnakePageState extends State<SnakePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FadeInImage(
-                    placeholder: AssetImage("assets/img/gameover.png"),
-                    image: NetworkImage(
-                        "http://pngimg.com/uploads/game_over/game_over_PNG38.png"),
-                  ),
+                  Image.asset("assets/img/snake/gameover.png"),
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   FlatButton(
                     child: Text('Play Again'),
@@ -527,12 +468,12 @@ class _SnakePageState extends State<SnakePage> {
         _bloques.clear();
         List<int> listaValidacion = [];
         listaValidacion.addAll(_serpiente);
-        listaValidacion.add(_indexManzana);
+        listaValidacion.add(_indexFood);
         listaValidacion.addAll(_pared);
         listaValidacion.addAll(_tuberia);
         for (var i = 0; i < _nBloques; i++) {
           do {
-            pos = _semilla.nextInt(_maxIndexManzana - (_nCol * 2));
+            pos = _semilla.nextInt(_nCasillas - (_nCol * 2));
             // En la primera fila no puede haber bloques porque superponen a la serpiente
             pos += _nCol * 2;
           } while (listaValidacion.contains(pos));
@@ -566,9 +507,14 @@ class _SnakePageState extends State<SnakePage> {
 
   /// Método que carga las opciones de la base de datos local
   void _loadSettings() async {
+    final String _selectorBloquesString = "selectorBloques"; 
+    final String _selectorMusicaString = "selectorMusica";
+    final String _selectorVelocidadString = "selectorVelocidad";
+    final String _selectorTuberiasString = "selectorTuberias";
+    
     // Carga de la velocidad de la serpiente
     final VariablesPersistentes variableVelocidad =
-        await dbService.getVar("selectorVelocidad");
+        await dbService.getVar(_selectorVelocidadString);
     if (variableVelocidad == null || variableVelocidad.value == 0) {
       _velocidad = Duration(milliseconds: 500);
     } else {
@@ -588,20 +534,29 @@ class _SnakePageState extends State<SnakePage> {
     final VariablesPersistentes variableMusica =
         await dbService.getVar(_selectorMusicaString);
     if (variableMusica == null || variableMusica.value == 0) {
-      _enableMusica = false;
+      _selectorMusica = false;
     } else {
-      _enableMusica = true;
+      _selectorMusica = true;
       _loadMusic();
+    }
+
+    final VariablesPersistentes variablePipe =
+        await dbService.getVar(_selectorTuberiasString);
+    if (variablePipe == null || variablePipe.value == 0) {
+      _selectorTuberias = false;
+    } else {
+       _selectorTuberias = true;
+       _loadTuberia();
     }
   }
 
   ///Método que coloca los bloques en la pared
-  void _loadPared() {
-    for (var i = 0; i <= _maxIndexManzana; i++) {
+  _loadPared() async{
+    for (var i = 0; i <= _nCasillas; i++) {
       if (i <= _nCol - 1 ||
-          i >= _maxIndexManzana - _nCol + 1 ||
+          i >= _nCasillas - _nCol + 1 ||
           i % _nCol == 0 ||
-          i == _maxIndexManzana) {
+          i == _nCasillas) {
         if (i % _nCol == 0) {
           _pared.add(i - 1);
         }
@@ -611,39 +566,44 @@ class _SnakePageState extends State<SnakePage> {
   }
 
   ///Método que coloca las tuberias
-  void _loadTuberia() {
-    _tuberia = [];
-    _tuberiaDir = [];
-    int ale = _semilla.nextInt(_maxIndexManzana);
-    while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
-      ale = _semilla.nextInt(_maxIndexManzana);
-    }
-    _tuberia.add(ale);
-    ale = _semilla.nextInt(_maxIndexManzana);
-    while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
+  _loadTuberia() {
+    setState(() {
+      if(_selectorTuberias){
+        _tuberia = [];
+        _tuberiaDir = [];
+        int ale = _semilla.nextInt(_nCasillas);
+        while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
+          ale = _semilla.nextInt(_nCasillas);
+        }
+        _tuberia.add(ale);
+        ale = _semilla.nextInt(_nCasillas);
+        while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
 
-      ale = _semilla.nextInt(_maxIndexManzana);
-    }
-    _tuberia.add(ale);
-    List<String> direccionesPosibles = [];
-    // Calculamos las direcciones para la tueria
-    for (var pipe in _tuberia) {
-      direccionesPosibles = [];
-      if(!_controlChoque(pipe+1,null)){
-        direccionesPosibles.add("der");
+          ale = _semilla.nextInt(_nCasillas);
+        }
+        _tuberia.add(ale);
+        List<String> direccionesPosibles = [];
+        // Calculamos las direcciones para la tueria
+        for (var pipe in _tuberia) {
+          direccionesPosibles = [];
+          if(!_controlChoque(pipe+1,null)){
+            direccionesPosibles.add("der");
+          }
+          if(!_controlChoque(pipe-1,null)){
+            direccionesPosibles.add("izq");
+          }
+          if(!_controlChoque(pipe+_nCol,null)){
+            direccionesPosibles.add("arriba");
+          }
+          if(!_controlChoque(pipe-_nCol,null)){
+            direccionesPosibles.add("abajo");
+          }
+          int posicionAle = _semilla.nextInt(direccionesPosibles.length);
+          _tuberiaDir.add(direccionesPosibles[posicionAle]);
+        }
       }
-      if(!_controlChoque(pipe-1,null)){
-        direccionesPosibles.add("izq");
-      }
-      if(!_controlChoque(pipe+_nCol,null)){
-        direccionesPosibles.add("arriba");
-      }
-      if(!_controlChoque(pipe-_nCol,null)){
-        direccionesPosibles.add("abajo");
-      }
-      int posicionAle = _semilla.nextInt(direccionesPosibles.length);
-      _tuberiaDir.add(direccionesPosibles[posicionAle]);
-    }
+    });
+    
   }
 
 
@@ -663,7 +623,7 @@ class _SnakePageState extends State<SnakePage> {
       audioCacheBase.clearCache();
       advancedPlayer.stop();
       audioCacheSonidos.clearCache();
-      if (_enableMusica == true) {
+      if (_selectorMusica == true) {
         // Cogemos las canciones que vamos a usar
         audioCacheBase.loadAll(["snake_short.mp3"]);
         // Comenzamos con el juego de la serpiente
@@ -762,7 +722,7 @@ class _SnakePageState extends State<SnakePage> {
       int cabezaArriba = _cabeza-_nCol;
       int cabezaAbajo = _cabeza +_nCol;
       
-      if(_cabeza<=(_maxIndexManzana/2)){
+      if(_cabeza<=(_nCasillas/2)){
         if (!_controlChoque(cabezaAbajo,null)){
           nuevaDir = "abajo";
         }else if(!_controlChoque(cabezaArriba,null)){
@@ -795,20 +755,10 @@ class _SnakePageState extends State<SnakePage> {
     if(_tuberia.contains(p) && dir == null){
       return true;
     }
-
-    //Creamos el mapa de los opuestos
-    Map<String,String> opuestos = {
-      "arriba" : "abajo",
-      "abajo" : "arriba",
-      "izq" : "der",
-      "der" : "izq"
-    };
-
-    if(_tuberia.contains(p) && opuestos[_dir] != _tuberiaDir[_tuberia.indexOf(p)]){
+    if(dir!=null && _tuberia.contains(p) && SnakeModel.dirOpuesta[dir] != _tuberiaDir[_tuberia.indexOf(p)]){
+      print("dentro del control de choque de tuberia");
       return true;
     }
     return false;
   }
-
-  
 }

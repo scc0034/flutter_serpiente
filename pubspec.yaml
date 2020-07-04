@@ -82,6 +82,8 @@ flutter:
   assets:
     - assets/
     - assets/img/
+    - assets/img/snake/
+    - assets/img/snake/food/
     - assets/audio/
     - data/menu_opts.json
 

@@ -48,6 +48,7 @@ class DatabaseService {
   Future<int> insertVar(VariablesPersistentes variable) async {
     Database db = await instance.database;
     int id = await db.insert(_tableName, variable.toMap());
+    db.close();
     return id;
   }
 
@@ -59,6 +60,7 @@ class DatabaseService {
     if (datas.length > 0) {
       return VariablesPersistentes.fromMap(datas.first);
     }
+    db.close();
     return null;
   }
 
@@ -68,6 +70,7 @@ class DatabaseService {
     int filasCambiadas = await db.rawUpdate(
         'UPDATE $_tableName SET value = ?, nombre = ? WHERE nombre = ?',
         [valor, nombre, nombre]);
+    db.close();
     return filasCambiadas;
   }
 }

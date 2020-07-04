@@ -39,11 +39,14 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
   bool _selectorVelocidad = false;
   bool _selectorBloques = false;
   bool _selectorMusica = false;
+  bool _selectorTuberias = false;
+
   // Vables con el nombre en el que se guarda en la base de datos
   String _selectorBloquesString = "selectorBloques";
   String _selectorColorString = "selectorColor";
   String _selectorVelocidadString = "selectorVelocidad";
   String _selectorMusicaString = "selectorMusica";
+  String _selectorTuberiasString = "selectorTuberias";
 
   @override
   void initState() {
@@ -58,6 +61,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     _loadVarFromDb(_selectorVelocidadString, context);
     _loadVarFromDb(_selectorBloquesString, context);
     _loadVarFromDb(_selectorMusicaString, context);
+    _loadVarFromDb(_selectorTuberiasString, context);
   }
 
   @override
@@ -78,6 +82,8 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
               _crearSwitchBloques(context),
               Divider(),
               _crearSwitchMusica(context),
+              Divider(),
+              _crearSwitchTuberia(context),
             ],
           )),
     );
@@ -160,6 +166,23 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     );
   }
 
+  Widget _crearSwitchTuberia(BuildContext context) {
+    return SwitchListTile(
+      value: _selectorTuberias,
+      title: Text('Pipes'),
+      subtitle: Text('Enable or disable game pipes.'),
+      onChanged: (valor) {
+        setState(() {
+          if (valor) {
+            _saveVarToDb(1, _selectorTuberiasString);
+          } else {
+            _saveVarToDb(0, _selectorTuberiasString);
+          }
+        });
+      },
+    );
+  }
+
   /// Método que guarga los datos en la base de datos local
   void _saveVarToDb(int valor, String nombre) async {
     // Creamos la variable que tenemos que insertar
@@ -222,6 +245,13 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
           _selectorMusica = false;
         } else {
           _selectorMusica = _mapaValores[variable.value];
+        }
+      }
+      if (nombre.compareTo(_selectorTuberiasString) == 0) {
+        if (variable == null || variable.value == 0) {
+          _selectorTuberias = false;
+        } else {
+          _selectorTuberias = _mapaValores[variable.value];
         }
       }
     });
