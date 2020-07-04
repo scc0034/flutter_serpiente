@@ -156,7 +156,7 @@ class _SnakePageState extends State<SnakePage> {
                 children: <Widget>[
                   Icon(Icons.star),
                   Text("Puntuación: $_puntuacion"),
-                  FlatButton(
+                  /*FlatButton(
                     color: Theme.of(context).textSelectionHandleColor,
                     onPressed: () {
                       setState(() {
@@ -166,7 +166,7 @@ class _SnakePageState extends State<SnakePage> {
                     child: Text(
                       "Restart Game",
                     ),
-                  )
+                  )*/
                 ],
               ),
             ),
@@ -253,11 +253,12 @@ class _SnakePageState extends State<SnakePage> {
     };*/
 
     Map<String, String> mapTuberiaDir = {
-      "arriba": "https://i.imgur.com/OqhB1M8.png", //arriba
+      "arriba": "https://i.imgur.com/cXSpz6c.png", //arriba
       "der": "https://i.imgur.com/qtN62uk.png", // der
-      "abajo": "https://i.imgur.com/S0g5XwI.png", //abajo
-      "izq": "https://i.imgur.com/5Tsn50s.png", //Angular
+      "abajo": "https://i.imgur.com/SIqUFVj.png", //abajo
+      "izq": "https://i.imgur.com/j5P2eAa.png", //Angular
     };
+
     //Miramos que index es, para saber el contenido de la casilla
     if (_indexManzana == index) {
       colorFondo = Colors.green[300];
@@ -477,8 +478,8 @@ class _SnakePageState extends State<SnakePage> {
   }
 
   /// Método que reinicia el contenido de las variables
-  void _restartGame() {
-    if(!_inGame){
+  void _restartGame() {// Mirar lo que pasa cuando damos al boton de restart
+    /*if(!_inGame){*/
       _dir = "der";
       _cabeza = 23;
       _cola = 21;
@@ -488,12 +489,12 @@ class _SnakePageState extends State<SnakePage> {
       _puntuacion = 0;
       _videoVisto = false;
       _nuevaManzana();
-      _loadTuberia();
       _rellenarBloques();
+      _loadTuberia();
       _iniciarJuego();
       _loadMusic();
       _loadVideoReward();
-    } 
+    /*} */
   }
 
   /// Método que carga las opciones de la base de datos local
@@ -547,18 +548,19 @@ class _SnakePageState extends State<SnakePage> {
     _tuberia = [];
     _tuberiaDir = [];
     int ale = _semilla.nextInt(_maxIndexManzana);
-    while (_pared.contains(ale) || ale < (_nCol * 2) || _pared.contains((ale-_nCol)) ) {
+    while (_controlChoque(ale) || ale < (_nCol * 2 ) ) {
       ale = _semilla.nextInt(_maxIndexManzana);
     }
     _tuberia.add(ale);
     ale = _semilla.nextInt(_maxIndexManzana);
-    while (_pared.contains(ale) || ale < (_nCol * 2) || _pared.contains((ale-_nCol))) {
+    while (_controlChoque(ale) || ale < (_nCol * 2 )) {
       ale = _semilla.nextInt(_maxIndexManzana);
     }
     _tuberia.add(ale);
     List<String> direccionesPosibles = [];
     // Calculamos las direcciones para la tueria
     for (var pipe in _tuberia) {
+      print("Dentro del for tenemos $pipe");
       direccionesPosibles = [];
       if(!_controlChoque(pipe+1)){
         direccionesPosibles.add("der");
@@ -573,9 +575,8 @@ class _SnakePageState extends State<SnakePage> {
         direccionesPosibles.add("abajo");
       }
       int posicionAle = _semilla.nextInt(direccionesPosibles.length);
-    _tuberiaDir.add(direccionesPosibles[posicionAle-1]);
+      _tuberiaDir.add(direccionesPosibles[posicionAle]);
     }
-    
   }
 
 
