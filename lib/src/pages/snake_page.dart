@@ -588,12 +588,6 @@ class _SnakePageState extends State<SnakePage> {
           // En el caso de que no hubiera visto el video tenemos que mostrarlo
           await RewardedVideoAd.instance.show().catchError((e) => print("error in showing ad: ${e.toString()}"));
           _loaded = false;
-          // Cerramos el cuadro de dialogo
-          
-          
-          // Volvemos a jugar
-          
-          
         } else {
           print("no mostramos el video!");
         } 
@@ -680,7 +674,6 @@ class _SnakePageState extends State<SnakePage> {
     if (_serpiente.sublist(0, _serpiente.length - 2).contains(p)) {
       return true;
     }
-
     return false;
   }
 
