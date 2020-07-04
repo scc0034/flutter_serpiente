@@ -58,6 +58,7 @@ class _SnakePageState extends State<SnakePage> {
   List<int> _pared = []; // Vector que contiene las posiciones de la pared
   List<int> _tuberia = []; // PTuneria entre origen y destino
   List<String> _tuberiaDir = [];
+  int auxTubSerp = 0; // Control aux de la tuberia serpiente
   //Variables de control musical, https://pub.dev/packages/audioplayers#-example-tab-
   AudioPlayer advancedPlayer; // Reproductor de sonidos
   AudioPlayer advancedPlayer2;
@@ -254,12 +255,20 @@ class _SnakePageState extends State<SnakePage> {
 
     Map<String, String> mapTuberiaDir = {
       "arriba": "https://i.imgur.com/cXSpz6c.png", //arriba
-      "der": "https://i.imgur.com/qtN62uk.png", // der
+      "der": "https://i.imgur.com/S3kmQqH.png", // der
       "abajo": "https://i.imgur.com/SIqUFVj.png", //abajo
       "izq": "https://i.imgur.com/j5P2eAa.png", //Angular
     };
 
+    Map<String, String> mapTuberiaDirLocal = {
+      "arriba": "assets/tuberia_suelo_arriba.png", //arriba
+      "der": "assets/tuberia_suelo_der.png", // der
+      "abajo": "assets/tuberia_suelo_abajo.png", //abajo
+      "izq": "assets/tuberia_suelo_izq.png", //Angular
+    };
+
     //Miramos que index es, para saber el contenido de la casilla
+    // FOOD
     if (_indexManzana == index) {
       colorFondo = Colors.green[300];
       int nImg = _puntuacion;
@@ -268,6 +277,7 @@ class _SnakePageState extends State<SnakePage> {
       }
       imgLocal = 'assets/img/seta.gif';
       imgUrl = mapFood[nImg];
+    // SERPIENTE
     } else if (_serpiente.contains(index)) {
       colorFondo = Colors.green[900];
       if (_bloques.contains(index) || _pared.contains(index)) {
@@ -275,13 +285,20 @@ class _SnakePageState extends State<SnakePage> {
         imgUrl =
             "https://lh3.googleusercontent.com/ZWSW33OuzBbl1lwheWx3pAhvLLP6aNZFEZZEl644dOp1acrXE-IcV8oxvWHITExiu9q5vTcPvoAme9n03Y_mEu4=s400";
       }
+      if (_tuberia.contains(index)) {
+        colorFondo = Colors.green[300];
+        imgUrl = mapTuberiaDir[_tuberiaDir[_tuberia.indexOf(index)]];
+      }
+    //BLOQUES
     } else if (_pared.contains(index) || _bloques.contains(index)) {
       colorFondo = Colors.brown[300];
       imgUrl =
           "https://lh3.googleusercontent.com/ZWSW33OuzBbl1lwheWx3pAhvLLP6aNZFEZZEl644dOp1acrXE-IcV8oxvWHITExiu9q5vTcPvoAme9n03Y_mEu4=s400";
+    //TUBERIA
     } else if(_tuberia.contains(index)){
       colorFondo = Colors.green[300];
       imgUrl = mapTuberiaDir[_tuberiaDir[_tuberia.indexOf(index)]];
+      imgLocal = mapTuberiaDirLocal[_tuberiaDir[_tuberia.indexOf(index)]];
     }else{
       colorFondo = Colors.green[300];
     }
@@ -320,12 +337,12 @@ class _SnakePageState extends State<SnakePage> {
           break;
 
         case 'abajo':
-          _cabeza += 20;
+          _cabeza += _nCol;
           _serpiente.add(_cabeza);
           break;
 
         case 'arriba':
-          _cabeza -= 20;
+          _cabeza -= _nCol;
           _serpiente.add(_cabeza);
           break;
 
@@ -335,7 +352,52 @@ class _SnakePageState extends State<SnakePage> {
           break;
       }
     });
+    //Entramos por la tuberia
+    if(_tuberia.contains(_cabeza)){
+      print("DENTRO TUBERIA");
+      print(_serpiente);
+      _serpiente.remove(_cabeza);
+      print("SERPIENTE MENOS CABE = $_serpiente");
+      // Miramos origen, para saber el destino
+      int origen = _tuberia.indexOf(_cabeza);
+      int destino = null;
+      origen == 1 ? destino = 0 : destino = 1; 
+      int posTubDestino = _tuberia[destino];
+      String dirTubDestino = _tuberiaDir[destino]; 
+      
+      if (dirTubDestino == "der"){
+        _cabeza = posTubDestino+1;
+        _dir = "der";
+      }
+      if (dirTubDestino == "izq"){
+        _cabeza = posTubDestino-1;
+        _dir = "izq";
+      } 
+      if (dirTubDestino == "arriba"){
+        _cabeza = posTubDestino-_nCol;
+        _dir = "arriba";
+      } 
+      if (dirTubDestino == "abajo"){
+        _cabeza = posTubDestino+_nCol;
+        _dir = "abajo";
+      }    
+    
+      _serpiente.add(_cabeza); 
+    }
+    print(_serpiente);
+    print(_cabeza);
+    
+    if(_cola == auxTubSerp){
+      print("serpiente $_serpiente");
+      print("cola  $_cola");
+      print("REMOVE COLA");
 
+      //_serpiente.remove(_cola);
+      //_serpiente.remove(_serpiente.first);
+      //_cola = _serpiente.first;
+      print("serpiente $_serpiente");
+      print("cola  $_cola");
+    }
     // Cuando come la serpiente
     if (_cabeza == _indexManzana) {
       _nuevaManzana();
@@ -350,7 +412,7 @@ class _SnakePageState extends State<SnakePage> {
   ///Método que controla si se produce un fallo y como consecuencia el final de la partida
   bool _gameOver() {
     bool terminar = false;
-    terminar = _controlChoque(_cabeza);
+    terminar = _controlChoque(_cabeza,_dir);
 
     if (terminar) {
       _end = true;
@@ -427,6 +489,7 @@ class _SnakePageState extends State<SnakePage> {
                       Navigator.of(context).pop();
                     },
                   ),
+                  SizedBox(width: 15,),
                   FlatButton(
                     child: Text(texto),
                     hoverColor: Theme.of(context).toggleableActiveColor,
@@ -442,8 +505,11 @@ class _SnakePageState extends State<SnakePage> {
                       }
                     },
                   ),
+                  SizedBox(width: 15,),
                   //Botón que en el caso de que sea la primera vez estará disponible
                   __crearBotonReward(context),
+                  SizedBox(width: 15,),
+
                   
                 ],
               ),
@@ -548,30 +614,30 @@ class _SnakePageState extends State<SnakePage> {
     _tuberia = [];
     _tuberiaDir = [];
     int ale = _semilla.nextInt(_maxIndexManzana);
-    while (_controlChoque(ale) || ale < (_nCol * 2 ) ) {
+    while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
       ale = _semilla.nextInt(_maxIndexManzana);
     }
     _tuberia.add(ale);
     ale = _semilla.nextInt(_maxIndexManzana);
-    while (_controlChoque(ale) || ale < (_nCol * 2 )) {
+    while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
+
       ale = _semilla.nextInt(_maxIndexManzana);
     }
     _tuberia.add(ale);
     List<String> direccionesPosibles = [];
     // Calculamos las direcciones para la tueria
     for (var pipe in _tuberia) {
-      print("Dentro del for tenemos $pipe");
       direccionesPosibles = [];
-      if(!_controlChoque(pipe+1)){
+      if(!_controlChoque(pipe+1,null)){
         direccionesPosibles.add("der");
       }
-      if(!_controlChoque(pipe-1)){
+      if(!_controlChoque(pipe-1,null)){
         direccionesPosibles.add("izq");
       }
-      if(!_controlChoque(pipe+_nCol)){
+      if(!_controlChoque(pipe+_nCol,null)){
         direccionesPosibles.add("arriba");
       }
-      if(!_controlChoque(pipe-_nCol)){
+      if(!_controlChoque(pipe-_nCol,null)){
         direccionesPosibles.add("abajo");
       }
       int posicionAle = _semilla.nextInt(direccionesPosibles.length);
@@ -677,15 +743,15 @@ class _SnakePageState extends State<SnakePage> {
       int cabezaIzq = _cabeza-1;
       int cabezaDer = _cabeza +1;
       if(_cabeza<=(_nCol/2)){
-        if (!_controlChoque(cabezaDer)){
+        if (!_controlChoque(cabezaDer,null)){
           nuevaDir = "der";
-        }else if(!_controlChoque(cabezaIzq)){
+        }else if(!_controlChoque(cabezaIzq,null)){
           nuevaDir = "izq";
         }
       }else{
-        if (!_controlChoque(cabezaIzq)){
+        if (!_controlChoque(cabezaIzq,null)){
           nuevaDir = "izq";
-        }else if(!_controlChoque(cabezaDer)){
+        }else if(!_controlChoque(cabezaDer,null)){
           nuevaDir = "der";
         }
       }
@@ -696,15 +762,15 @@ class _SnakePageState extends State<SnakePage> {
       int cabezaAbajo = _cabeza +_nCol;
       
       if(_cabeza<=(_maxIndexManzana/2)){
-        if (!_controlChoque(cabezaAbajo)){
+        if (!_controlChoque(cabezaAbajo,null)){
           nuevaDir = "abajo";
-        }else if(!_controlChoque(cabezaArriba)){
+        }else if(!_controlChoque(cabezaArriba,null)){
           nuevaDir = "arriba";
         }
       }else{
-        if (!_controlChoque(cabezaArriba)){
+        if (!_controlChoque(cabezaArriba,null)){
           nuevaDir = "arriba";
-        }else if(!_controlChoque(cabezaAbajo)){
+        }else if(!_controlChoque(cabezaAbajo,null)){
           nuevaDir = "abajo";
         }
       }
@@ -716,7 +782,7 @@ class _SnakePageState extends State<SnakePage> {
   }
 
   /// Método para controlar si se produce un impacto con algo
-  bool _controlChoque(int p){
+  bool _controlChoque(int p, String dir ){
     if (_pared.contains(p) || _bloques.contains(p)) {
       return true;
     }
@@ -725,7 +791,19 @@ class _SnakePageState extends State<SnakePage> {
       return true;
     }
     // Control de choque contra tuberia
-    if(_tuberia.contains(p) ){
+    if(_tuberia.contains(p) && dir == null){
+      return true;
+    }
+
+    //Creamos el mapa de los opuestos
+    Map<String,String> opuestos = {
+      "arriba" : "abajo",
+      "abajo" : "arriba",
+      "izq" : "der",
+      "der" : "izq"
+    };
+
+    if(_tuberia.contains(p) && opuestos[_dir] != _tuberiaDir[_tuberia.indexOf(p)]){
       return true;
     }
     return false;
