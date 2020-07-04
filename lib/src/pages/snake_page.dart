@@ -65,11 +65,12 @@ class _SnakePageState extends State<SnakePage> {
   AudioCache audioCacheSonidos;
   bool _enableMusica = false;
   String _selectorMusicaString = "selectorMusica";
-  // Variable de control de los anuncios
+  // Variable de control de los anuncios video de recompensa
   bool anuncios = false; // Controla el muestreo de los anuncios
   int _vida = 0;
+  bool _loaded = false;
   bool _videoVisto = false;
-  
+  bool _isButtonDisabled = false;
   // Constructor de la clase
   _SnakePageState({this.anuncios});
 
@@ -84,15 +85,8 @@ class _SnakePageState extends State<SnakePage> {
     _loadTuberia();
     _loadSettings();
     _nuevaManzana();
-    RewardedVideoAd.instance.listener =
-        (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
-      print("RewardedVideoAd event $event");
-      if (event == RewardedVideoAdEvent.rewarded) {
-        setState(() {
-          _vida += rewardAmount;
-        });
-      }
-    };
+    _loadVideoReward();
+
     super.initState();
   }
 
@@ -334,12 +328,8 @@ class _SnakePageState extends State<SnakePage> {
   ///Método que controla si se produce un fallo y como consecuencia el final de la partida
   bool _gameOver() {
     bool terminar = false;
-    if (_pared.contains(_cabeza) || _bloques.contains(_cabeza)) {
-      terminar = true;
-    }
-    if (_serpiente.sublist(0, _serpiente.length - 2).contains(_cabeza)) {
-      terminar = true;
-    }
+    terminar = _controlChoque(_cabeza);
+
     if (terminar) {
       _end = true;
       if (_enableMusica) {
@@ -431,28 +421,8 @@ class _SnakePageState extends State<SnakePage> {
                     },
                   ),
                   //Botón que en el caso de que sea la primera vez estará disponible
-                  FlatButton(
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Text("video"),
-                          Icon(Icons.ondemand_video)
-                        ],
-                      ),) ,
-                    hoverColor: Theme.of(context).toggleableActiveColor,
-                    
-                    onPressed: () {
-                      if (!_videoVisto) {
-                        // En el caso de que no hubiera visto el video tenemos que mostrarlo
-                        RewardedVideoAd.instance.load(
-                          adUnitId: RewardedVideoAd.testAdUnitId,
-                          targetingInfo: AdMobService.getMobileTargetInfo());
-                        RewardedVideoAd.instance.show();
-                      } else {
-                        print("no mostramos el video!");
-                      } 
-                    },
-                  )
+                  __crearBotonReward(context),
+                  
                 ],
               ),
             ],
@@ -494,10 +464,12 @@ class _SnakePageState extends State<SnakePage> {
     _inGame = false;
     _end = false;
     _puntuacion = 0;
+    _videoVisto = false;
     _nuevaManzana();
     _rellenarBloques();
     _iniciarJuego();
     _loadMusic();
+    _loadVideoReward();
   }
 
   /// Método que carga las opciones de la base de datos local
@@ -587,4 +559,105 @@ class _SnakePageState extends State<SnakePage> {
       }
     });
   }
+
+  void _continuar(){
+    setState(() {
+      _end = false;
+      _inGame = false;
+      _dir = "der";
+      int colision = _serpiente.removeLast();
+      _cabeza = _serpiente.last;
+      // Cambiamos la dirección
+      _cambiarDir(colision);
+      _iniciarJuego();
+    });
+  }
+
+  // Método que nos devuelve el botón para ver videos reward
+  Widget __crearBotonReward(BuildContext context) {
+    return new RaisedButton(
+      child: new Container(
+        child: Row(
+          children: [
+            new Text(_isButtonDisabled ? "Not Video" : "Video"),
+            SizedBox(),
+            Icon(_isButtonDisabled ? Icons.lock_outline  :  Icons.ondemand_video)
+          ],
+        ),
+      ),
+      onPressed: () async {
+        if (!_videoVisto ) {
+          // En el caso de que no hubiera visto el video tenemos que mostrarlo
+          await RewardedVideoAd.instance.show().catchError((e) => print("error in showing ad: ${e.toString()}"));
+          _loaded = false;
+          // Cerramos el cuadro de dialogo
+          Navigator.of(context).pop();
+        } else {
+          print("no mostramos el video!");
+        } 
+      });
+  }
+
+  void _loadVideoReward(){
+    RewardedVideoAd.instance.listener =
+        (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
+      print("RewardedVideoAd event $event");
+      if (event == RewardedVideoAdEvent.rewarded) {
+        setState(() {
+          _vida += rewardAmount;
+          _videoVisto = true;
+          _continuar();
+        });
+      }
+    };
+    RewardedVideoAd.instance
+      .load(adUnitId: RewardedVideoAd.testAdUnitId, targetingInfo: AdMobService.getMobileTargetInfo())
+      .catchError((e) => print("error in loading 1st time"))
+      .then((v) => setState(() => _loaded = true));
+  }
+
+  // Método que cambia la dirección despues de que se produce una colision
+  void _cambiarDir(int colison){
+    String nuevaDir = "";
+    // Miramos que pasa dependiendo de la dir (eje en el que se mueve), primero eje y
+    if (_dir == "arriba" || _dir == "abajo"){
+      int cabezaIzq = _cabeza-1;
+      int cabezaDer = _cabeza +1;
+      
+      if (!_controlChoque(cabezaIzq)){
+        nuevaDir = "izq";
+      }else if(!_controlChoque(cabezaDer)){
+        nuevaDir = "izq";
+      }
+    }
+
+    if (_dir == "der" || _dir == "izq"){
+      int cabezaArriba = _cabeza-_nCol;
+      int cabezaAbajo = _cabeza +_nCol;
+      
+      if (!_controlChoque(cabezaArriba)){
+        nuevaDir = "arriba";
+      }else if(!_controlChoque(cabezaAbajo)){
+        nuevaDir = "abajo";
+      }
+    }
+    // Cambiamos el valor de la dirección
+    _dir = nuevaDir;
+    // Volvemos a pintar la nueva manzana
+    _nuevaManzana();
+  }
+
+  bool _controlChoque(int p){
+    if (_pared.contains(p) || _bloques.contains(p)) {
+      return true;
+    }
+    // Choque contra la propia serpiente
+    if (_serpiente.sublist(0, _serpiente.length - 2).contains(p)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  
 }

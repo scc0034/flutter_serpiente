@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/pages/home_page.dart';
+import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/utils/delayed_animation.dart';
 
@@ -7,8 +8,10 @@ import 'package:flutter_snake/src/utils/delayed_animation.dart';
  * Clase que se encarga del login de los usuarios con gmail
  */
 class LoginPage extends StatefulWidget {
+  bool ads = false;
+  LoginPage({this.ads});
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginPageState createState() => _LoginPageState(ads : ads);
 }
 
 class _LoginPageState extends State<LoginPage>
@@ -17,9 +20,16 @@ class _LoginPageState extends State<LoginPage>
   final int delayedAmount = 500;
   //double _scale;
   AnimationController _controller;
+  bool ads = false;
+  _LoginPageState({this.ads});
 
   @override
   void initState() {
+    if(ads){
+      AdMobService.showBannerAd();
+    }else{
+      AdMobService.hideBannerAd();
+    }
     // Controlador de la animación de los elementos
     _controller = AnimationController(
       vsync: this,

@@ -14,7 +14,7 @@ Map<String, WidgetBuilder> getAplicationRoutes() {
     'snake': (BuildContext context) => SnakePage(ads: false,),
     'about': (BuildContext context) => AboutPage(ads: false,),
     'settings': (BuildContext context) => SettingsPage(ads:false),
-    "login": (BuildContext context) => LoginPage(),
+    "login": (BuildContext context) => LoginPage(ads:false),
     "rank": (BuildContext context) => RankPage(ads : true),
     "rankForm": (BuildContext context) => RankFromPage(value: 0),
   };
