@@ -56,8 +56,8 @@ class _SnakePageState extends State<SnakePage> {
   DatabaseService dbService =
       DatabaseService.instance; // Instancia de la base de datos local
   List<int> _pared = []; // Vector que contiene las posiciones de la pared
-  List<int> _tuberia =
-      []; // Posible tuberia para mover la serpiente entre origen y destino
+  List<int> _tuberia = []; // PTuneria entre origen y destino
+  List<String> _tuberiaDir = [];
   //Variables de control musical, https://pub.dev/packages/audioplayers#-example-tab-
   AudioPlayer advancedPlayer; // Reproductor de sonidos
   AudioPlayer advancedPlayer2;
@@ -227,6 +227,7 @@ class _SnakePageState extends State<SnakePage> {
   Widget _pintar(int index) {
     // Variable para pintar el color del grid
     Color colorFondo;
+    
     String imgUrl = "https://i.imgur.com/5NINkEr.png";
     String imgLocal = 'assets/img/original2.gif';
     /// TODO: Mejorar esto
@@ -240,6 +241,23 @@ class _SnakePageState extends State<SnakePage> {
       6: "https://media.giphy.com/media/KzJkzjggfGN5Py6nkT/giphy.gif", //github
     };
 
+    /*Map<int, String> mapFoodLocal = {
+      0: "assets/img/food/python.gif", //python
+      1: "assets/img/food/firebase.gif", // Firebase
+      2: "assets/img/food/javascript.gif", //JavaScript
+      3: "assets/img/food/angular.gif", //Angular
+      4: "assets/img/food/bootstrap.gif", //Bootstrap
+      5: "assets/img/food/html.gif", //html,
+      6: "assets/img/food/github.gif", //github
+      7: "assets/img/food/vscode.gif", //vscode
+    };*/
+
+    Map<String, String> mapTuberiaDir = {
+      "arriba": "https://i.imgur.com/OqhB1M8.png", //arriba
+      "der": "https://i.imgur.com/qtN62uk.png", // der
+      "abajo": "https://i.imgur.com/S0g5XwI.png", //abajo
+      "izq": "https://i.imgur.com/5Tsn50s.png", //Angular
+    };
     //Miramos que index es, para saber el contenido de la casilla
     if (_indexManzana == index) {
       colorFondo = Colors.green[300];
@@ -260,7 +278,10 @@ class _SnakePageState extends State<SnakePage> {
       colorFondo = Colors.brown[300];
       imgUrl =
           "https://lh3.googleusercontent.com/ZWSW33OuzBbl1lwheWx3pAhvLLP6aNZFEZZEl644dOp1acrXE-IcV8oxvWHITExiu9q5vTcPvoAme9n03Y_mEu4=s400";
-    } else {
+    } else if(_tuberia.contains(index)){
+      colorFondo = Colors.green[300];
+      imgUrl = mapTuberiaDir[_tuberiaDir[_tuberia.indexOf(index)]];
+    }else{
       colorFondo = Colors.green[300];
     }
 
@@ -457,19 +478,22 @@ class _SnakePageState extends State<SnakePage> {
 
   /// Método que reinicia el contenido de las variables
   void _restartGame() {
-    _dir = "der";
-    _cabeza = 23;
-    _cola = 21;
-    _serpiente = [21, 22, 23];
-    _inGame = false;
-    _end = false;
-    _puntuacion = 0;
-    _videoVisto = false;
-    _nuevaManzana();
-    _rellenarBloques();
-    _iniciarJuego();
-    _loadMusic();
-    _loadVideoReward();
+    if(!_inGame){
+      _dir = "der";
+      _cabeza = 23;
+      _cola = 21;
+      _serpiente = [21, 22, 23];
+      _inGame = false;
+      _end = false;
+      _puntuacion = 0;
+      _videoVisto = false;
+      _nuevaManzana();
+      _loadTuberia();
+      _rellenarBloques();
+      _iniciarJuego();
+      _loadMusic();
+      _loadVideoReward();
+    } 
   }
 
   /// Método que carga las opciones de la base de datos local
@@ -520,19 +544,41 @@ class _SnakePageState extends State<SnakePage> {
 
   ///Método que coloca las tuberias
   void _loadTuberia() {
+    _tuberia = [];
+    _tuberiaDir = [];
     int ale = _semilla.nextInt(_maxIndexManzana);
-    while (_pared.contains(ale) || ale < (_nCol * 2)) {
+    while (_pared.contains(ale) || ale < (_nCol * 2) || _pared.contains((ale-_nCol)) ) {
       ale = _semilla.nextInt(_maxIndexManzana);
     }
     _tuberia.add(ale);
     ale = _semilla.nextInt(_maxIndexManzana);
-    while (_pared.contains(ale) || ale < (_nCol * 2)) {
+    while (_pared.contains(ale) || ale < (_nCol * 2) || _pared.contains((ale-_nCol))) {
       ale = _semilla.nextInt(_maxIndexManzana);
     }
     _tuberia.add(ale);
-
-    print("tuberia = $_tuberia");
+    List<String> direccionesPosibles = [];
+    // Calculamos las direcciones para la tueria
+    for (var pipe in _tuberia) {
+      direccionesPosibles = [];
+      if(!_controlChoque(pipe+1)){
+        direccionesPosibles.add("der");
+      }
+      if(!_controlChoque(pipe-1)){
+        direccionesPosibles.add("izq");
+      }
+      if(!_controlChoque(pipe+_nCol)){
+        direccionesPosibles.add("arriba");
+      }
+      if(!_controlChoque(pipe-_nCol)){
+        direccionesPosibles.add("abajo");
+      }
+      int posicionAle = _semilla.nextInt(direccionesPosibles.length);
+    _tuberiaDir.add(direccionesPosibles[posicionAle-1]);
+    }
+    
   }
+
+
 
   ///Método que se encarga de reporducir la música al iniciar el juego
   void _loadMusic() {
@@ -560,6 +606,7 @@ class _SnakePageState extends State<SnakePage> {
     });
   }
 
+  // Carga los datos para continuar con el juego en el caso de que se vea video
   void _continuar(){
     setState(() {
       _end = false;
@@ -594,6 +641,7 @@ class _SnakePageState extends State<SnakePage> {
       });
   }
 
+  // Método que se encarga de cargar un video
   void _loadVideoReward(){
     RewardedVideoAd.instance.listener =
         (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
@@ -666,12 +714,17 @@ class _SnakePageState extends State<SnakePage> {
     _nuevaManzana();
   }
 
+  /// Método para controlar si se produce un impacto con algo
   bool _controlChoque(int p){
     if (_pared.contains(p) || _bloques.contains(p)) {
       return true;
     }
     // Choque contra la propia serpiente
     if (_serpiente.sublist(0, _serpiente.length - 2).contains(p)) {
+      return true;
+    }
+    // Control de choque contra tuberia
+    if(_tuberia.contains(p) ){
       return true;
     }
     return false;
