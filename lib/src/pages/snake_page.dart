@@ -242,7 +242,7 @@ class _SnakePageState extends State<SnakePage> {
       6: "https://media.giphy.com/media/KzJkzjggfGN5Py6nkT/giphy.gif", //github
     };
 
-    /*Map<int, String> mapFoodLocal = {
+    Map<int, String> mapFoodLocal = {
       0: "assets/img/food/python.gif", //python
       1: "assets/img/food/firebase.gif", // Firebase
       2: "assets/img/food/javascript.gif", //JavaScript
@@ -251,7 +251,7 @@ class _SnakePageState extends State<SnakePage> {
       5: "assets/img/food/html.gif", //html,
       6: "assets/img/food/github.gif", //github
       7: "assets/img/food/vscode.gif", //vscode
-    };*/
+    };
 
     Map<String, String> mapTuberiaDir = {
       "arriba": "https://i.imgur.com/cXSpz6c.png", //arriba
@@ -275,7 +275,7 @@ class _SnakePageState extends State<SnakePage> {
       if (_puntuacion >= mapFood.length) {
         nImg = _puntuacion % mapFood.length;
       }
-      imgLocal = 'assets/img/seta.gif';
+      imgLocal = mapFoodLocal[nImg];
       imgUrl = mapFood[nImg];
     // SERPIENTE
     } else if (_serpiente.contains(index)) {
@@ -326,7 +326,7 @@ class _SnakePageState extends State<SnakePage> {
   ///Método que sirve para actualizar la posición de la serpiente
   void _moverSerpiente() {
     setState(() {
-      if (_end) {
+      if (_end || _controlChoque(_cabeza, _dir)) {
         _gameOver();
       }
       _cola = _serpiente.first;
@@ -489,7 +489,7 @@ class _SnakePageState extends State<SnakePage> {
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(width: 15,),
+                  SizedBox(width: 5,),
                   FlatButton(
                     child: Text(texto),
                     hoverColor: Theme.of(context).toggleableActiveColor,
@@ -505,14 +505,15 @@ class _SnakePageState extends State<SnakePage> {
                       }
                     },
                   ),
-                  SizedBox(width: 15,),
-                  //Botón que en el caso de que sea la primera vez estará disponible
-                  __crearBotonReward(context),
-                  SizedBox(width: 15,),
-
-                  
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  __crearBotonReward(context),
+                ],
+              )
             ],
           );
         });
