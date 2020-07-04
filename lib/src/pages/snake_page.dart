@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
 import 'package:flutter_snake/src/pages/rank_form.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
-import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
@@ -69,7 +68,8 @@ class _SnakePageState extends State<SnakePage> {
   // Variable de control de los anuncios
   bool anuncios = false; // Controla el muestreo de los anuncios
   int _vida = 0;
-
+  bool _videoVisto = false;
+  
   // Constructor de la clase
   _SnakePageState({this.anuncios});
 
@@ -358,6 +358,7 @@ class _SnakePageState extends State<SnakePage> {
     int puntosMejores = 0;
     String texto = "Ranking";
     String cabecera = "You\'re score is: $_puntuacion";
+
     // Hacemos la consulta de los datos del usuario
     try {
       await firestoreDB
@@ -427,6 +428,29 @@ class _SnakePageState extends State<SnakePage> {
                       } else {
                         Navigator.pushNamed(context, "rank");
                       }
+                    },
+                  ),
+                  //Botón que en el caso de que sea la primera vez estará disponible
+                  FlatButton(
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Text("video"),
+                          Icon(Icons.ondemand_video)
+                        ],
+                      ),) ,
+                    hoverColor: Theme.of(context).toggleableActiveColor,
+                    
+                    onPressed: () {
+                      if (!_videoVisto) {
+                        // En el caso de que no hubiera visto el video tenemos que mostrarlo
+                        RewardedVideoAd.instance.load(
+                          adUnitId: RewardedVideoAd.testAdUnitId,
+                          targetingInfo: AdMobService.getMobileTargetInfo());
+                        RewardedVideoAd.instance.show();
+                      } else {
+                        print("no mostramos el video!");
+                      } 
                     },
                   )
                 ],

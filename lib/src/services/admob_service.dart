@@ -106,7 +106,7 @@ class AdMobService {
   }
 
   /// Método que devuelve la información del target para usar en los videos fuera de la clase
-  MobileAdTargetingInfo getMobileTargetInfo (){
+  static MobileAdTargetingInfo  getMobileTargetInfo (){
     return targetingInfo;
   }
 }
