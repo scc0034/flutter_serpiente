@@ -7,6 +7,7 @@ final _icons = <String, IconData>{
   'about': Icons.info_outline,
   'settings': Icons.settings,
   'rank': Icons.format_list_numbered,
+  'four' : Icons.videogame_asset,
 };
 
 ///Método para conseguir los iconos del menu

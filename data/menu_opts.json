@@ -12,6 +12,11 @@
             "texto": "Snake"
         },
         {
+            "ruta" : "four",
+            "icon" : "four",
+            "texto": "4-in-a-row Online"
+        },
+        {
             "ruta" : "rank",
             "icon" : "rank",
             "texto": "Ranking"

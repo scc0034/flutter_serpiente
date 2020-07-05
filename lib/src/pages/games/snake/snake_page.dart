@@ -82,21 +82,7 @@ class _SnakePageState extends State<SnakePage> {
   void initState() {
     //Mostramos anuncios segun ads
     ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
-    ///Método para calcular el ratio de pixeles
-    double alto = window.physicalSize.height.toDouble();
-    double ancho = window.physicalSize.width.toDouble();
-    double ratio = (alto/ancho);
-    print("RATIOOOOOOOOOOOOOO = $ratio");
-    if(ratio > 1.78 || ratio<1.93){
-       _nCasillas =  SnakeModel.pixelRatio["18:9"];
-    } else if(ratio<2.12){
-      _nCasillas = SnakeModel.pixelRatio["19:9"];
-    } else if(ratio<2.4){
-      _nCasillas = SnakeModel.pixelRatio["20:9"];
-    }else{
-      _nCasillas = SnakeModel.pixelRatio["defecto"];
-    }
-  
+    _loadRatio();
     _loadPared();
     _loadSettings();
     _loadTuberia();
@@ -123,6 +109,22 @@ class _SnakePageState extends State<SnakePage> {
         ));
   }
 
+  void _loadRatio(){
+        ///Método para calcular el ratio de pixeles
+    double alto = window.physicalSize.height.toDouble();
+    double ancho = window.physicalSize.width.toDouble();
+    double ratio = (alto/ancho);
+    print("RATIOOOOOOOOOOOOOO = $ratio");
+    if(ratio > 1.78 && ratio<1.93){
+       _nCasillas =  SnakeModel.pixelRatio["18:9"];
+    } else if(ratio<2.12){
+      _nCasillas = SnakeModel.pixelRatio["19:9"];
+    } else if(ratio<2.4){
+      _nCasillas = SnakeModel.pixelRatio["20:9"];
+    }else{
+      _nCasillas = SnakeModel.pixelRatio["defecto"];
+    }
+  }
   
   ///Método que se encarga de dibujar el tablero del snake
   Widget _dibujarTablero(BuildContext context) {
