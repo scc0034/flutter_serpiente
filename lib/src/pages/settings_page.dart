@@ -208,6 +208,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
       if (nombre.compareTo(_selectorMusicaString) == 0) {
         _selectorMusica = _mapaValores[valor];
       }
+      if (nombre.compareTo(_selectorTuberiasString) == 0) {
+        _selectorTuberias = _mapaValores[valor];
+      }
     });
   }
 

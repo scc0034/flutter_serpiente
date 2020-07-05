@@ -12,6 +12,8 @@ import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
+import 'dart:ui' show window;
+
 
 /*
  * Clase que contiene información relevante sobre la aplicación.
@@ -43,8 +45,8 @@ class _SnakePageState extends State<SnakePage> {
   List<int> _tuberia = [];                  // Vector tuberias
   List<String> _tuberiaDir = [];            // Vector dir de la tuberia
   static final int _nCol = 20;              // Número de columnas
-  static final int _nFil = 29;              // Número de filas 
-  static int _nCasillas = 579;              // Número de casillas
+  static final int _nFil = 25;              // Número de filas 
+  static int _nCasillas =0;             // Número de casillas
   int _indexFood = -1;                      //Indice de la manzana inicial
   static final Random _semilla = Random();  // Semilla para generar aleaatorios
   int _puntuacion = 0; // Puntuación de la partida
@@ -58,7 +60,7 @@ class _SnakePageState extends State<SnakePage> {
   DatabaseService dbService = DatabaseService.instance;
   bool _selectorBloques = false;            // Bloques
   bool _selectorMusica = false;             //Musica
-  Duration _velocidad;                      // Velocidad
+  Duration _velocidad = Duration(milliseconds: 500);                      // Velocidad
   bool _selectorTuberias = false;           //Tuberias
 
   //CONTROL MUSICAL, https://pub.dev/packages/audioplayers#-example-tab-
@@ -69,7 +71,6 @@ class _SnakePageState extends State<SnakePage> {
 
   // ADMOB PUBLICIDAD
   bool ads = false; 
-  int _vida = 0;
   bool _loaded = false;
   bool _videoVisto = false;
   bool _isButtonDisabled = false;
@@ -81,9 +82,21 @@ class _SnakePageState extends State<SnakePage> {
   void initState() {
     //Mostramos anuncios segun ads
     ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
-
-    // Número de casillas 
-    _nCasillas = (_nCol*_nFil)-1;
+    ///Método para calcular el ratio de pixeles
+    double alto = window.physicalSize.height.toDouble();
+    double ancho = window.physicalSize.width.toDouble();
+    double ratio = (alto/ancho);
+    print("RATIOOOOOOOOOOOOOO = $ratio");
+    if(ratio > 1.78 || ratio<1.93){
+       _nCasillas =  SnakeModel.pixelRatio["18:9"];
+    } else if(ratio<2.12){
+      _nCasillas = SnakeModel.pixelRatio["19:9"];
+    } else if(ratio<2.4){
+      _nCasillas = SnakeModel.pixelRatio["20:9"];
+    }else{
+      _nCasillas = SnakeModel.pixelRatio["defecto"];
+    }
+  
     _loadPared();
     _loadSettings();
     _loadTuberia();
@@ -110,8 +123,10 @@ class _SnakePageState extends State<SnakePage> {
         ));
   }
 
+  
   ///Método que se encarga de dibujar el tablero del snake
   Widget _dibujarTablero(BuildContext context) {
+
     return Container(
       child: Column(
         children: <Widget>[
@@ -139,7 +154,7 @@ class _SnakePageState extends State<SnakePage> {
                   // Evitamos que se pueda hacer scroll en pantalla
                   physics: NeverScrollableScrollPhysics(),
                   // Crea las casillas del tablero por defecto
-                  itemCount: 580,
+                  itemCount: _nCasillas+1,
                   itemBuilder: (BuildContext context, int index) {
                     return _pintar(index);
                   },
@@ -184,11 +199,14 @@ class _SnakePageState extends State<SnakePage> {
       _inGame = true;
       //Temporizador que actualiza la pantalla, segun la _velocidad
       Timer.periodic(_velocidad, (Timer timer) {
-        if (_gameOver()) {
+        if (_gameOver() ) {
           timer.cancel();
           _final();
         } else {
-          _moverSerpiente();
+          if(_moverSerpiente()){
+            timer.cancel();
+            _final();
+          }
         }
       });
     }
@@ -225,14 +243,14 @@ class _SnakePageState extends State<SnakePage> {
   Widget _pintar(int index) {
     // Variable para pintar el color del grid
     String colorBack;
-    
+    bool paridad = false;
     String imgUrl = "https://i.imgur.com/5NINkEr.png";
     String imgLocal = 'assets/img/snake/transparente.png';
 
     //Miramos que index es, para saber el contenido de la casilla
     // FOOD
     if (_indexFood == index) {
-      colorBack = "food";
+      paridad ?  colorBack = "par" : colorBack = "impar"; 
       int nImg = _puntuacion;
       if (_puntuacion >= SnakeModel.mapFoodUrl.length) {
         nImg = _puntuacion % SnakeModel.mapFoodUrl.length;
@@ -262,9 +280,10 @@ class _SnakePageState extends State<SnakePage> {
       imgLocal = SnakeModel.mapTuberiaLocal[_tuberiaDir[_tuberia.indexOf(index)]];  
       imgUrl = SnakeModel.mapTuberiaUrl[_tuberiaDir[_tuberia.indexOf(index)]];
     }else{
-      index%2 == 0? colorBack = "par" : colorBack = "impar";
+      paridad ?  colorBack = "par" : colorBack = "impar"; 
     }
 
+    paridad = !paridad;
     // ignore: unnecessary_statements
     _end==true ? colorBack= "end" : null;
 
@@ -285,7 +304,7 @@ class _SnakePageState extends State<SnakePage> {
   }
 
   ///Método que sirve para actualizar la posición de la serpiente
-  void _moverSerpiente() {
+  bool _moverSerpiente() {
     setState(() {
       if (_end || _controlChoque(_cabeza, _dir)) {
         _gameOver();
@@ -313,6 +332,9 @@ class _SnakePageState extends State<SnakePage> {
 
       //Entramos por la tuberia
       if(_tuberia.contains(_cabeza)){
+        if(_controlChoque(_cabeza, _dir)){
+          return true;
+        }
         _serpiente.remove(_cabeza);
         // Miramos origen, para saber el destino
         int origen = _tuberia.indexOf(_cabeza);
@@ -346,11 +368,13 @@ class _SnakePageState extends State<SnakePage> {
         _nuevaManzana();
         _puntuacion += 1;
         // Sonido de que comemos la manzana
-        audioCacheSonidos.play("eat.mp3");
+        // ignore: unnecessary_statements
+        _selectorMusica? audioCacheSonidos.play("eat.mp3") :null;
       } else {
         _serpiente.remove(_cola);
       }
     });
+    return false;
   }
 
   ///Método que controla si se produce un fallo y como consecuencia el final de la partida
@@ -571,17 +595,15 @@ class _SnakePageState extends State<SnakePage> {
       if(_selectorTuberias){
         _tuberia = [];
         _tuberiaDir = [];
-        int ale = _semilla.nextInt(_nCasillas);
-        while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
-          ale = _semilla.nextInt(_nCasillas);
+         
+        for (var i = 0; i < 2; i++) {
+          int ale = _semilla.nextInt(_nCasillas);
+          while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
+            ale = _semilla.nextInt(_nCasillas);
+          }
+          _tuberia.add(ale);
         }
-        _tuberia.add(ale);
-        ale = _semilla.nextInt(_nCasillas);
-        while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
-
-          ale = _semilla.nextInt(_nCasillas);
-        }
-        _tuberia.add(ale);
+        
         List<String> direccionesPosibles = [];
         // Calculamos las direcciones para la tueria
         for (var pipe in _tuberia) {
@@ -605,8 +627,6 @@ class _SnakePageState extends State<SnakePage> {
     });
     
   }
-
-
 
   ///Método que se encarga de reporducir la música al iniciar el juego
   void _loadMusic() {
@@ -643,6 +663,7 @@ class _SnakePageState extends State<SnakePage> {
       _cabeza = _serpiente.last;
       // Cambiamos la dirección
       _cambiarDir(colision);
+      _loadMusic();
     });
   }
 
@@ -685,7 +706,6 @@ class _SnakePageState extends State<SnakePage> {
       }
       if (event == RewardedVideoAdEvent.rewarded) {
         setState(() {
-          _vida += rewardAmount;
           _videoVisto = true;
         });
       }
@@ -755,9 +775,11 @@ class _SnakePageState extends State<SnakePage> {
     if(_tuberia.contains(p) && dir == null){
       return true;
     }
-    if(dir!=null && _tuberia.contains(p) && SnakeModel.dirOpuesta[dir] != _tuberiaDir[_tuberia.indexOf(p)]){
-      print("dentro del control de choque de tuberia");
-      return true;
+    if(dir!=null && _tuberia.contains(p) ){
+      if(SnakeModel.dirOpuesta[dir] != _tuberiaDir[_tuberia.indexOf(p)]){
+        return true;
+      }
+      
     }
     return false;
   }

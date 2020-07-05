@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 class SnakeModel {
 
+  ///Numero de casillas del tablero dependiendo de la pantalla
+  static Map<String,int> pixelRatio = {
+    "20:9" : 649,
+    "19:9" : 639,
+    "18:9" : 579, 
+    "defecto" : 559,
+  };
+
   /// Mapa para saber los opuestos de cada dirección
   static Map<String,String> dirOpuesta = {
     "arriba" : "abajo",
@@ -58,7 +66,7 @@ class SnakeModel {
     "food" : Colors.green[300],
     "serpiente" : Colors.green[900],
     "block" : Colors.brown[300],
-    "par" : Colors.green[300],
+    "par" : Colors.green[100],
     "impar" : Colors.green[400],
     "end" : Colors.green[200]
 
