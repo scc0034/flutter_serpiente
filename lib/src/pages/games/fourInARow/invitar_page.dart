@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +22,7 @@ class _InvitarPageState extends State<InvitarPage> {
   bool ads = false;
   _InvitarPageState({this.ads});
 
-    ///Base de datos de firebase
+  ///Base de datos de firebase
   Firestore firestoreDB;
   final String _coleccionDB = "cuatrorows";
   final key = new GlobalKey<ScaffoldState>();
@@ -49,6 +47,8 @@ class _InvitarPageState extends State<InvitarPage> {
     return Scaffold(
       key : key,
       appBar: AppBar(
+        excludeHeaderSemantics: true,
+
         title: Text("Invitar amigo"),
       ),
       body: Column(
@@ -131,8 +131,11 @@ class _InvitarPageState extends State<InvitarPage> {
       "imageUrlYellow": imageUrlGoogle,
       "imageUrlRed": "",
       "nombreYellow" : nameGoogle,
-      "nombreRed" : nameGoogle,
-      "fecha": FieldValue.serverTimestamp() //Guarda la fecha del server
+      "nombreRed" : "",
+      "fecha": FieldValue.serverTimestamp(),
+      "_conectado" : false,
+      "_inGame" : false,
+      "_endGame" : false,
     };
 
     /// Añadimos el tablero vacio
@@ -160,23 +163,25 @@ class _InvitarPageState extends State<InvitarPage> {
     int _duracion = 10;
 
     _timer = new Timer.periodic(Duration(seconds: 1),
-    (Timer timer) => setState(
+    (Timer _timer) => setState(
       () {
         print("${_duracion}");
+        //En el caso de que se acabe el tiempo de espera para el otro player, msg y salir
         if (_duracion < 1) {
-          timer.cancel();
+          _timer.cancel();
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
+                
                 title: Text('No Player'),
-                content: Text(""),
+                content: Text("The other player has not connected to the game"),
                 actions: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Image.asset("assets/img/snake/gameover.png"),
+                      Image.asset("assets/img/noPlayer.png"),
                     ],
                   ),
                   Row(
@@ -186,9 +191,9 @@ class _InvitarPageState extends State<InvitarPage> {
                       FlatButton(
                         child: Text('Cancel'),
                         onPressed: () {
-                          setState(() {
+                          setState(()async {
+                            await _borrarDocumento(context);
                             Navigator.of(context).pop();
-                            _borrarDocumento(context);
                           });
                         },
                       ),
@@ -201,9 +206,19 @@ class _InvitarPageState extends State<InvitarPage> {
           });
         } else {
           _duracion = _duracion - 1;
+          //Validamos si el otro jugador se ha concetado
+          _validatePlayerConnected();
         }
         },
       ),
     );
+  }
+
+  Future<void> _validatePlayerConnected() async{
+    await firestoreDB.collection(_coleccionDB).document(_codigo).get().then((snapDoc) {
+      if (snapDoc.data["_conectado"]){
+
+      }
+    });
   }
 }
