@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_snake/src/pages/games/fourInARow/tablero_page.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 
@@ -107,13 +106,7 @@ class _UnirPageState extends State<UnirPage> {
     if(flagExiste && mapa.isNotEmpty){
       try {
         await firestoreDB.collection(_coleccionDB).document(_codigoUnirse).updateData(mapa);
-        Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return TableroPage(code: _codigoUnirse);
-              },
-            ),
-          );
+        Navigator.pushNamed(context, "tablero");
       } catch (err) {
         print("El error es: $err");
       }

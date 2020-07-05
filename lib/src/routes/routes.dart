@@ -24,6 +24,6 @@ Map<String, WidgetBuilder> getAplicationRoutes() {
     "four" :  (BuildContext context) => FourRowPage(ads: false),
     "unir" : (BuildContext context) => UnirPage(ads: false),
     "invitar" : (BuildContext context) => InvitarPage(ads: false),
-    "tablero" : (BuildContext context) => TableroPage(code : ""),
+    "tablero" : (BuildContext context) => TableroPage(),
   };
 }

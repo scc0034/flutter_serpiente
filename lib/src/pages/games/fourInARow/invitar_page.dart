@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_snake/src/pages/games/fourInARow/tablero_page.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
@@ -219,13 +218,7 @@ class _InvitarPageState extends State<InvitarPage> {
     await firestoreDB.collection(_coleccionDB).document(_codigo).get().then((snapDoc) {
       Map<String,dynamic> mapa = snapDoc.data;
       if (mapa["conectado"] == true){
-        Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return TableroPage(code: _codigo,);
-              },
-            ),
-          );
+        Navigator.pushNamed(context, "tablero");
       }
     });
   }
