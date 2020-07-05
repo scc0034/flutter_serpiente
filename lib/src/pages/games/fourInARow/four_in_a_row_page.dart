@@ -73,7 +73,7 @@ class _FourRowPageState extends State<FourRowPage> {
                   if (_bandera == null){
                     _animateContaienrs(75,true);
                     await new Future.delayed(const Duration(seconds: 2));
-                    Navigator.push(context, new MaterialPageRoute(builder: (__) => new InvitarPage()));
+                    Navigator.push(context, new MaterialPageRoute(builder: (__) => new InvitarPage(ads:false)));
                     print("Tocado invitar amigo");
                   }
                 },
