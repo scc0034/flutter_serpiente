@@ -9,6 +9,8 @@
   <img src="https://enlaps.io/wp-content/uploads/2018/10/get-it-on-google-play.png" height="60">
 </a>
 
+<a href="https://play.google.com/apps/publish/artifact/download?artifact=4789804784418907196&account=9184458375980004308"></a>
+
 ---
 
 **Autor**  
