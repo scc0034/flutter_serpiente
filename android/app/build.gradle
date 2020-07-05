@@ -51,8 +51,8 @@ android {
         minSdkVersion 21 // Version de kitkat
         // minSdkVersion 16 // muy viejo
         targetSdkVersion 28
-        versionCode 3
-        versionName "2.0.1"
+        versionCode 4
+        versionName "4.0"
     }
     //NUEVO PLAY STORE
     signingConfigs {
@@ -64,6 +64,17 @@ android {
         }
     }
     //FINAL PLAY STORE
+
+    /// Para  cuando hacemos el bundle para subir a la play store
+    bundle {
+        language {
+            // Specifies that the app bundle should not support
+            // configuration APKs for language resources. These
+            // resources are instead packaged with each base and
+            // dynamic feature APK.
+            enableSplit = false
+        }
+    }
 
     buildTypes {
         release {

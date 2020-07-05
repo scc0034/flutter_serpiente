@@ -5,9 +5,9 @@
 [![](https://img.shields.io/badge/dart-blue?logo=dart)](https://dart.dev/)
 [![](https://img.shields.io/badge/firebase-orange?logo=firebase)](https://firebase.google.com/)
 
-
-
-
+<a href="https://play.google.com/apps/test/com.ubu.flutter_snake/4">
+  <img src="https://enlaps.io/wp-content/uploads/2018/10/get-it-on-google-play.png" height="60">
+</a>
 **Autor**  
 - [Samuel Casal Cantero](https://www.linkedin.com/in/samuel-casal-cantero-631022188/)
 
