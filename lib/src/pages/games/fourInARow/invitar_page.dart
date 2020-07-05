@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,7 @@ class _InvitarPageState extends State<InvitarPage> {
     ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
     firestoreDB = Firestore.instance;
     _crearPartida();
+    _esperaJugador(context);
     super.initState();
   }
 
@@ -104,13 +107,20 @@ class _InvitarPageState extends State<InvitarPage> {
               )
             ],
           ),
+          SizedBox(height: 50,),
+          RaisedButton(
+            child: Text("Back"),
+            onPressed: (){
+              _borrarDocumento(context);
+            },
+            )
         ],
       ),
     );
   }
 
   Future<void> _crearPartida() async{
-    DocumentReference docPartidaNew = firestoreDB.collection("ranking").document();
+    DocumentReference docPartidaNew = firestoreDB.collection(_coleccionDB).document();
 
     setState(() {
       _codigo = docPartidaNew.documentID;
@@ -129,5 +139,71 @@ class _InvitarPageState extends State<InvitarPage> {
     for (var i = 0; i < 49; i++) {
       data[i.toString()] = "";
     }
+
+    print(data);
+
+    try {
+      docPartidaNew.setData(data);
+    } catch (err) {
+      print("El error del update es: $err");
+    }
+  }
+
+  Future<void> _borrarDocumento(BuildContext context)async {
+    await firestoreDB.collection(_coleccionDB).document(_codigo).delete();
+    Navigator.pop(context);
+  }
+
+  /// Método que comprueba cada segundo si tenemos el otro jugador durante 2 mins
+  void _esperaJugador(BuildContext context){
+    Timer _timer;
+    int _duracion = 10;
+
+    _timer = new Timer.periodic(Duration(seconds: 1),
+    (Timer timer) => setState(
+      () {
+        print("${_duracion}");
+        if (_duracion < 1) {
+          timer.cancel();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('No Player'),
+                content: Text(""),
+                actions: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset("assets/img/snake/gameover.png"),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      FlatButton(
+                        child: Text('Cancel'),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.of(context).pop();
+                            _borrarDocumento(context);
+                          });
+                        },
+                      ),
+                      
+                    ],
+                  ),
+
+                ],
+              );
+          });
+        } else {
+          _duracion = _duracion - 1;
+        }
+        },
+      ),
+    );
   }
 }
