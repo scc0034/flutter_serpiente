@@ -133,9 +133,9 @@ class _InvitarPageState extends State<InvitarPage> {
       "nombreYellow" : nameGoogle,
       "nombreRed" : "",
       "fecha": FieldValue.serverTimestamp(),
-      "_conectado" : false,
-      "_inGame" : false,
-      "_endGame" : false,
+      "conectado" : false,
+      "inGame" : false,
+      "endGame" : false,
     };
 
     /// Añadimos el tablero vacio
@@ -207,17 +207,18 @@ class _InvitarPageState extends State<InvitarPage> {
         } else {
           _duracion = _duracion - 1;
           //Validamos si el otro jugador se ha concetado
-          _validatePlayerConnected();
+          _validatePlayerConnected(context);
         }
         },
       ),
     );
   }
 
-  Future<void> _validatePlayerConnected() async{
+  Future<void> _validatePlayerConnected(BuildContext context) async{
     await firestoreDB.collection(_coleccionDB).document(_codigo).get().then((snapDoc) {
-      if (snapDoc.data["_conectado"]){
-
+      Map<String,dynamic> mapa = snapDoc.data;
+      if (mapa["conectado"] == true){
+        Navigator.pushNamed(context, "tablero");
       }
     });
   }

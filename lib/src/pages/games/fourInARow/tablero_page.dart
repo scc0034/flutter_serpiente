@@ -12,9 +12,16 @@ class _TableroPageState extends State<TableroPage> {
       appBar: AppBar(
         excludeHeaderSemantics: true,
 
-        title: Text("Invitar amigo"),
+        title: Text("Jugando 4 en raya"),
       ),
-      body: Column()
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            
+          )
+        ],
+      )
       
     );
   }

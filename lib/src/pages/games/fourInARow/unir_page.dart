@@ -1,9 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake/src/services/admob_service.dart';
+import 'package:flutter_snake/src/services/sing_in_service.dart';
 
+// ignore: must_be_immutable
 class UnirPage extends StatefulWidget {
+
+  bool ads = false;
+  UnirPage({this.ads});
+
   @override
-  _UnirPageState createState() => _UnirPageState();
+  _UnirPageState createState() => _UnirPageState(ads:ads);
 }
 
 class _UnirPageState extends State<UnirPage> {
@@ -12,7 +19,17 @@ class _UnirPageState extends State<UnirPage> {
   Firestore firestoreDB;
   final String _coleccionDB = "cuatrorows";
   String _codigoUnirse = "";
+
+  ///Publicidad
+  bool ads = false;
+  _UnirPageState({this.ads});
   
+  @override
+  void initState() {
+    ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
+    firestoreDB = Firestore.instance;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +78,6 @@ class _UnirPageState extends State<UnirPage> {
       color: Colors.blue,
       onPressed: () {
         _validateCode();
-        /*Future.delayed(const Duration(milliseconds: 500), () {
-          setState(() {
-            Navigator.pushNamed(context, "rank");
-          });
-        });*/
       },
       child: Text(
         "Connect",
@@ -74,14 +86,52 @@ class _UnirPageState extends State<UnirPage> {
     );
   }
 
-  void _validateCode()async {
-    DocumentReference docPartida = await firestoreDB.collection(_coleccionDB).document();
-    docPartida.get().then((d) {
-      if(d.exists){
-        docPartida.updateData(data);
-      }
+  Future<void> _validateCode()async {
+    bool flagExiste = false;
+    Map mapa = {};
+    try {
+      await firestoreDB.collection(_coleccionDB).document(_codigoUnirse).get().then((snapDoc) {
+        if(snapDoc.exists){
+          flagExiste = true;
+          mapa = snapDoc.data;
+          mapa["conectado"] = true;
+          mapa["nombreRed"] = nameGoogle;
+          mapa["imageUrlRed"] = imageUrlGoogle;
+        }
     });
-    
+    } catch (err) {
+      print("El error es: $err");
+    }
+
+    if(flagExiste && mapa.isNotEmpty){
+      try {
+        await firestoreDB.collection(_coleccionDB).document(_codigoUnirse).updateData(mapa);
+        Navigator.pushNamed(context, "tablero");
+      } catch (err) {
+        print("El error es: $err");
+      }
+    }else{
+      showDialog(
+         context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                
+                title: Text('Code not valid'),
+                content: Text("Try again"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      setState(() {
+                        Navigator.of(context).pop();
+                      });
+                    },
+                  ),
+
+                ],
+              );
+          });
+    }
   }
 
 

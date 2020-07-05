@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/pages/about_page.dart';
 import 'package:flutter_snake/src/pages/games/fourInARow/four_in_a_row_page.dart';
+import 'package:flutter_snake/src/pages/games/fourInARow/invitar_page.dart';
+import 'package:flutter_snake/src/pages/games/fourInARow/tablero_page.dart';
+import 'package:flutter_snake/src/pages/games/fourInARow/unir_page.dart';
 import 'package:flutter_snake/src/pages/home_page.dart';
 import 'package:flutter_snake/src/pages/login_page.dart';
 import 'package:flutter_snake/src/pages/games/snake/snake_page.dart';
@@ -19,5 +22,8 @@ Map<String, WidgetBuilder> getAplicationRoutes() {
     "rank": (BuildContext context) => RankPage(ads : true),
     "rankForm": (BuildContext context) => RankFromPage(value: 0),
     "four" :  (BuildContext context) => FourRowPage(ads: false),
+    "unir" : (BuildContext context) => UnirPage(ads: false),
+    "invitar" : (BuildContext context) => InvitarPage(ads: false),
+    "tablero" : (BuildContext context) => TableroPage(),
   };
 }
