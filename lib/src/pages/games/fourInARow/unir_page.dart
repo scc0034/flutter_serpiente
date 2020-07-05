@@ -74,9 +74,14 @@ class _UnirPageState extends State<UnirPage> {
     );
   }
 
-  void _validateCode(){
-    DocumentReference docPartidaNew = firestoreDB.collection(_coleccionDB).document();
-    return false;
+  void _validateCode()async {
+    DocumentReference docPartida = await firestoreDB.collection(_coleccionDB).document();
+    docPartida.get().then((d) {
+      if(d.exists){
+        docPartida.updateData(data);
+      }
+    });
+    
   }
 
 
