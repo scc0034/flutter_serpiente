@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_snake/src/pages/games/fourInARow/invitar_page.dart';
+import 'package:flutter_snake/src/pages/games/fourInARow/unir_page.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
@@ -18,16 +20,19 @@ class _FourRowPageState extends State<FourRowPage> {
   _FourRowPageState({this.ads});
 
   /// Para controlar la animacion del contenedor
-  double _altoContainer = 100;
-  double _anchoContainer = 100;
+  double _altoContainer1 = 200;
+  double _anchoContainer1 = 200;
+  double _altoContainer2 = 200;
+  double _anchoContainer2 = 200;
   Color _colorContainer1 = Colors.yellow[100];
   Color _colorContainer2 = Colors.red[100];
   BorderRadiusGeometry _borderRadiuscontainer = BorderRadius.circular(1);
+  bool _bandera = null;
 
   @override
   void initState() {
     ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
-    _animateContaienrs();
+    //_animateContaienrs(75);
     super.initState();
   }
 
@@ -39,8 +44,6 @@ class _FourRowPageState extends State<FourRowPage> {
   @override
   Widget build(BuildContext context) {
 
-    AnimationController _controller;
-
     return Scaffold(
       drawer: MenuLateral(),
       appBar: AppBar(
@@ -48,41 +51,62 @@ class _FourRowPageState extends State<FourRowPage> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          GestureDetector(
-            child: AnimatedContainer(
-              child: Text("Invitar a un amigo"),
-              width: _anchoContainer,
-              height: _altoContainer,
-              decoration: BoxDecoration(
-                color: _colorContainer1,
-                borderRadius: _borderRadiuscontainer,
-                border: Border.all(color: Colors.black),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                child: AnimatedContainer(
+                  child: Center(child: Text("Invitar a un amigo")),
+                  width: _anchoContainer1,
+                  height: _altoContainer1,
+                  decoration: BoxDecoration(
+                    color: _colorContainer1,
+                    borderRadius: _borderRadiuscontainer,
+                    border: Border.all(color: Colors.black),
+                  ),
+                  duration: Duration(seconds: 2),
+                  curve: Curves.easeInOutQuad,
+                ),
+                onTap: () async {
+                  if (_bandera == null){
+                    _animateContaienrs(75,true);
+                    await new Future.delayed(const Duration(seconds: 2));
+                    Navigator.push(context, new MaterialPageRoute(builder: (__) => new InvitarPage()));
+                    print("Tocado invitar amigo");
+                  }
+                },
               ),
-              duration: Duration(seconds: 2),
-              curve: Curves.easeInOutQuad,
-            ),
-            onTap: (){
-              print("Tocado invitar amigo");
-            },
+            ],
           ),
-          GestureDetector(
-            child: AnimatedContainer(
-              child: Text("Unirme a partida"),
-              width: _anchoContainer,
-              height: _altoContainer,
-              decoration: BoxDecoration(
-                color: _colorContainer1,
-                borderRadius: _borderRadiuscontainer,
-                border: Border.all(color: Colors.black),
+          SizedBox(height: 40,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                child: AnimatedContainer(
+                  child: Center(child: Text("Unirme a partida")),
+                  width: _anchoContainer2,
+                  height: _altoContainer2,
+                  decoration: BoxDecoration(
+                    color: _colorContainer2,
+                    borderRadius: _borderRadiuscontainer,
+                    border: Border.all(color: Colors.black),
+                  ),
+                  duration: Duration(seconds: 2),
+                  curve: Curves.easeInOutQuad,
+                ),
+                onTap: () async{
+                  if (_bandera == null){
+                    _animateContaienrs(75,false);
+                    await new Future.delayed(const Duration(seconds: 2));
+                    Navigator.push(context, new MaterialPageRoute(builder: (__) => new UnirPage()));
+                    print("Tocado invitar amigo");
+                  }
+                },
               ),
-              duration: Duration(seconds: 2),
-              curve: Curves.easeInOutQuad,
-            ),
-            onTap: (){
-              print("Tocado recibir codigo de amigo");
-            },
+            ],
           ),
         ],
       ),
@@ -90,13 +114,19 @@ class _FourRowPageState extends State<FourRowPage> {
   }
 
 
-  void _animateContaienrs(){
+  void _animateContaienrs(int increment, bool nCont){
     setState(() {
-      _anchoContainer = 300;
-      _altoContainer = 300;
-      _colorContainer1 = Colors.yellow[400];
-      _colorContainer1 = Colors.red[400];
-      _borderRadiuscontainer = BorderRadius.circular(5);
+      if (nCont){
+        _anchoContainer1 = (200+increment).toDouble();
+        _altoContainer1 = (200+increment).toDouble();
+        _colorContainer1 = Colors.yellow[400];
+        _borderRadiuscontainer = BorderRadius.circular(8);
+      }else{
+        _anchoContainer2 = (200+increment).toDouble();
+        _altoContainer2 = (200+increment).toDouble();
+        _colorContainer2 = Colors.red[400];
+        _borderRadiuscontainer = BorderRadius.circular(8);
+      }
     });  
   }
 }

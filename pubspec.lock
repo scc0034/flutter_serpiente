@@ -188,6 +188,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.9"
+  flutter_share_me:
+    dependency: "direct main"
+    description:
+      name: flutter_share_me
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
