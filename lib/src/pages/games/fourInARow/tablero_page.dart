@@ -18,11 +18,10 @@ class _TableroPageState extends State<TableroPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Row(
-            
+
           )
         ],
       )
-      
     );
   }
 }
