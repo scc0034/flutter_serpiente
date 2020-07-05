@@ -100,10 +100,12 @@ class _InvitarPageState extends State<InvitarPage> {
                     color: Colors.cyan[50],
                   ),
                 ),
-                onTap: (){
+                onTap: () async{
                   print("Mandar mediante whatsapp");
-                  FlutterShareMe()
-                       .shareToWhatsApp(base64Image: null, msg: "$_codigo");
+                  var response = await FlutterShareMe().shareToSystem(msg: _codigo);
+                   if (response == 'success') {
+                     print('navigate success');
+                   }
                 },
               )
             ],
@@ -133,6 +135,8 @@ class _InvitarPageState extends State<InvitarPage> {
       "imageUrlRed": "",
       "nombreYellow" : nameGoogle,
       "nombreRed" : "",
+      "emailYellow" : emailGoogle,
+      "emailRed" : "",
       "fecha": FieldValue.serverTimestamp(),
       "conectado" : false,
       "inGame" : false,
@@ -161,7 +165,7 @@ class _InvitarPageState extends State<InvitarPage> {
   /// Método que comprueba cada segundo si tenemos el otro jugador durante 2 mins
   void _esperaJugador(BuildContext context){
     Timer _timer;
-    int _duracion = 10;
+    int _duracion = 180;
 
     _timer = new Timer.periodic(Duration(seconds: 1),
     (Timer _timer) => setState(
@@ -208,20 +212,21 @@ class _InvitarPageState extends State<InvitarPage> {
         } else {
           _duracion = _duracion - 1;
           //Validamos si el otro jugador se ha concetado
-          _validatePlayerConnected(context);
+          _validatePlayerConnected(context,  _timer);
         }
         },
       ),
     );
   }
 
-  Future<void> _validatePlayerConnected(BuildContext context) async{
+  Future<void> _validatePlayerConnected(BuildContext context, Timer timer) async{
     await firestoreDB.collection(_coleccionDB).document(_codigo).get().then((snapDoc) {
       Map<String,dynamic> mapa = snapDoc.data;
       if (mapa["conectado"] == true){
         Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
+                timer.cancel();
                 return TableroPage(code: _codigo,);
               },
             ),

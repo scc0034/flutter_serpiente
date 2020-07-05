@@ -19,7 +19,8 @@ class _UnirPageState extends State<UnirPage> {
   ///Base de datos de firebase
   Firestore firestoreDB;
   final String _coleccionDB = "cuatrorows";
-  String _codigoUnirse = "";
+  String _codigoUnirse = "AXgDhSszcag0KCkFqHqg";
+  String clave = "AXgDhSszcag0KCkFqHqg";
 
   ///Publicidad
   bool ads = false;
@@ -68,7 +69,7 @@ class _UnirPageState extends State<UnirPage> {
       ),
       onChanged: (value) {
         setState(() {
-          _codigoUnirse = value;
+          _codigoUnirse = "AXgDhSszcag0KCkFqHqg";
         });
       },
     );
@@ -91,11 +92,12 @@ class _UnirPageState extends State<UnirPage> {
     bool flagExiste = false;
     Map mapa = {};
     try {
-      await firestoreDB.collection(_coleccionDB).document("AXgDhSszcag0KCkFqHqg").get().then((snapDoc) {
+      await firestoreDB.collection(_coleccionDB).document(_codigoUnirse).get().then((snapDoc) {
         if(snapDoc.exists){
           flagExiste = true;
           mapa = snapDoc.data;
           mapa["conectado"] = true;
+          mapa["emailRed"] = emailGoogle; 
           mapa["nombreRed"] = nameGoogle;
           mapa["imageUrlRed"] = imageUrlGoogle;
         }
@@ -106,11 +108,11 @@ class _UnirPageState extends State<UnirPage> {
 
     if(flagExiste && mapa.isNotEmpty){
       try {
-        await firestoreDB.collection(_coleccionDB).document("AXgDhSszcag0KCkFqHqg").updateData(mapa);
+        await firestoreDB.collection(_coleccionDB).document(_codigoUnirse).updateData(mapa);
         Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return TableroPage(code: "AXgDhSszcag0KCkFqHqg");
+                return TableroPage(code: _codigoUnirse);
               },
             ),
           );
