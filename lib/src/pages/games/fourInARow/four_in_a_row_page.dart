@@ -66,13 +66,13 @@ class _FourRowPageState extends State<FourRowPage> {
                     borderRadius: _borderRadiuscontainer,
                     border: Border.all(color: Colors.black),
                   ),
-                  duration: Duration(seconds: 2),
+                  duration: Duration(seconds: 1),
                   curve: Curves.easeInOutQuad,
                 ),
                 onTap: () async {
                   if (_bandera == null){
                     _animateContaienrs(75,true);
-                    await new Future.delayed(const Duration(seconds: 2));
+                    await new Future.delayed(const Duration(seconds: 1));
                     Navigator.push(context, new MaterialPageRoute(builder: (__) => new InvitarPage(ads:false)));
                     print("Tocado invitar amigo");
                   }
@@ -94,13 +94,13 @@ class _FourRowPageState extends State<FourRowPage> {
                     borderRadius: _borderRadiuscontainer,
                     border: Border.all(color: Colors.black),
                   ),
-                  duration: Duration(seconds: 2),
+                  duration: Duration(seconds: 1),
                   curve: Curves.easeInOutQuad,
                 ),
                 onTap: () async{
                   if (_bandera == null){
                     _animateContaienrs(75,false);
-                    await new Future.delayed(const Duration(seconds: 2));
+                    await new Future.delayed(const Duration(seconds: 1));
                     Navigator.push(context, new MaterialPageRoute(builder: (__) => new UnirPage(ads:false)));
                     print("Tocado invitar amigo");
                   }

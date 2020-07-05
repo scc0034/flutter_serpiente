@@ -48,20 +48,52 @@ class _TableroPageState extends State<TableroPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CircleAvatar(
-                minRadius: 50,
-                maxRadius: 60,
-                backgroundColor: Colors.blue,
-                backgroundImage: NetworkImage(_mapVarGame["imageUrlRojo"],),
-              ),
-              Container(
-                child: Text("$min : $seg"),
+          Container(
+            height: 75,
+            child: 
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(width: 20,),
+                  CircleAvatar(
+                    minRadius: 20,
+                    maxRadius: 30,
+                    backgroundColor: Colors.blue,
+                    backgroundImage: NetworkImage(_mapVarGame["imageUrlRed"].toString(),),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Container(
+                    child: Text("Time $min : $seg"),
+                  ),
+                  SizedBox(width: 20,),
+                ],
               )
-            ],
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.orange,
+            ),
+
+          ),
+          Container(
+            height: 75,
+              child:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    minRadius: 20,
+                    maxRadius: 30,
+                    backgroundColor: Colors.blue,
+                    backgroundImage: NetworkImage(_mapVarGame["imageUrlYellow"].toString(),),
+                  )
+                ],
+              )
           )
+          
+
         ],
       )
     );
@@ -73,15 +105,14 @@ class _TableroPageState extends State<TableroPage> {
       await firestoreDB.collection(_coleccionDB).document(code).get().then((snapDoc) {
         if(snapDoc.exists){
           flagExiste = true;
-          setState(() {
-            _mapVarGame = snapDoc.data;
-          });
-          
+          _mapVarGame = snapDoc.data;
+
         }
     });
     } catch (err) {
       print("El error es: $err");
     }
+    print(_mapVarGame);
   }
 
   ///Método que da sensación de que se esta online, ya qe el tiempo pasa

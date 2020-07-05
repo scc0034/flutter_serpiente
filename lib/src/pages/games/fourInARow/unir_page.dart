@@ -91,7 +91,7 @@ class _UnirPageState extends State<UnirPage> {
     bool flagExiste = false;
     Map mapa = {};
     try {
-      await firestoreDB.collection(_coleccionDB).document(_codigoUnirse).get().then((snapDoc) {
+      await firestoreDB.collection(_coleccionDB).document("AXgDhSszcag0KCkFqHqg").get().then((snapDoc) {
         if(snapDoc.exists){
           flagExiste = true;
           mapa = snapDoc.data;
@@ -106,11 +106,11 @@ class _UnirPageState extends State<UnirPage> {
 
     if(flagExiste && mapa.isNotEmpty){
       try {
-        await firestoreDB.collection(_coleccionDB).document(_codigoUnirse).updateData(mapa);
+        await firestoreDB.collection(_coleccionDB).document("AXgDhSszcag0KCkFqHqg").updateData(mapa);
         Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return TableroPage(code: _codigoUnirse);
+                return TableroPage(code: "AXgDhSszcag0KCkFqHqg");
               },
             ),
           );
