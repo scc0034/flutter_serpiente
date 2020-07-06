@@ -27,7 +27,6 @@ class _TableroPageState extends State<TableroPage> {
   Firestore firestoreDB;
   String _coleccionDB = "cuatrorows";
   Map<String,dynamic> _mapVarGame = {};
-  StreamController<Stream> streamController;
 
   // VARIABLES DEL TIEMPO
   String min = "00";
@@ -53,8 +52,7 @@ class _TableroPageState extends State<TableroPage> {
     //ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
     firestoreDB = Firestore.instance;
     celdas = (_nFil*_nCol);
-    streamController = StreamController.broadcast();
-    streamController.add(getData());
+
     _cargarPartida();
     _controlTiempo();
     super.initState();
@@ -63,8 +61,6 @@ class _TableroPageState extends State<TableroPage> {
   @override
   void dispose(){
     super.dispose();
-    streamController?.close();
-    streamController = null;
   }
 
   @override
@@ -91,8 +87,7 @@ class _TableroPageState extends State<TableroPage> {
                     minRadius: 20,
                     maxRadius: 30,
                     backgroundColor: Colors.blue,
-                    child: Icon(Icons.verified_user),
-                    //backgroundImage: NetworkImage(_fotoArriba),
+                    backgroundImage: NetworkImage(_fotoArriba),
                   ),
                   Expanded(
                     child: Container(
@@ -150,8 +145,8 @@ class _TableroPageState extends State<TableroPage> {
   ///Método que nada más empezar la partida modifica la interfaz
   Future<void> _cargarPartida() async{ 
     setState(( ) async{
-      //await _actualizaMap();
-      _fotoArriba = _getFotoArriba();
+      await _actualizaMap();
+      _fotoArriba =  _getFotoArriba();
       await _lanzamientoMoneda();
     }); 
   }
@@ -189,20 +184,26 @@ class _TableroPageState extends State<TableroPage> {
   Future<void> _lanzamientoMoneda() async{
     print("DENTRO DEL LANZAMIENTO DE LA MONEDA");
     _turno = "";
-    Stream stream = getData();
-    print(stream.toString());
 
     String msgTurno ="Comienza el jugador: ";
 
     //Decidimos quien de los dos es el que comienza, tira la moneda el anfitrion
     if(_esAnfitrion()){
       _semilla.nextInt(2) == 0 ? _turno = "yellow" : _turno = "red";
+      _mapVarGame["turno"] = _turno;
       /// Guardamos el turno en la base de datos
       await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
     }
 
     ///Hacemos el update del mapa
     _actualizaMap();
+
+    if(_mapVarGame["turno"].toString().compareTo("red") == 0){
+      msgTurno +=_mapVarGame["emailRed"];
+    }else{
+      msgTurno +=_mapVarGame["emailYellow"];
+    }
+    
 
     
     /// Mostramos el mensaje de quien es el que tiene el turno
