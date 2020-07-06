@@ -1,4 +1,5 @@
 import 'dart:async';
+//import 'dart:html';
 import 'dart:math' show Random;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class _TableroPageState extends State<TableroPage> {
   Firestore firestoreDB;
   String _coleccionDB = "cuatrorows";
   Map<String,dynamic> _mapVarGame = {};
+  Stream doc = firestoreDB
 
   // VARIABLES DEL TIEMPO
   String min = "00";
@@ -82,7 +84,7 @@ class _TableroPageState extends State<TableroPage> {
                   ),
                   Expanded(
                     child: Container(
-                      child: _pintarTablero(context),
+                      
                     ),
                   ),
                   Container(
@@ -228,85 +230,59 @@ class _TableroPageState extends State<TableroPage> {
 
   Widget _pintarTablero(BuildContext context){
     Color colorFondo = Colors.blue;
-    StreamBuilder(
-              stream: firestoreDB.collection(_coleccionDB).document(code).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data.snapshot.value != null) {
-                    Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
-                    List<dynamic> list = map.values.toList()
-                      ..sort(
-                          (a, b) => b['timestamp'].compareTo(a['timestamp']));
-
-                    return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
-                      itemCount: list.length,
-                      padding: EdgeInsets.all(2.0),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SecondScreen(
-                                        imageUrl: list[index]["imageUrl"])),
-                              );
-                            },
-                            child: CachedNetworkImage(
-                              imageUrl: list[index]["imageUrl"],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          padding: EdgeInsets.all(2.0),
-                        );
-                      },
-                    );
-                  } else {
-                    return Container(
-                        child: Center(
-                            child: Text(
-                      'Es wurden noch keine Fotos im Chat gepostet.',
-                      style: TextStyle(fontSize: 20.0, color: Colors.grey),
-                      textAlign: TextAlign.center,
-                    )));
-                  }
-                } else {
-                  return CircularProgressIndicator();
-                }
-              })),
-    /*
-    return GridView.builder(
-      shrinkWrap: true,
-      // Definimos el número de columnas del grid
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _nCol,
-      ),
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: celdas,
-      itemBuilder: (BuildContext context, int index) {
-        String contenidoCelda = _mapVarGame[index].toString();
-        print("Contenido de la celda = $contenidoCelda");
-        if( contenidoCelda.compareTo("") == 0){
-          colorFondo = Colors.white;
-        }else if (contenidoCelda.compareTo("R") ==0){
-          colorFondo = Colors.red;
-        }else if (contenidoCelda.compareTo("Y") ==0){
-          colorFondo = Colors.yellow;
+    Color colorFicha = Colors.white;
+    return StreamBuilder(
+      stream: firestoreDB.collection(_coleccionDB).document(code).snapshots().asBroadcastStream(),
+      builder: ( context, AsyncSnapshot snapshot){
+        // En el caso de que no tengamos datos mostramos la barra de progreso
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
+        // Miramos si tenemos datos dentro del snapshot
+        if(snapshot.hasData){
+          DocumentSnapshot doc = snapshot.data;
 
-        return Container(
-          padding: EdgeInsets.all(0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(3),
-            child: Container(
-              
-              color: colorFondo,
-            ),
-          ),
-        );
-      },
-    );*/
+          print(doc["emailRed"]);
+          //List<dynamic> list = map.values.toList();
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _nCol), 
+            itemCount: celdas,
+            itemBuilder: (context, int index) {
+
+              String contenidoCelda = doc[index.toString()].toString();
+              print("Contenido de la celda = $contenidoCelda");
+              if( contenidoCelda.compareTo("") == 0){
+                colorFicha = Colors.white;
+              }else if (contenidoCelda.compareTo("R") ==0){
+                colorFicha = Colors.red;
+              }else if (contenidoCelda.compareTo("Y") ==0){
+                colorFicha = Colors.yellow;
+              }
+              return Container(
+                padding: EdgeInsets.all(0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(0),
+                  child: Container(
+                    child: ClipOval(
+                      
+                      child: Container(
+                        margin: EdgeInsets.all(8),
+                        color: colorFicha,
+                    ),),
+                    color: colorFondo,
+                  ),
+                ),
+              );
+            }
+          );
+        }
+      },// Final del builder
+    );
   }
+
+
+  
 }
