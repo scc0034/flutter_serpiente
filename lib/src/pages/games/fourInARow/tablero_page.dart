@@ -36,7 +36,6 @@ class _TableroPageState extends State<TableroPage> {
 
   /// VARIABLES DE CONTROL DEL JUEGO
   /// Turno
-  String _turno = "";
   Color _colorY = Colors.white;
   Color _colorR = Colors.white;
   String _fotoArriba = "https://deporteros.pe/wp-content/uploads/2017/07/icon-persona.png";
@@ -140,6 +139,18 @@ class _TableroPageState extends State<TableroPage> {
     } catch (err) {
       print("El error es: $err");
     }
+    setState(() {
+      if(_mapVarGame["turno"].toString().compareTo("yellow") == 0){
+        _colorY = Colors.yellow[200];
+      }else{
+        _colorY = Colors.white;
+      }
+      if(_mapVarGame["turno"].toString().compareTo("red") == 0){
+        _colorR = Colors.red[200];
+      }else{
+        _colorR = Colors.white;
+      }
+    });
   }
 
   ///Método que nada más empezar la partida modifica la interfaz
@@ -163,6 +174,11 @@ class _TableroPageState extends State<TableroPage> {
       }
       s<10?seg ="0$s" : seg="$s";
       m<10?min ="0$m" : min="$m";
+
+      if(s%2==0){
+        _actualizaMap();
+        print("Turno = ${_mapVarGame['turno']} en la hora $min : $seg");
+      }
     }),
     );
   }
@@ -174,16 +190,11 @@ class _TableroPageState extends State<TableroPage> {
     }
     return false;
   }
-  
-  Stream getData() {
-    Stream stream = Firestore.instance.collection("users").document(code).snapshots();
-    return stream;
-  }
 
   /// Método que se encarga de decidir cual de los dos juagdores es el que empieza
   Future<void> _lanzamientoMoneda() async{
     print("DENTRO DEL LANZAMIENTO DE LA MONEDA");
-    _turno = "";
+    String _turno = "";
 
     String msgTurno ="Comienza el jugador: ";
 
@@ -196,15 +207,13 @@ class _TableroPageState extends State<TableroPage> {
     }
 
     ///Hacemos el update del mapa
-    _actualizaMap();
+    await _actualizaMap();
 
     if(_mapVarGame["turno"].toString().compareTo("red") == 0){
       msgTurno +=_mapVarGame["emailRed"];
     }else{
       msgTurno +=_mapVarGame["emailYellow"];
     }
-    
-
     
     /// Mostramos el mensaje de quien es el que tiene el turno
     showDialog(
@@ -218,17 +227,26 @@ class _TableroPageState extends State<TableroPage> {
         );
       }
     );
-
-    _changeColorTurno();
   }
 
   ///Método para cambiar el color del fondo del jugador que tiene el turno
   void _changeColorTurno(){
     setState(() {
-      _turno == "yellow" ? _colorY = Colors.yellow[100] : _colorY = Colors.white;
-      _turno == "red" ? _colorR = Colors.red[100] : _colorR = Colors.white;
+      _actualizaMap();
+      _mapVarGame["turno"] == "yellow" ? _colorY = Colors.yellow[100] : _colorY = Colors.white;
+      _mapVarGame["turno"] == "red" ? _colorR = Colors.red[100] : _colorR = Colors.white;
     });
-    
+  }
+
+  ///Método que cambia el turno de la partida, solo lo puede cambiar uno de los dos 
+  void _changeTurno()async {
+    if (_mapVarGame["turno"].compareTo("yellow") == 0){
+      _mapVarGame["turno"] = "red";
+    }else{
+      _mapVarGame["turno"] = "yellow";
+    }
+    await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
+    _actualizaMap();
   }
 
   String _getFotoArriba(){
@@ -244,7 +262,6 @@ class _TableroPageState extends State<TableroPage> {
     }
       
   }
-
 
 
   Widget _pintarTablero(BuildContext context){
@@ -295,8 +312,8 @@ class _TableroPageState extends State<TableroPage> {
                   ),
                 ),
                 onTap: () async{
-                  print("PULSADO");
-                  //_putFicha(index);
+                  print("HEMOS PULSADO EN LA CELDA $index");
+                  await _putFicha(index);
                 },
               );
             }
@@ -305,7 +322,8 @@ class _TableroPageState extends State<TableroPage> {
       },// Final del builder
     );
   }
-  /*
+  
+
   Future<void> _putFicha(int index) async{
     
     int celdaVacia = -1;
@@ -315,11 +333,10 @@ class _TableroPageState extends State<TableroPage> {
     // Calculamos en la columna que toca
     index == 0? columna = (0).toString() : columna = (index%7).toString();
     // Miramos cual de los dos jugadores tiene
-    if (_turno.compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
+    if (_mapVarGame["turno"].compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
       print("pulsando $emailGoogle dentro su turno");
 
-      if (celdaAbajo<_nCol^2){
-        print("AQUI");
+      if (celdaAbajo<(_nCol^2)){
         if (_mapVarGame[celdaAbajo.toString()].toString().compareTo("") != 0 ){
           if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
             _mapVarGame[index.toString()] = "Y";
@@ -327,8 +344,6 @@ class _TableroPageState extends State<TableroPage> {
           }
         }
       }else{
-        print("OTRO");
-
         if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
           _mapVarGame[index.toString()] = "Y";
           updated = true;
@@ -336,8 +351,20 @@ class _TableroPageState extends State<TableroPage> {
       }
     }
 
-    if (_turno.compareTo("red") == 0 && emailGoogle.compareTo(_mapVarGame["emailRed"]) ==0 ){
-      
+    if (_mapVarGame["turno"].compareTo("red") == 0 && emailGoogle.compareTo(_mapVarGame["emailRed"]) ==0 ){
+      if (celdaAbajo<_nCol^2){
+        if (_mapVarGame[celdaAbajo.toString()].toString().compareTo("") != 0 ){
+          if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
+            _mapVarGame[index.toString()] = "R";
+            updated = true;
+          }
+        }
+      }else{
+        if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
+          _mapVarGame[index.toString()] = "R";
+          updated = true;
+        }
+      }
       
     }
 
@@ -345,40 +372,14 @@ class _TableroPageState extends State<TableroPage> {
     if (updated){
       print("Estamos dentro del update");
       //Cambiamos el turno del jugador
-      _turno.compareTo("yellow") == 0? _turno="red" : _turno="yellow";
-      _mapVarGame["turno"] = _turno;
+      _mapVarGame["turno"].compareTo("yellow") == 0? _mapVarGame["turno"]="red" : _mapVarGame["turno"]="yellow";
       await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
       //Volvemos a cargar los datos del mapa
-      firestoreDB.collection(_coleccionDB).document(code).get().then((value){
-        if(value.exists){
-          _mapVarGame = value.data;
-        }
-      });
-      _changeColorTurno();
+      _actualizaMap();
     }
     
     // Cambiamos el turno del jugador
 
   }
 
-
-  ///Método que nos devuelve la celda de más abajo que esta vacía, dentro de la columna de index
-   Future _celdaVaciaCol (int index)async{
-    int columna;
-    int vacia = -1;
-    // Calculamos en la columna que toca
-    index == 0? columna = 0 : columna = index%7;
-
-    print("El valor de a columna tocada es = $columna");
-
-    for (var i = columna; i < _nFil^2; i+7) {
-      print("El valor de i = $i");
-      if(_mapVarGame[i.toString()].toString().compareTo("") == 0){
-        vacia = i;
-      }
-    }
-    print("El index de la casilla que tiene algo vacio es = $vacia");
-    return vacia;
-  }
-*/
 }
