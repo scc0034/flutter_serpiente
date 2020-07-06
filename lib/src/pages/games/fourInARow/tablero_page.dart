@@ -140,16 +140,27 @@ class _TableroPageState extends State<TableroPage> {
       print("El error es: $err");
     }
     setState(() {
-      if(_mapVarGame["turno"].toString().compareTo("yellow") == 0){
-        _colorY = Colors.yellow[200];
+      String turno = _mapVarGame["turno"];
+      if(_esAnfitrion()){
+        if(turno.compareTo("yellow") == 0){
+          _colorY = Colors.yellow[200];
+          _colorR=Colors.white;
+        }else{
+          _colorR = Colors.red[200];
+          _colorY = Colors.white;
+        }
       }else{
-        _colorY = Colors.white;
+        if(turno.compareTo("yellow") == 0){
+          _colorY = Colors.white;
+          _colorR=Colors.yellow[200];
+        }else{
+          _colorR = Colors.white;
+          _colorY = Colors.red[200];
+        }
       }
-      if(_mapVarGame["turno"].toString().compareTo("red") == 0){
-        _colorR = Colors.red[200];
-      }else{
-        _colorR = Colors.white;
-      }
+
+     
+      
     });
   }
 
