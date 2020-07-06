@@ -95,10 +95,7 @@ class _InvitarPageState extends State<InvitarPage> {
                   minRadius: 50,
                   maxRadius: 60,
                   backgroundColor: Colors.blue,
-                  child: Image.asset("assets/img/whatsapp.png",
-                    height: 40,
-                    color: Colors.cyan[50],
-                  ),
+                  child: Icon(Icons.share),
                 ),
                 onTap: () async{
                   print("Mandar mediante whatsapp");
@@ -165,7 +162,7 @@ class _InvitarPageState extends State<InvitarPage> {
   /// Método que comprueba cada segundo si tenemos el otro jugador durante 2 mins
   void _esperaJugador(BuildContext context){
     Timer _timer;
-    int _duracion = 180;
+    int _duracion = 240;
 
     _timer = new Timer.periodic(Duration(seconds: 1),
     (Timer _timer) => setState(

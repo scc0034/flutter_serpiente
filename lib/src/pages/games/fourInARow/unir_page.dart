@@ -69,7 +69,7 @@ class _UnirPageState extends State<UnirPage> {
       ),
       onChanged: (value) {
         setState(() {
-          _codigoUnirse = "AXgDhSszcag0KCkFqHqg";
+          _codigoUnirse = clave;
         });
       },
     );
@@ -98,7 +98,7 @@ class _UnirPageState extends State<UnirPage> {
           mapa = snapDoc.data;
           mapa["conectado"] = true;
           //mapa["emailRed"] = emailGoogle; 
-          //mapa["nombreRed"] = nameGoogle;
+          mapa["nombreRed"] = nameGoogle;
           //mapa["imageUrlRed"] = imageUrlGoogle;
         }
     });
