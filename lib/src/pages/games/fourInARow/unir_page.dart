@@ -97,9 +97,9 @@ class _UnirPageState extends State<UnirPage> {
           flagExiste = true;
           mapa = snapDoc.data;
           mapa["conectado"] = true;
-          mapa["emailRed"] = emailGoogle; 
-          mapa["nombreRed"] = nameGoogle;
-          mapa["imageUrlRed"] = imageUrlGoogle;
+          //mapa["emailRed"] = emailGoogle; 
+          //mapa["nombreRed"] = nameGoogle;
+          //mapa["imageUrlRed"] = imageUrlGoogle;
         }
     });
     } catch (err) {
