@@ -139,6 +139,18 @@ class _TableroPageState extends State<TableroPage> {
     } catch (err) {
       print("El error es: $err");
     }
+    setState(() {
+      /*if(_mapVarGame["turno"].toString().compareTo("yellow") == 0){
+        _colorY = Colors.yellow[200];
+      }else{
+        _colorY = Colors.white;
+      }
+      if(_mapVarGame["turno"].toString().compareTo("red") == 0){
+        _colorR = Colors.red[200];
+      }else{
+        _colorR = Colors.white;
+      }*/
+    });
   }
 
   ///Método que nada más empezar la partida modifica la interfaz
@@ -215,31 +227,14 @@ class _TableroPageState extends State<TableroPage> {
         );
       }
     );
-    _changeColorTurno();
   }
 
   ///Método para cambiar el color del fondo del jugador que tiene el turno
   void _changeColorTurno(){
-
-      setState(() {
-      //String turno = _mapVarGame["turno"];
-      if(_esAnfitrion()){
-        if(_mapVarGame["turno"].compareTo("yellow") == 0){
-          _colorY = Colors.yellow[200];
-          _colorR=Colors.white;
-        }else{
-          _colorR = Colors.red[200];
-          _colorY = Colors.white;
-        }
-      }else{
-        if(_mapVarGame["turno"].compareTo("red") == 0){
-          _colorY = Colors.white;
-          _colorR=Colors.yellow[200];
-        }else{
-          _colorR = Colors.white;
-          _colorY = Colors.red[200];
-        }
-      }
+    setState(() {
+      _actualizaMap();
+      _mapVarGame["turno"] == "yellow" ? _colorY = Colors.yellow[100] : _colorY = Colors.white;
+      _mapVarGame["turno"] == "red" ? _colorR = Colors.red[100] : _colorR = Colors.white;
     });
   }
 
@@ -333,7 +328,6 @@ class _TableroPageState extends State<TableroPage> {
     
     int celdaVacia = -1;
     int celdaAbajo = index+_nFil;
-    celdaAbajo>49 ? celdaAbajo = -1 : null;
     bool updated = false;
     String columna;
     // Calculamos en la columna que toca
@@ -342,7 +336,7 @@ class _TableroPageState extends State<TableroPage> {
     if (_mapVarGame["turno"].compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
       print("pulsando $emailGoogle dentro su turno");
 
-      if (celdaAbajo==-1){
+      if (celdaAbajo<(_nCol^2)){
         if (_mapVarGame[celdaAbajo.toString()].toString().compareTo("") != 0 ){
           if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
             _mapVarGame[index.toString()] = "Y";
@@ -381,9 +375,7 @@ class _TableroPageState extends State<TableroPage> {
       _mapVarGame["turno"].compareTo("yellow") == 0? _mapVarGame["turno"]="red" : _mapVarGame["turno"]="yellow";
       await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
       //Volvemos a cargar los datos del mapa
-      await _actualizaMap();
-      await _changeTurno();
-      _changeColorTurno();
+      _actualizaMap();
     }
     
     // Cambiamos el turno del jugador
