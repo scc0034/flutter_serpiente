@@ -7,7 +7,7 @@ class SnakeModel {
     "20:9" : 669,
     "19:9" : 659,
     "18:9" : 579, 
-    "defecto" : 559,
+    "defecto" : 400,
   };
 
   /// Mapa para saber los opuestos de cada dirección

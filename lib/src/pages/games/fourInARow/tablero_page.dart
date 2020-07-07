@@ -192,10 +192,7 @@ class _TableroPageState extends State<TableroPage> {
           DocumentSnapshot doc = snapshot.data;
 
           print(doc["emailRed"]);
-          bool finJuego = doc["_endGame"];
-          if(finJuego){
-            _mostrarFinal(context,doc["winner"].toString(),doc["winnerImg"]);
-          }
+          
           //List<dynamic> list = map.values.toList();
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -392,7 +389,11 @@ class _TableroPageState extends State<TableroPage> {
 
       if(s%2==0){
         _actualizaMap();
-        print("Turno = ${_mapVarGame['turno']} en la hora $min : $seg");
+        bool finJuego = _mapVarGame["_endGame"];
+        if(finJuego){
+          _timer.cancel();
+          _mostrarFinal(context,_mapVarGame["winner"].toString(),_mapVarGame["winnerImg"]);
+        }
       }
     }),
     );
@@ -432,7 +433,7 @@ class _TableroPageState extends State<TableroPage> {
     
     /// Mostramos el mensaje de quien es el que tiene el turno
     showDialog(
-      barrierDismissible: false, // Permite pulsar fuera para salir
+      
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -492,19 +493,20 @@ class _TableroPageState extends State<TableroPage> {
       _actualizaMap();
     }
 
-    bool endGame = _controlFinPartida(index, ficha);
-
+     bool endGame = await _controlFinPartida(index, ficha);
+    print("Lo que tenemos dentro del endGame = $endGame");
 
     if (endGame && updated){
       print("DEBEMoS DE MOSTRAR EL MENSAJE DE QUE EL JUEGO A TERMINADO");
       _mapVarGame["_endGame"] = true;
       _mapVarGame["winner"] = emailGoogle;
       _mapVarGame["winnerImg"] = imageUrlGoogle;
+      await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
     }
   }
 
   ///Método que se encarga de validar si la partida termina, cuando
-  bool _controlFinPartida(int index, String ficha){
+  Future<bool> _controlFinPartida(int index, String ficha) async{
     /// Sacamos del index la fila y la coluna de la ficha
     int columna;
     int fila;
@@ -631,6 +633,7 @@ class _TableroPageState extends State<TableroPage> {
 
   void _mostrarFinal(BuildContext context, String winner, String winnerImg){
       showDialog(
+        barrierDismissible: false, // Permite pulsar fuera para salir
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -660,9 +663,8 @@ class _TableroPageState extends State<TableroPage> {
                   ),
                     onPressed: () {
                       setState(() {
-                        
+                        Navigator.pushNamed(context, "/");
                       });
-                      Navigator.of(context).pop();
                     },
                   ),
                 ],
