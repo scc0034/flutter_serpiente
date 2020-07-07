@@ -74,7 +74,100 @@ class _TableroPageState extends State<TableroPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ///ARRIBA
-          Container(
+          
+          ///DONDE VA EL TABLERO
+          Expanded(
+            child: Container(
+              color: Colors.orange[100],
+              child: _pintarTablero(context),
+            ),
+          ),
+          // ABAJO
+          _pintarAbajo(context),
+        ]
+      )
+    );
+  }
+
+  /// Método para pintar el fondo de la zona de abajo dependiendo del turno en la base de datos
+  Widget _pintarAbajo(BuildContext context){
+    return StreamBuilder(
+      stream: firestoreDB.collection(_coleccionDB).document(code).snapshots().asBroadcastStream(),
+      builder: (context, AsyncSnapshot snapshot){
+        // En el caso de que no tengamos datos mostramos la barra de progreso
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        // Miramos si tenemos datos dentro del snapshot
+        if(snapshot.hasData){
+          DocumentSnapshot doc = snapshot.data;
+          String t = doc["turno"].toString();
+          if(_esAnfitrion()){
+            if(t.compareTo("yellow") == 0){
+              _colorY = Colors.yellow[200];
+            }else{
+              _colorY = Colors.white;
+            }
+          }else{
+            if(t.compareTo("red") == 0){
+              _colorY = Colors.white;
+            }else{
+              _colorY = Colors.red[200];
+            }
+          }
+          return Container(
+            height: 75,
+            color:_colorY,
+              child:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    minRadius: 20,
+                    maxRadius: 30,
+                    backgroundColor: Colors.blue,
+                    backgroundImage: NetworkImage(imageUrlGoogle.toString(),),
+                  )
+                ],
+              )
+          );
+        }
+      },// Final del builder
+    );
+  }
+  
+  /// Método para pintar la zona de arriba del tablero, dependiendo del turno del jugador y del dispositivo
+  Widget _pintarArriba(BuildContext context){
+    return StreamBuilder(
+      stream: firestoreDB.collection(_coleccionDB).document(code).snapshots().asBroadcastStream(),
+      builder: (context, AsyncSnapshot snapshot){
+        // En el caso de que no tengamos datos mostramos la barra de progreso
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        // Miramos si tenemos datos dentro del snapshot
+        if(snapshot.hasData){
+          DocumentSnapshot doc = snapshot.data;
+          String t = doc["turno"].toString();
+          if(_esAnfitrion()){
+            if(t.compareTo("yellow") == 0){
+              _colorR=Colors.white;
+            }else{
+              _colorR = Colors.red[200];
+            }
+          }else{
+            if(t.compareTo("red") == 0){
+              _colorR=Colors.yellow[200];
+            }else{
+              _colorR = Colors.white;
+            }
+      }
+          }
+          return Container(
             height: 75,
             color: _colorR,
             child: 
@@ -99,35 +192,11 @@ class _TableroPageState extends State<TableroPage> {
                   SizedBox(width: 20,),
                 ],
               )
-          ),
-          ///DONDE VA EL TABLERO
-          Expanded(
-            child: Container(
-              color: Colors.orange[100],
-              child: _pintarTablero(context),
-            ),
-          ),
-          // ABAJO
-          Container(
-            height: 75,
-            color:_colorY,
-              child:
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    minRadius: 20,
-                    maxRadius: 30,
-                    backgroundColor: Colors.blue,
-                    backgroundImage: NetworkImage(imageUrlGoogle.toString(),),
-                  )
-                ],
-              )
-          )],
-      )
+          );
+        }
+      },// Final del builder
     );
   }
-
   ///Método que actualiza la variable del mapa que contien las vars del juego
   Future<void> _actualizaMap ()async{
     try {
@@ -260,7 +329,6 @@ class _TableroPageState extends State<TableroPage> {
         return _mapVarGame["imageUrlRed"];
       }
     }
-      
   }
 
 
