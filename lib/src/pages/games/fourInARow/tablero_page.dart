@@ -114,11 +114,12 @@ class _TableroPageState extends State<TableroPage> {
                 _colorY = Colors.white;
               }
             }else{
-              if(t.compareTo("red") == 0){
+              if(t.compareTo("yellow") == 0){
                 _colorY = Colors.white;
               }else{
                 _colorY = Colors.red[200];
               }
+
             }
           }
           
@@ -168,13 +169,15 @@ class _TableroPageState extends State<TableroPage> {
             }else{
               _colorR=Colors.red[200];
             }
-          }else{
-            if(t.compareTo("red") == 0){
-              _colorR=Colors.red[200];
+            
             }else{
-              _colorR=Colors.white;
+              if(t.compareTo("yellow") == 0){
+                _colorR=Colors.yellow[200];
+              }else{
+                _colorR=Colors.white;
+              }
+              
             }
-          }
           }
           
           return Container(
