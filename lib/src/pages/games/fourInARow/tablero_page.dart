@@ -6,8 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 
-import '../../home_page.dart';
-
 // ignore: must_be_immutable
 /// Clase que controla el juego del 4 en raya
 /// Aclara que el de color yellow es el anfitrión,
@@ -194,6 +192,10 @@ class _TableroPageState extends State<TableroPage> {
           DocumentSnapshot doc = snapshot.data;
 
           print(doc["emailRed"]);
+          bool finJuego = doc["_endGame"];
+          if(finJuego){
+            _mostrarFinal(context,doc["winner"].toString(),doc["winnerImg"]);
+          }
           //List<dynamic> list = map.values.toList();
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -202,6 +204,7 @@ class _TableroPageState extends State<TableroPage> {
             itemBuilder: (context, int index) {
 
               String contenidoCelda = doc[index.toString()].toString();
+
               if( contenidoCelda.compareTo("") == 0){
                 colorFicha = Colors.white;
               }else if (contenidoCelda.compareTo("R") ==0){
@@ -429,9 +432,11 @@ class _TableroPageState extends State<TableroPage> {
     
     /// Mostramos el mensaje de quien es el que tiene el turno
     showDialog(
+      barrierDismissible: false, // Permite pulsar fuera para salir
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+
           title: Text('Turn draw'),
           content: Text(msgTurno),
           actions: <Widget>[
@@ -460,6 +465,7 @@ class _TableroPageState extends State<TableroPage> {
 
     bool updated = false;
     String ficha  ="";
+    String posibleGanador = "";
     // Calculamos en la columna que toca
     /*index == 0? columna = (0).toString() : columna = (index%7).toString();*/
 
@@ -489,8 +495,11 @@ class _TableroPageState extends State<TableroPage> {
     bool endGame = _controlFinPartida(index, ficha);
 
 
-    if (endGame){
+    if (endGame && updated){
       print("DEBEMoS DE MOSTRAR EL MENSAJE DE QUE EL JUEGO A TERMINADO");
+      _mapVarGame["_endGame"] = true;
+      _mapVarGame["winner"] = emailGoogle;
+      _mapVarGame["winnerImg"] = imageUrlGoogle;
     }
   }
 
@@ -618,6 +627,50 @@ class _TableroPageState extends State<TableroPage> {
 
     // En cualquier caso false
     return false;
+  }
+
+  void _mostrarFinal(BuildContext context, String winner, String winnerImg){
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('THE WINNER IS:'),
+            content: Text(winner),
+            actions: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Image.network(winnerImg),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    child: new Container(
+                    child: Row(
+                      children: [
+                        new Text("Salir"),
+                        SizedBox(width: 10,),
+                        Icon(Icons.exit_to_app)
+                      ],
+                    ),
+                  ),
+                    onPressed: () {
+                      setState(() {
+                        
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+              
+            ],
+          );
+        });
   }
 
 }
