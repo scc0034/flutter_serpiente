@@ -426,6 +426,13 @@ class _TableroPageState extends State<TableroPage> {
       //Volvemos a cargar los datos del mapa
       _actualizaMap();
     }
+
+    bool endGame = _controlFinPartida(index, ficha);
+
+
+    if (endGame){
+      print("DEBEMoS DE MOSTRAR EL MENSAJE DE QUE EL JUEGO A TERMINADO");
+    }
   }
 
   ///Método que se encarga de validar si la partida termina, cuando
@@ -443,20 +450,22 @@ class _TableroPageState extends State<TableroPage> {
     /// ~/ se queda con la parte entera de la division
     index == 0? fila = (0) : fila = (index~/_nFil);
 
-    print("CONTROL DE LA HORIZONTAL");
+    print("CONTROL DE LA HORIZONTAL\n");
     /// Miramos si tenemos alguna coincidencia en horizontal
     String cadenaFila = "";
     fila == 0? inicioFila = 0 : inicioFila = _nCol*fila;
-    for (var i = inicioFila; i < _nFil; i++) {
+    print("INICIO DE LA FILA PARA CONTROL HORIZONTAL = $inicioFila");
+    for (var i = inicioFila; i < inicioFila+_nCol; i++) {
       String contenido = _mapVarGame[i.toString()].toString();
       if(contenido.compareTo("") == 0){
         contenido = "-";
       }
       cadenaFila+=contenido;
     }
+    print("CADENA HORIZONTAL = $cadenaFila \n");
 
     if(cadenaFila.contains(cadenaValidar[ficha])){
-      print("WIN HORIZONTAL")
+      print("WIN HORIZONTAL");
       return true;
     }
 
@@ -474,6 +483,9 @@ class _TableroPageState extends State<TableroPage> {
       print("WIN VERTICAL");
       return true;
     }
+
+    print("CADENA VERTICAL = $cadenaColumna \n");
+
 
     print("CONTROL DE LA DIAGONAL SUP IZQ");
     /// Diagonal sup izq -> inf der, ya tenemos el inicio de la fila y la col
