@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 
+import '../../home_page.dart';
+
 // ignore: must_be_immutable
 /// Clase que controla el juego del 4 en raya
 /// Aclara que el de color yellow es el anfitrión,
@@ -47,6 +49,10 @@ class _TableroPageState extends State<TableroPage> {
   int celdas = 0;
   final Random _semilla = new Random();
 
+  /// Variables de control de la entrada de mensajes
+  final TextEditingController textEditingController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+
   @override
   void initState() {
     //ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
@@ -68,7 +74,8 @@ class _TableroPageState extends State<TableroPage> {
     return Scaffold(
       appBar: AppBar(
         excludeHeaderSemantics: true,
-
+        automaticallyImplyLeading: true,
+        leading: _volverAtras(),
         title: Text("Jugando 4 en raya"),
       ),
       body: Column(
@@ -85,11 +92,23 @@ class _TableroPageState extends State<TableroPage> {
           ),
           // ABAJO
           _pintarAbajo(context),
+          // ZONA de mandar los mensajes
+          _pintarMsg(),
         ]
       )
     );
   }
 
+  ///Método que nos da una flecha con la que volver atrás concretamente al home
+  Widget _volverAtras(){ 
+    return IconButton(
+      icon: Icon(Icons.home), 
+      onPressed: (){
+        Navigator.popUntil(context, ModalRoute.withName("four"));
+      },
+    );
+  }
+  
   /// Método para pintar la zona de arriba del tablero, dependiendo del turno del jugador y del dispositivo
   Widget _pintarArriba(BuildContext context){
     return StreamBuilder(
@@ -290,6 +309,46 @@ class _TableroPageState extends State<TableroPage> {
     );
   }
   
+    Widget _pintarMsg(){
+  return Container(
+      child: Row(
+        children: <Widget>[
+          
+          // Edit text
+          Flexible(
+            child: Container(
+              child: TextField(
+                style: TextStyle( fontSize: 15.0),
+                controller: textEditingController,
+                decoration: InputDecoration.collapsed(
+                  hintText: 'Type your message...',
+                  hintStyle: TextStyle(color: Colors.grey),
+                ),
+                focusNode: focusNode,
+              ),
+            ),
+          ),
+
+          // Button send message
+          Material(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8.0),
+              child: IconButton(
+                icon: Icon(Icons.send),
+                //onPressed: () => onSendMessage(textEditingController.text, 0),
+                //color: primaryColor,
+              ),
+            ),
+            color: Colors.white,
+          ),
+        ],
+      ),
+      width: double.infinity,
+      height: 50.0,
+      decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.blue, width: 0.5)), color: Colors.white),
+    );
+  }
+
   ///Método que actualiza la variable del mapa que contien las vars del juego
   Future<void> _actualizaMap ()async{
     try {
@@ -489,31 +548,73 @@ class _TableroPageState extends State<TableroPage> {
 
     print("CONTROL DE LA DIAGONAL SUP IZQ");
     /// Diagonal sup izq -> inf der, ya tenemos el inicio de la fila y la col
+    print("COLUMNA $columna");
     int filSI = fila;
     int colSI = columna;
-    int indexSI;
+    int indexSI = index;
     String cadenaSIID="";
-    while(colSI == 0 || filSI == 0){
-      filSI--;
-      colSI--;
+    int menor = filSI;
+    // Miramos cual de las dos es menor, ya que os limita la búsqueda
+    filSI<colSI ? menor = filSI : menor = colSI;
+    print("Lo que tenemos dentro de menor = $menor");
+    while(menor !=0){
+      indexSI = indexSI -_nCol - 1;
+      menor--;
     }
-    indexSI = filSI*_nFil+colSI;
+    
+    print("El INDEX donde empieza a mirar es = $indexSI");
+    int nuevaColIndex ;
+    int nuevaFilIndex;
+    indexSI == 0? nuevaColIndex = 0 : nuevaColIndex = indexSI%_nCol;
+    indexSI == 0? nuevaFilIndex = 0 : nuevaFilIndex = indexSI~/_nCol;
 
+    print("EL VALOR DE NUEVA COL INDEX = $nuevaColIndex");
     //Iteramos para recorrer la diagonal sup izq _> inf der
-    for (var i = colSI; i < _nCol; i++) {
+    for (var i = nuevaColIndex; i < _nCol; i++) {
+      print("MIRO $i, con el index = $indexSI");
       String contenido = _mapVarGame[indexSI.toString()].toString();
       if(contenido.compareTo("") == 0){
         contenido = "-";
       }
       cadenaSIID+=contenido;
-      indexSI = _nCol + 1;
+      indexSI += _nCol + 1;
     }
+
+    //Mostramos que tiene la cadena de cadenaSIID
+    print("CADENA SUERIOR IZQ DER INF = $cadenaSIID");
 
     if(cadenaSIID.contains(cadenaValidar[ficha])){
       print("WIN DIAGONAL SUP IZQ");
       return true;
     }
 
+    // CONTROLAMOS LA DIAGONAL INF IZQ - SUP DER
+    print("=================================================================");
+    int indexII = index;
+    while(fila!=_nFil-1){
+      indexII = indexII +_nCol - 1;
+      fila++;
+    }
+    indexII == 0? nuevaColIndex = 0 : nuevaColIndex = indexII%_nCol;
+    indexII == 0? nuevaFilIndex = 0 : nuevaFilIndex = indexII~/_nCol;
+    String cadenaIISD = "";
+    for (var i = nuevaColIndex; i < _nCol; i++) {
+      print("MIRO $i, con el index = $indexII");
+      String contenido = _mapVarGame[indexII.toString()].toString();
+      if(contenido.compareTo("") == 0){
+        contenido = "-";
+      }
+      cadenaIISD+=contenido;
+      indexII -= _nCol;
+    }
+
+    print("CADENA INF IZQ= $cadenaIISD");
+
+    if(cadenaIISD.contains(cadenaValidar[ficha])){
+      print("WIN DIAGONAL iNF IZQ");
+      return true;
+    }
+    print("=================================================================");
 
     // En cualquier caso false
     return false;

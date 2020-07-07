@@ -19,7 +19,7 @@ class _UnirPageState extends State<UnirPage> {
   ///Base de datos de firebase
   Firestore firestoreDB;
   final String _coleccionDB = "cuatrorows";
-  String _codigoUnirse ="";
+  String _codigoUnirse ="AXgDhSszcag0KCkFqHqg";
   String clave = "AXgDhSszcag0KCkFqHqg";
 
   ///Publicidad
@@ -69,7 +69,7 @@ class _UnirPageState extends State<UnirPage> {
       ),
       onChanged: (value) {
         setState(() {
-          _codigoUnirse = value;
+          _codigoUnirse = clave;
         });
       },
     );

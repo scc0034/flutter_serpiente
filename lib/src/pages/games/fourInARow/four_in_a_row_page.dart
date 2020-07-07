@@ -72,9 +72,9 @@ class _FourRowPageState extends State<FourRowPage> {
                 onTap: () async {
                   if (_bandera == null){
                     _animateContaienrs(75,true);
-                    await new Future.delayed(const Duration(seconds: 1));
+                    await new Future.delayed(const Duration(milliseconds: 500));
                     Navigator.push(context, new MaterialPageRoute(builder: (__) => new InvitarPage(ads:false)));
-                    print("Tocado invitar amigo");
+                    _animateContaienrs(-75,true);
                   }
                 },
               ),
@@ -100,9 +100,9 @@ class _FourRowPageState extends State<FourRowPage> {
                 onTap: () async{
                   if (_bandera == null){
                     _animateContaienrs(75,false);
-                    await new Future.delayed(const Duration(seconds: 1));
+                    await new Future.delayed(const Duration(milliseconds: 500));
                     Navigator.push(context, new MaterialPageRoute(builder: (__) => new UnirPage(ads:false)));
-                    print("Tocado invitar amigo");
+                    _animateContaienrs(-75,false);
                   }
                 },
               ),
