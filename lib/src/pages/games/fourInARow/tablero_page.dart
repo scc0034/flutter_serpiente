@@ -74,7 +74,7 @@ class _TableroPageState extends State<TableroPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ///ARRIBA
-          
+          _pintarArriba(context),
           ///DONDE VA EL TABLERO
           Expanded(
             child: Container(
@@ -104,19 +104,24 @@ class _TableroPageState extends State<TableroPage> {
         if(snapshot.hasData){
           DocumentSnapshot doc = snapshot.data;
           String t = doc["turno"].toString();
-          if(_esAnfitrion()){
-            if(t.compareTo("yellow") == 0){
-              _colorY = Colors.yellow[200];
-            }else{
-              _colorY = Colors.white;
-            }
+          if(t.compareTo("") == 0){
+            _colorY = Colors.white;
           }else{
-            if(t.compareTo("red") == 0){
-              _colorY = Colors.white;
+            if(_esAnfitrion()){
+              if(t.compareTo("yellow") == 0){
+                _colorY = Colors.yellow[200];
+              }else{
+                _colorY = Colors.white;
+              }
             }else{
-              _colorY = Colors.red[200];
+              if(t.compareTo("red") == 0){
+                _colorY = Colors.white;
+              }else{
+                _colorY = Colors.red[200];
+              }
             }
           }
+          
           return Container(
             height: 75,
             color:_colorY,
@@ -153,20 +158,25 @@ class _TableroPageState extends State<TableroPage> {
         if(snapshot.hasData){
           DocumentSnapshot doc = snapshot.data;
           String t = doc["turno"].toString();
-          if(_esAnfitrion()){
+
+          if (t.compareTo("") == 0){
+            _colorR = Colors.white;
+          }else{
+            if(_esAnfitrion()){
             if(t.compareTo("yellow") == 0){
               _colorR=Colors.white;
             }else{
-              _colorR = Colors.red[200];
+              _colorR=Colors.red[200];
             }
           }else{
             if(t.compareTo("red") == 0){
-              _colorR=Colors.yellow[200];
+              _colorR=Colors.red[200];
             }else{
-              _colorR = Colors.white;
+              _colorR=Colors.white;
             }
-      }
           }
+          }
+          
           return Container(
             height: 75,
             color: _colorR,
@@ -209,16 +219,7 @@ class _TableroPageState extends State<TableroPage> {
       print("El error es: $err");
     }
     setState(() {
-      /*if(_mapVarGame["turno"].toString().compareTo("yellow") == 0){
-        _colorY = Colors.yellow[200];
-      }else{
-        _colorY = Colors.white;
-      }
-      if(_mapVarGame["turno"].toString().compareTo("red") == 0){
-        _colorR = Colors.red[200];
-      }else{
-        _colorR = Colors.white;
-      }*/
+      
     });
   }
 
