@@ -39,12 +39,13 @@ class _TableroPageState extends State<TableroPage> {
   Color _colorY = Colors.white;
   Color _colorR = Colors.white;
   String _fotoArriba = "https://deporteros.pe/wp-content/uploads/2017/07/icon-persona.png";
-  
+  final int _numFichasEnd = 4;
+
   //Tablero
   final int _nCol = 7;
   final int _nFil = 7;
   int celdas = 0;
-  static final Random _semilla = new Random();
+  final Random _semilla = new Random();
 
   @override
   void initState() {
@@ -395,27 +396,25 @@ class _TableroPageState extends State<TableroPage> {
     }
   }
 
-
-  
-  
   /// Méétodo que mete la ficha en la base de datos y cambia el turno
   Future<void> _putFicha(int index) async{
-    /*
-    int celdaVacia = -1;
-    int celdaAbajo = index+_nFil;
+
     bool updated = false;
-    String columna;*/
-    bool updated = false;
+    String ficha  ="";
     // Calculamos en la columna que toca
     /*index == 0? columna = (0).toString() : columna = (index%7).toString();*/
-    // Miramos cual de los dos jugadores tiene
+
     if (_mapVarGame["turno"].compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
       print("pulsando $emailGoogle dentro su turno");
       updated = true;
+      ficha = "Y";
+      _mapVarGame[index.toString()] =  ficha;
     }
 
     if (_mapVarGame["turno"].compareTo("red") == 0 && emailGoogle.compareTo(_mapVarGame["emailRed"]) ==0 ){
       updated = true;
+      ficha = "R";
+      _mapVarGame[index.toString()] =  ficha;
     }
 
     //Actualizamos la variable en la base de datos
@@ -427,6 +426,36 @@ class _TableroPageState extends State<TableroPage> {
       //Volvemos a cargar los datos del mapa
       _actualizaMap();
     }
+  }
+
+  ///Método que se encarga de validar si la partida termina, cuando
+  bool _controlFinPartida(int index, String ficha){
+    /// Sacamos del index la fila y la coluna de la ficha
+    int columna;
+    int fila;
+    int inicioCol;
+    int inicioFila;
+    Map<String,String> cadenaValidar = {
+      "R" : "RRRR",
+      "Y" : "YYYY"
+    };
+
+    index == 0? columna = (0) : columna = (index%_nCol);
+    /// ~/ se queda con la parte entera de la division
+    index == 0? fila = (0) : fila = (index~/_nFil);
+
+    /// Miramos si tenemos alguna coincidencia en horizontal
+    String cadenaFila = "";
+    fila == 0? inicioFila = 0 : inicioFila = _nCol*fila;
+    for (var i = inicioFila; i < _nFil; i++) {
+      cadenaFila+=_mapVarGame[i.toString()].toString;
+    }
+
+    if(cadenaFila.contains(cadenaValidar[ficha])){
+      return true;
+    }
+    
+    return false;
   }
 
 }
