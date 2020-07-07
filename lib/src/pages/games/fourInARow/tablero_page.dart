@@ -89,61 +89,6 @@ class _TableroPageState extends State<TableroPage> {
     );
   }
 
-  /// Método para pintar el fondo de la zona de abajo dependiendo del turno en la base de datos
-  Widget _pintarAbajo(BuildContext context){
-    return StreamBuilder(
-      stream: firestoreDB.collection(_coleccionDB).document(code).snapshots().asBroadcastStream(),
-      builder: (context, AsyncSnapshot snapshot){
-        // En el caso de que no tengamos datos mostramos la barra de progreso
-        if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        // Miramos si tenemos datos dentro del snapshot
-        if(snapshot.hasData){
-          DocumentSnapshot doc = snapshot.data;
-          String t = doc["turno"].toString();
-          if(t.compareTo("") == 0){
-            _colorY = Colors.white;
-          }else{
-            if(_esAnfitrion()){
-              if(t.compareTo("yellow") == 0){
-                _colorY = Colors.yellow[200];
-              }else{
-                _colorY = Colors.white;
-              }
-            }else{
-              if(t.compareTo("yellow") == 0){
-                _colorY = Colors.white;
-              }else{
-                _colorY = Colors.red[200];
-              }
-
-            }
-          }
-          
-          return Container(
-            height: 75,
-            color:_colorY,
-              child:
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    minRadius: 20,
-                    maxRadius: 30,
-                    backgroundColor: Colors.blue,
-                    backgroundImage: NetworkImage(imageUrlGoogle.toString(),),
-                  )
-                ],
-              )
-          );
-        }
-      },// Final del builder
-    );
-  }
-  
   /// Método para pintar la zona de arriba del tablero, dependiendo del turno del jugador y del dispositivo
   Widget _pintarArriba(BuildContext context){
     return StreamBuilder(
@@ -210,6 +155,140 @@ class _TableroPageState extends State<TableroPage> {
       },// Final del builder
     );
   }
+
+  // Método para pintar el tablero en tiempo real con los datos de la base de datos firestore
+  Widget _pintarTablero(BuildContext context){
+    Color colorFondo = Colors.blue;
+    Color colorFicha = Colors.white;
+    return StreamBuilder(
+      stream: firestoreDB.collection(_coleccionDB).document(code).snapshots().asBroadcastStream(),
+      builder: ( context, AsyncSnapshot snapshot){
+        // En el caso de que no tengamos datos mostramos la barra de progreso
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        // Miramos si tenemos datos dentro del snapshot
+        if(snapshot.hasData){
+          DocumentSnapshot doc = snapshot.data;
+
+          print(doc["emailRed"]);
+          //List<dynamic> list = map.values.toList();
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _nCol), 
+            itemCount: celdas,
+            itemBuilder: (context, int index) {
+
+              String contenidoCelda = doc[index.toString()].toString();
+              if( contenidoCelda.compareTo("") == 0){
+                colorFicha = Colors.white;
+              }else if (contenidoCelda.compareTo("R") ==0){
+                colorFicha = Colors.red;
+              }else if (contenidoCelda.compareTo("Y") ==0){
+                colorFicha = Colors.yellow;
+              }
+              return GestureDetector(
+                child: Container(
+                padding: EdgeInsets.all(0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(0),
+                    child: Container(
+                      child: ClipOval(
+                        child: Container(
+                          margin: EdgeInsets.all(8),
+                          color: colorFicha,
+                      ),),
+                      color: colorFondo,
+                    ),
+                  ),
+                ),
+                onTap: () async{
+                  print("HEMOS PULSADO EN LA CELDA $index");
+
+                  /// Miramos si se puede meter la ficha en la casilla pulsada
+                  int celdaAbajo = index+_nFil;
+
+                  //Miramos si estamos en la última fila
+                  if(celdaAbajo >= celdas){
+                    //Miramos que el index este vacio
+                    if(doc[index.toString()].toString().compareTo("")==0){
+                      await _putFicha(index);
+                    }
+                  }else{
+                    //Miramos si la celda de abajo esta vacia
+                    if(doc[celdaAbajo.toString()].toString().compareTo("")!=0){
+                      print("Celda de abajo no eta vacia");
+                      if(doc[index.toString()].toString().compareTo("")==0){
+                        await _putFicha(index);
+                      }
+                    }
+                  }
+                },
+              );
+            }
+          );
+        }
+      },// Final del builder
+    );
+  }
+  
+  /// Método para pintar el fondo de la zona de abajo dependiendo del turno en la base de datos
+  Widget _pintarAbajo(BuildContext context){
+    return StreamBuilder(
+      stream: firestoreDB.collection(_coleccionDB).document(code).snapshots().asBroadcastStream(),
+      builder: (context, AsyncSnapshot snapshot){
+        // En el caso de que no tengamos datos mostramos la barra de progreso
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        // Miramos si tenemos datos dentro del snapshot
+        if(snapshot.hasData){
+          DocumentSnapshot doc = snapshot.data;
+          String t = doc["turno"].toString();
+          if(t.compareTo("") == 0){
+            _colorY = Colors.white;
+          }else{
+            if(_esAnfitrion()){
+              if(t.compareTo("yellow") == 0){
+                _colorY = Colors.yellow[200];
+              }else{
+                _colorY = Colors.white;
+              }
+            }else{
+              if(t.compareTo("yellow") == 0){
+                _colorY = Colors.white;
+              }else{
+                _colorY = Colors.red[200];
+              }
+
+            }
+          }
+          
+          return Container(
+            height: 75,
+            color:_colorY,
+              child:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    minRadius: 20,
+                    maxRadius: 30,
+                    backgroundColor: Colors.blue,
+                    backgroundImage: NetworkImage(imageUrlGoogle.toString(),),
+                  )
+                ],
+              )
+          );
+        }
+      },// Final del builder
+    );
+  }
+  
   ///Método que actualiza la variable del mapa que contien las vars del juego
   Future<void> _actualizaMap ()async{
     try {
@@ -302,26 +381,7 @@ class _TableroPageState extends State<TableroPage> {
     );
   }
 
-  ///Método para cambiar el color del fondo del jugador que tiene el turno
-  void _changeColorTurno(){
-    setState(() {
-      _actualizaMap();
-      _mapVarGame["turno"] == "yellow" ? _colorY = Colors.yellow[100] : _colorY = Colors.white;
-      _mapVarGame["turno"] == "red" ? _colorR = Colors.red[100] : _colorR = Colors.white;
-    });
-  }
-
-  ///Método que cambia el turno de la partida, solo lo puede cambiar uno de los dos 
-  void _changeTurno()async {
-    if (_mapVarGame["turno"].compareTo("yellow") == 0){
-      _mapVarGame["turno"] = "red";
-    }else{
-      _mapVarGame["turno"] = "yellow";
-    }
-    await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
-    _actualizaMap();
-  }
-
+  ///Metodo que devuelve la url de la imagen de arriba, dependiendo del que juega
   String _getFotoArriba(){
     String aux = "";
     for (var k in _mapVarGame.keys) {
@@ -336,108 +396,26 @@ class _TableroPageState extends State<TableroPage> {
   }
 
 
-  Widget _pintarTablero(BuildContext context){
-    Color colorFondo = Colors.blue;
-    Color colorFicha = Colors.white;
-    return StreamBuilder(
-      stream: firestoreDB.collection(_coleccionDB).document(code).snapshots().asBroadcastStream(),
-      builder: ( context, AsyncSnapshot snapshot){
-        // En el caso de que no tengamos datos mostramos la barra de progreso
-        if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        // Miramos si tenemos datos dentro del snapshot
-        if(snapshot.hasData){
-          DocumentSnapshot doc = snapshot.data;
-
-          print(doc["emailRed"]);
-          //List<dynamic> list = map.values.toList();
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _nCol), 
-            itemCount: celdas,
-            itemBuilder: (context, int index) {
-
-              String contenidoCelda = doc[index.toString()].toString();
-              if( contenidoCelda.compareTo("") == 0){
-                colorFicha = Colors.white;
-              }else if (contenidoCelda.compareTo("R") ==0){
-                colorFicha = Colors.red;
-              }else if (contenidoCelda.compareTo("Y") ==0){
-                colorFicha = Colors.yellow;
-              }
-              return GestureDetector(
-                child: Container(
-                padding: EdgeInsets.all(0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(0),
-                    child: Container(
-                      child: ClipOval(
-                        child: Container(
-                          margin: EdgeInsets.all(8),
-                          color: colorFicha,
-                      ),),
-                      color: colorFondo,
-                    ),
-                  ),
-                ),
-                onTap: () async{
-                  print("HEMOS PULSADO EN LA CELDA $index");
-                  await _putFicha(index);
-                },
-              );
-            }
-          );
-        }
-      },// Final del builder
-    );
-  }
   
-
+  
+  /// Méétodo que mete la ficha en la base de datos y cambia el turno
   Future<void> _putFicha(int index) async{
-    
+    /*
     int celdaVacia = -1;
     int celdaAbajo = index+_nFil;
     bool updated = false;
-    String columna;
+    String columna;*/
+    bool updated = false;
     // Calculamos en la columna que toca
-    index == 0? columna = (0).toString() : columna = (index%7).toString();
+    /*index == 0? columna = (0).toString() : columna = (index%7).toString();*/
     // Miramos cual de los dos jugadores tiene
     if (_mapVarGame["turno"].compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
       print("pulsando $emailGoogle dentro su turno");
-
-      if (celdaAbajo<(_nCol^2)){
-        if (_mapVarGame[celdaAbajo.toString()].toString().compareTo("") != 0 ){
-          if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
-            _mapVarGame[index.toString()] = "Y";
-            updated = true;
-          }
-        }
-      }else{
-        if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
-          _mapVarGame[index.toString()] = "Y";
-          updated = true;
-        }
-      }
+      updated = true;
     }
 
     if (_mapVarGame["turno"].compareTo("red") == 0 && emailGoogle.compareTo(_mapVarGame["emailRed"]) ==0 ){
-      if (celdaAbajo<_nCol^2){
-        if (_mapVarGame[celdaAbajo.toString()].toString().compareTo("") != 0 ){
-          if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
-            _mapVarGame[index.toString()] = "R";
-            updated = true;
-          }
-        }
-      }else{
-        if(_mapVarGame[index.toString()].toString().compareTo("") == 0){
-          _mapVarGame[index.toString()] = "R";
-          updated = true;
-        }
-      }
-      
+      updated = true;
     }
 
     //Actualizamos la variable en la base de datos
@@ -449,9 +427,6 @@ class _TableroPageState extends State<TableroPage> {
       //Volvemos a cargar los datos del mapa
       _actualizaMap();
     }
-    
-    // Cambiamos el turno del jugador
-
   }
 
 }
