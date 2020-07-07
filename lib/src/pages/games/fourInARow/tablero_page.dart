@@ -433,7 +433,6 @@ class _TableroPageState extends State<TableroPage> {
     /// Sacamos del index la fila y la coluna de la ficha
     int columna;
     int fila;
-    int inicioCol;
     int inicioFila;
     Map<String,String> cadenaValidar = {
       "R" : "RRRR",
@@ -444,17 +443,67 @@ class _TableroPageState extends State<TableroPage> {
     /// ~/ se queda con la parte entera de la division
     index == 0? fila = (0) : fila = (index~/_nFil);
 
+    print("CONTROL DE LA HORIZONTAL");
     /// Miramos si tenemos alguna coincidencia en horizontal
     String cadenaFila = "";
     fila == 0? inicioFila = 0 : inicioFila = _nCol*fila;
     for (var i = inicioFila; i < _nFil; i++) {
-      cadenaFila+=_mapVarGame[i.toString()].toString;
+      String contenido = _mapVarGame[i.toString()].toString();
+      if(contenido.compareTo("") == 0){
+        contenido = "-";
+      }
+      cadenaFila+=contenido;
     }
 
     if(cadenaFila.contains(cadenaValidar[ficha])){
+      print("WIN HORIZONTAL")
       return true;
     }
-    
+
+    print("CONTROL DE LA VERTICAL");
+    /// Miramos que es lo que pasa en la vertical
+    String cadenaColumna = "";
+    for (var i = columna; i < celdas; i=i+7) {
+      String contenido = _mapVarGame[i.toString()].toString();
+      if(contenido.compareTo("") == 0){
+        contenido = "-";
+      }
+      cadenaColumna+=contenido;
+    }
+    if(cadenaColumna.contains(cadenaValidar[ficha])){
+      print("WIN VERTICAL");
+      return true;
+    }
+
+    print("CONTROL DE LA DIAGONAL SUP IZQ");
+    /// Diagonal sup izq -> inf der, ya tenemos el inicio de la fila y la col
+    int filSI = fila;
+    int colSI = columna;
+    int indexSI;
+    String cadenaSIID="";
+    while(colSI == 0 || filSI == 0){
+      filSI--;
+      colSI--;
+    }
+    indexSI = filSI*_nFil+colSI;
+
+    //Iteramos para recorrer la diagonal sup izq _> inf der
+    for (var i = colSI; i < _nCol; i++) {
+      String contenido = _mapVarGame[indexSI.toString()].toString();
+      if(contenido.compareTo("") == 0){
+        contenido = "-";
+      }
+      cadenaSIID+=contenido;
+      indexSI = _nCol + 1;
+    }
+
+    if(cadenaSIID.contains(cadenaValidar[ficha])){
+      print("WIN DIAGONAL SUP IZQ");
+      return true;
+    }
+
+
+    // En cualquier caso false
     return false;
   }
 
