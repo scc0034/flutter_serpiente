@@ -103,6 +103,24 @@ class _SnakePageState extends State<SnakePage> {
         drawer: MenuLateral(),
         appBar: AppBar(
           title: Text("Snake Page"),
+          actions: <Widget>[
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(right: 15),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    return FadeTransition(child: child,opacity: animation);
+                  },
+                  child: Text("Points $_puntuacion",
+                    key: ValueKey<int>(_puntuacion),
+                    style: Theme.of(context).textTheme.headline5,
+                    
+                  ),
+          ),
+            )
+          ),
+          ]
         ),
         body: Container(
           child: _dibujarTablero(context),
@@ -163,32 +181,7 @@ class _SnakePageState extends State<SnakePage> {
                 ),
               ), // Tablero
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: Theme.of(context).primaryColor,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Icon(Icons.star),
-                  Text("Puntuación: $_puntuacion"),
-                  /*FlatButton(
-                    color: Theme.of(context).textSelectionHandleColor,
-                    onPressed: () {
-                      setState(() {
-                        _restartGame();
-                      });
-                    },
-                    child: Text(
-                      "Restart Game",
-                    ),
-                  )*/
-                ],
-              ),
-            ),
-          )
+          ),  
         ],
       ),
     );
@@ -429,7 +422,75 @@ class _SnakePageState extends State<SnakePage> {
     }
 
     // Una vez tenemos validado la mejora, mostramos el showdialog
-    showDialog(
+    showGeneralDialog(
+      transitionBuilder: (context, a1, a2, widget) {
+      final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;
+      return Transform(
+        transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+        child: Opacity(
+          opacity: a1.value,
+          child: AlertDialog(
+            title: Text('GAME OVER'),
+            content: Text(cabecera),
+            actions: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset("assets/img/snake/gameover.png"),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text('Play Again'),
+                    onPressed: () {
+                      setState(() {
+                        _restartGame();
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  SizedBox(width: 5,),
+                  FlatButton(
+                    child: Text(texto),
+                    hoverColor: Theme.of(context).toggleableActiveColor,
+                    onPressed: () {
+                      if (mejoraPuntos) {
+                        // Nos movemos a la página de formulario
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              RankFromPage(value: _puntuacion),
+                        ));
+                      } else {
+                        Navigator.pushNamed(context, "rank");
+                      }
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  __crearBotonReward(context),
+                ],
+              )
+            ],
+          )
+        ),
+      );
+    },
+    transitionDuration: Duration(milliseconds: 200),
+    barrierDismissible: true,
+    barrierLabel: '',
+    context: context,
+    pageBuilder: (context, animation1, animation2) {});
+
+
+      /*
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -483,7 +544,7 @@ class _SnakePageState extends State<SnakePage> {
               )
             ],
           );
-        });
+        }*/
   }
 
   ///Método que se encarga de generar los bloques en el tablero

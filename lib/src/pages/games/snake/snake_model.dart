@@ -4,9 +4,9 @@ class SnakeModel {
 
   ///Numero de casillas del tablero dependiendo de la pantalla
   static Map<String,int> pixelRatio = {
-    "20:9" : 669,
-    "19:9" : 659,
-    "18:9" : 579, 
+    "20:9" : 679,
+    "19:9" : 679,
+    "18:9" : 599, 
     "defecto" : 400,
   };
 
