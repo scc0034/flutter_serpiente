@@ -5,6 +5,9 @@ import 'dart:math' show Random;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
+import 'package:bubble/bubble.dart' show Bubble, BubbleStyle, BubbleNip, BubbleEdges, BubbleClipper;
+import 'package:flutter/animation.dart';
+
 
 // ignore: must_be_immutable
 /// Clase que controla el juego del 4 en raya
@@ -18,7 +21,7 @@ class TableroPage extends StatefulWidget {
   _TableroPageState createState() => _TableroPageState(code : code);
 }
 
-class _TableroPageState extends State<TableroPage> {
+class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin{
 
   String code = "";
   _TableroPageState({this.code});
@@ -51,6 +54,17 @@ class _TableroPageState extends State<TableroPage> {
   final TextEditingController textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
 
+  /// Variables de los mensajes
+  AnimationController controller;
+  Animation<double> animation;
+  BubbleStyle styleBubble = BubbleStyle(
+      nip: BubbleNip.leftTop,
+      color: Colors.white,
+      elevation: 2.5,
+      margin: BubbleEdges.only(top: 8.0, right: 50.0),
+      alignment: Alignment.topLeft,
+  );
+
   @override
   void initState() {
     //ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
@@ -59,6 +73,19 @@ class _TableroPageState extends State<TableroPage> {
 
     _cargarPartida();
     _controlTiempo();
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 5000), vsync: this);
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+
+    /*animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        controller.forward();
+      }
+    });*/
+
+    controller.forward();
     super.initState();
   }
 
@@ -143,8 +170,15 @@ class _TableroPageState extends State<TableroPage> {
             }
           }
           
+          
+          String invitado = getEmailInvitado();
+          invitado = invitado+="msg";
+          String m = doc["invitado"].toString();
+          if(m!=null){
+            m="";
+          }
           return Container(
-            height: 75,
+            height: 65,
             color: _colorR,
             child: 
               Row(
@@ -158,8 +192,22 @@ class _TableroPageState extends State<TableroPage> {
                     backgroundImage: NetworkImage(_fotoArriba),
                   ),
                   Expanded(
-                    child: Container(
-                      
+                    child: Row(
+                      children :<Widget>[
+                        FadeTransition(
+                          opacity: animation,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:[
+                                Bubble(
+                                  style: styleBubble,
+                                  child: Text(m),
+                                )
+                              ]
+                          )
+                        )
+                          
+                      ], 
                     ),
                   ),
                   Container(
@@ -289,7 +337,7 @@ class _TableroPageState extends State<TableroPage> {
           }
           
           return Container(
-            height: 75,
+            height: 65,
             color:_colorY,
               child:
               Row(
@@ -313,11 +361,10 @@ class _TableroPageState extends State<TableroPage> {
   return Container(
       child: Row(
         children: <Widget>[
-          
-          // Edit text
           Flexible(
             child: Container(
               child: TextField(
+                maxLength: 20,
                 style: TextStyle( fontSize: 15.0),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
@@ -328,15 +375,12 @@ class _TableroPageState extends State<TableroPage> {
               ),
             ),
           ),
-
-          // Button send message
           Material(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: IconButton(
                 icon: Icon(Icons.send),
-                //onPressed: () => onSendMessage(textEditingController.text, 0),
-                //color: primaryColor,
+                onPressed: () => _enviarMsg(textEditingController.text),
               ),
             ),
             color: Colors.white,
@@ -673,6 +717,24 @@ class _TableroPageState extends State<TableroPage> {
             ],
           );
         });
+  }
+
+  String getEmailInvitado(){
+    String aux = "";
+    for (var k in _mapVarGame.keys) {
+      _mapVarGame[k] == emailGoogle ? aux=k.toString() : aux="";
+
+      if (aux.compareTo("emailRed") == 0){
+        return _mapVarGame["emailRed"];
+      }else if(aux.compareTo("emailYellow") == 0){
+        return _mapVarGame["emailYellow"];
+      }
+    }
+  }
+  void _enviarMsg(String msg){
+    String key = emailGoogle+"msg";
+    _mapVarGame[key] = msg;
+    firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
   }
 
 }

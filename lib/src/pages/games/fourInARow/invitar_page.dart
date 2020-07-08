@@ -84,17 +84,17 @@ class _InvitarPageState extends State<InvitarPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CircleAvatar(
-                minRadius: 50,
-                maxRadius: 60,
+                minRadius: 35,
+                maxRadius: 50,
                 backgroundColor: Colors.blue,
                 backgroundImage: NetworkImage(imageUrlGoogle,),
               ),
               SizedBox(width: 50,),
               GestureDetector(
                 child: CircleAvatar(
-                  minRadius: 50,
-                  maxRadius: 60,
-                  backgroundColor: Colors.blue,
+                  minRadius: 35,
+                  maxRadius: 50,
+                  backgroundColor: Colors.grey,
                   child: Icon(Icons.share),
                 ),
                 onTap: () async{
@@ -125,7 +125,7 @@ class _InvitarPageState extends State<InvitarPage> {
     setState(() {
       _codigo = docPartidaNew.documentID;
     });
-    
+    String k = emailGoogle+="msg";
 
     Map<String, dynamic> data = {
       "imageUrlYellow": imageUrlGoogle,
@@ -138,6 +138,7 @@ class _InvitarPageState extends State<InvitarPage> {
       "conectado" : false,
       "inGame" : false,
       "endGame" : false,
+      k : "",
     };
 
     /// Añadimos el tablero vacio
