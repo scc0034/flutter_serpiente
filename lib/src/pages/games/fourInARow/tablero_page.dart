@@ -173,7 +173,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           String invitado = getEmailInvitado();
           invitado = invitado.split("@")[0]+"msg";
           invitado = invitado.replaceAll(".", "");
-          String m = doc["invitado"].toString();
+          String m = doc[invitado.toString()].toString();
           print("EL INVITADO $invitado , MENSAJE ES -> $m");
           if(m!=null){
             m="";
