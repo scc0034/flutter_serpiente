@@ -172,7 +172,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           
           
           String invitado = getEmailInvitado();
-          invitado = invitado+="msg";
+          invitado = invitado.toString()+"msg";
           String m = doc["invitado"].toString();
           if(m!=null){
             m="";
@@ -732,6 +732,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     }
   }
   void _enviarMsg(String msg){
+    print("El MENSAJES ES $msg");
     String key = emailGoogle+"msg";
     _mapVarGame[key] = msg;
     firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);

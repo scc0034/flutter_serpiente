@@ -7,14 +7,9 @@
             "texto": "Home"
         },
         {
-            "ruta" : "snake",
+            "ruta" : "games",
             "icon" : "snake",
-            "texto": "Snake"
-        },
-        {
-            "ruta" : "four",
-            "icon" : "four",
-            "texto": "4-in-a-row Online"
+            "texto": "Games"
         },
         {
             "ruta" : "rank",

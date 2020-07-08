@@ -125,7 +125,7 @@ class _InvitarPageState extends State<InvitarPage> {
     setState(() {
       _codigo = docPartidaNew.documentID;
     });
-    String k = emailGoogle+="msg";
+    String k = emailGoogle.toString()+"msg";
 
     Map<String, dynamic> data = {
       "imageUrlYellow": imageUrlGoogle,
