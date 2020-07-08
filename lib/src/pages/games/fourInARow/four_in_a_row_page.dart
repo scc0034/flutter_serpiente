@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/pages/games/fourInARow/invitar_page.dart';
 import 'package:flutter_snake/src/pages/games/fourInARow/unir_page.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
+import 'package:flutter_snake/src/widget/go_back.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 // ignore: must_be_immutable
@@ -13,7 +14,7 @@ class FourRowPage extends StatefulWidget {
   _FourRowPageState createState() => _FourRowPageState(ads:ads);
 }
 
-class _FourRowPageState extends State<FourRowPage> {
+class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin {
 
   ///Publicidad
   bool ads = false;
@@ -29,18 +30,28 @@ class _FourRowPageState extends State<FourRowPage> {
   BorderRadiusGeometry _borderRadiuscontainer = BorderRadius.circular(1);
   bool _bandera = null;
 
+  AnimationController _controller;
+
   @override
   void initState() {
     ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
-    //_animateContaienrs(75);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();
   }
 
   @override
   void dispose() {
+    _controller.dispose();  
     super.dispose();
   }
   
+  void onAfterBuild(BuildContext context) {
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      _controller.forward();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -48,6 +59,8 @@ class _FourRowPageState extends State<FourRowPage> {
       drawer: MenuLateral(),
       appBar: AppBar(
         title: Text("Cuatro en raya Online"),
+        automaticallyImplyLeading: true,
+          leading: GoBack.volverAtras(context),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -57,25 +70,27 @@ class _FourRowPageState extends State<FourRowPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                child: AnimatedContainer(
-                  child: Center(child: Text("Invitar a un amigo")),
-                  width: _anchoContainer1,
-                  height: _altoContainer1,
-                  decoration: BoxDecoration(
-                    color: _colorContainer1,
-                    borderRadius: _borderRadiuscontainer,
-                    border: Border.all(color: Colors.black),
+
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  duration: Duration(seconds: 1),
-                  curve: Curves.easeInOutQuad,
-                ),
+                  color: Colors.yellow[100],
+                  elevation: 10,
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Image.asset("assets/img/fichayellow.png"),
+                        Divider(),
+
+                        Text("Invite a friend")
+                      ],
+                    ),
+                  ),
                 onTap: () async {
-                  if (_bandera == null){
-                    _animateContaienrs(75,true);
                     await new Future.delayed(const Duration(milliseconds: 500));
                     Navigator.push(context, new MaterialPageRoute(builder: (__) => new InvitarPage(ads:false)));
-                    _animateContaienrs(-75,true);
-                  }
+
                 },
               ),
             ],
@@ -85,25 +100,26 @@ class _FourRowPageState extends State<FourRowPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                child: AnimatedContainer(
-                  child: Center(child: Text("Unirme a partida")),
-                  width: _anchoContainer2,
-                  height: _altoContainer2,
-                  decoration: BoxDecoration(
-                    color: _colorContainer2,
-                    borderRadius: _borderRadiuscontainer,
-                    border: Border.all(color: Colors.black),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  duration: Duration(seconds: 1),
-                  curve: Curves.easeInOutQuad,
-                ),
+                  color: Colors.red[100],
+                  elevation: 10,
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Image.asset("assets/img/fichared.png"),
+                        Divider(),
+                        Text("Join game"),
+                      ],
+                    ),
+                  ),
                 onTap: () async{
-                  if (_bandera == null){
-                    _animateContaienrs(75,false);
+                   
                     await new Future.delayed(const Duration(milliseconds: 500));
                     Navigator.push(context, new MaterialPageRoute(builder: (__) => new UnirPage(ads:false)));
-                    _animateContaienrs(-75,false);
-                  }
+                  
                 },
               ),
             ],

@@ -6,6 +6,7 @@ import 'package:flutter_snake/src/pages/games/fourInARow/tablero_page.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:flutter_snake/src/widget/go_back.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 class InvitarPage extends StatefulWidget {
@@ -41,6 +42,8 @@ class _InvitarPageState extends State<InvitarPage> {
 
   @override
   void dispose() {
+    /// En el caso de que vuelvan atrás borramos de la base de datos el fichero
+    _borrarDocumento(context);
     super.dispose();
   }
   @override
@@ -49,7 +52,8 @@ class _InvitarPageState extends State<InvitarPage> {
       key : key,
       appBar: AppBar(
         excludeHeaderSemantics: true,
-
+        automaticallyImplyLeading: true,
+          leading: GoBack.volverAtras(context),
         title: Text("Invitar amigo"),
       ),
       body: Column(

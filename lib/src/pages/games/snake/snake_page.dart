@@ -56,6 +56,7 @@ class _SnakePageState extends State<SnakePage> {
   String _dir = "der";                      // Direccion
   bool _inGame = false;                     // En juego?
   bool _end = false;                        // Partida end ?
+  Timer timer;                              // Temporizador
   
   //BASE DE DATOS LOCAL
   DatabaseService dbService = DatabaseService.instance;
@@ -97,6 +98,7 @@ class _SnakePageState extends State<SnakePage> {
     audioCacheBase.clearCache();
     advancedPlayer.stop();
     audioCacheSonidos.clearCache();
+    timer.cancel();
     super.dispose();
   }
 
@@ -138,7 +140,6 @@ class _SnakePageState extends State<SnakePage> {
     double alto = window.physicalSize.height.toDouble();
     double ancho = window.physicalSize.width.toDouble();
     double ratio = (alto/ancho);
-    print("RATIOOOOOOOOOOOOOO = $ratio");
     if(ratio > 1.78 && ratio<1.93){
        _nCasillas =  SnakeModel.pixelRatio["18:9"];
     } else if(ratio<2.12){
@@ -199,7 +200,7 @@ class _SnakePageState extends State<SnakePage> {
     if (!_inGame) {
       _inGame = true;
       //Temporizador que actualiza la pantalla, segun la _velocidad
-      Timer.periodic(_velocidad, (Timer timer) {
+      Timer.periodic(_velocidad, (timer) {
         if (_gameOver() ) {
           timer.cancel();
           _final();
@@ -494,9 +495,6 @@ class _SnakePageState extends State<SnakePage> {
     barrierLabel: '',
     context: context,
     pageBuilder: (context, animation1, animation2) {});
-
-
-
   }
 
   ///Método que se encarga de generar los bloques en el tablero

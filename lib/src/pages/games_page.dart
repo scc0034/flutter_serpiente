@@ -31,7 +31,7 @@ class _GamesPageState extends State<GamesPage> {
     return Scaffold(
       drawer: MenuLateral(),
       appBar: AppBar(
-        title: Text("About Page"),
+        title: Text("All Games"),
       ),
       // Contenido de la parte de about
       body: ListView(
@@ -51,7 +51,7 @@ class _GamesPageState extends State<GamesPage> {
             child: Image.asset("assets/img/fourgame.png"),
           ),
           trailing: Icon(Icons.arrow_right),
-          title : Text("Four in a row"),
+          title : Text("Four in a row ONLINE"),
           onTap: () => Navigator.pushNamed(context, "four"),
         ),
         Divider(),
