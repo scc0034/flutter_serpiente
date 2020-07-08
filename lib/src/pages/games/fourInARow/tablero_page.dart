@@ -171,11 +171,13 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           
           
           String invitado = getEmailInvitado();
+          print("SOY $emailGoogle y mi invitado es$invitado");
           invitado = invitado.split("@")[0]+"msg";
           invitado = invitado.replaceAll(".", "");
           String m = doc[invitado.toString()].toString();
+          print(doc.toString());
           print("EL INVITADO $invitado , MENSAJE ES -> $m");
-          if(m!=null){
+          if(m==null){
             m="";
           }
           return Container(
@@ -202,7 +204,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
                               children:[
                                 Bubble(
                                   style: styleBubble,
-                                  child: Text(m),
+                                  child: Text(m, style: TextStyle(color: Colors.black),),
                                 )
                               ]
                           )
@@ -366,7 +368,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
               child: TextField(
                 maxLength: 20,
                 cursorColor: Colors.black,
-                style: TextStyle( fontSize: 15.0),
+                style: TextStyle( fontSize: 15.0, color: Colors.black),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
                   hintText: 'Type your message...',
