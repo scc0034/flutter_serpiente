@@ -33,28 +33,6 @@ class _AdBannerState extends State<AdBanner> {
       AdMobService.hideBannerAd();
       //AdMobService.hideInterstitialAd();
     }   
-    /*
-    FirebaseAdMob.instance.initialize(appId: _appid);
-    _bannerAd = createBannerAd()
-      ..load()
-      ..show(
-        anchorOffset: 60.0,
-        // Positions the banner ad 10 pixels from the center of the screen to the right
-        horizontalCenterOffset: 10.0,
-        // Banner Position
-        anchorType: AnchorType.bottom,
-      );
-
-    print("Dentro del initState");
-    RewardedVideoAd.instance.listener =
-        (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
-      print("RewardedVideoAd event $event");
-      if (event == RewardedVideoAdEvent.rewarded) {
-        setState(() {
-          _coins += rewardAmount;
-        });
-      }
-    };*/
     super.initState();
   }
 

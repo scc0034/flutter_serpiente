@@ -9,6 +9,7 @@ import 'package:flutter_snake/src/pages/rank_form.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/database_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
+import 'package:flutter_snake/src/widget/go_back.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
@@ -93,6 +94,9 @@ class _SnakePageState extends State<SnakePage> {
 
   @override
   void dispose() {
+    audioCacheBase.clearCache();
+    advancedPlayer.stop();
+    audioCacheSonidos.clearCache();
     super.dispose();
   }
 
@@ -102,6 +106,8 @@ class _SnakePageState extends State<SnakePage> {
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         drawer: MenuLateral(),
         appBar: AppBar(
+          automaticallyImplyLeading: true,
+          leading: GoBack.volverAtras(context),
           title: Text("Snake Page"),
           actions: <Widget>[
           Center(
@@ -490,61 +496,7 @@ class _SnakePageState extends State<SnakePage> {
     pageBuilder: (context, animation1, animation2) {});
 
 
-      /*
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('GAME OVER'),
-            content: Text(cabecera),
-            actions: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset("assets/img/snake/gameover.png"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  FlatButton(
-                    child: Text('Play Again'),
-                    onPressed: () {
-                      setState(() {
-                        _restartGame();
-                      });
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  SizedBox(width: 5,),
-                  FlatButton(
-                    child: Text(texto),
-                    hoverColor: Theme.of(context).toggleableActiveColor,
-                    onPressed: () {
-                      if (mejoraPuntos) {
-                        // Nos movemos a la página de formulario
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              RankFromPage(value: _puntuacion),
-                        ));
-                      } else {
-                        Navigator.pushNamed(context, "rank");
-                      }
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  __crearBotonReward(context),
-                ],
-              )
-            ],
-          );
-        }*/
+
   }
 
   ///Método que se encarga de generar los bloques en el tablero
