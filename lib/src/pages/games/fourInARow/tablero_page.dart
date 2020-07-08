@@ -171,8 +171,10 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           
           
           String invitado = getEmailInvitado();
-          invitado = invitado.toString()+"msg";
+          invitado = invitado.split("@")[0]+"msg";
+          invitado = invitado.replaceAll(".", "");
           String m = doc["invitado"].toString();
+          print("EL INVITADO $invitado , MENSAJE ES -> $m");
           if(m!=null){
             m="";
           }
@@ -355,7 +357,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     );
   }
   
-    Widget _pintarMsg(){
+  Widget _pintarMsg(){
   return Container(
       child: Row(
         children: <Widget>[
@@ -363,11 +365,12 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
             child: Container(
               child: TextField(
                 maxLength: 20,
+                cursorColor: Colors.black,
                 style: TextStyle( fontSize: 15.0),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
                   hintText: 'Type your message...',
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: TextStyle(color: Colors.black),
                 ),
                 focusNode: focusNode,
               ),
@@ -377,7 +380,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: IconButton(
-                icon: Icon(Icons.send),
+                icon: Icon(Icons.send, color: Colors.black, semanticLabel: "Send",),
                 onPressed: () => _enviarMsg(textEditingController.text),
               ),
             ),
@@ -658,7 +661,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         contenido = "-";
       }
       cadenaIISD+=contenido;
-      indexII -= _nCol;
+      indexII -= _nCol+1;
     }
 
     print("CADENA INF IZQ= $cadenaIISD");
@@ -732,9 +735,15 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   }
   void _enviarMsg(String msg){
     print("El MENSAJES ES $msg");
-    String key = emailGoogle+"msg";
-    _mapVarGame[key] = msg;
-    firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
+    // Miramos que tenga contenido
+    if (msg.trim() != 0){
+      textEditingController.clear();
+      String k = emailGoogle.split("@")[0]+"msg";
+      k = k.replaceAll(".", "");
+      _mapVarGame[k] = msg;
+      firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
+    }
+    
   }
 
 }

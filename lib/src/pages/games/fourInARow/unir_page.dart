@@ -99,7 +99,8 @@ class _UnirPageState extends State<UnirPage> {
           mapa["emailRed"] = emailGoogle; 
           mapa["nombreRed"] = nameGoogle;
           mapa["imageUrlRed"] = imageUrlGoogle;
-          String k = emailGoogle.toString()+"msg";
+          String k = emailGoogle.split("@")[0]+"msg";
+          k = k.replaceAll(".", "");
           mapa[k] = "";
         }
     });
