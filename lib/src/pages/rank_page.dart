@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
+import 'package:flutter_snake/src/widget/go_back.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 // ignore: must_be_immutable
@@ -41,6 +42,8 @@ class _RankPageState extends State<RankPage> {
     return Scaffold(
         drawer: MenuLateral(),
         appBar: AppBar(
+          automaticallyImplyLeading: true,
+          leading: GoBack.volverAtras(context),
           title: Text("Ranking Page"),
         ),
         body: Container(

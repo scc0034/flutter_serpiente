@@ -91,6 +91,7 @@ flutter:
     - assets/
     - assets/img/
     - assets/img/snake/
+    - assets/img/carousel/
     - assets/img/snake/food/
     - assets/audio/
     - data/menu_opts.json

@@ -20,16 +20,6 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
   bool ads = false;
   _FourRowPageState({this.ads});
 
-  /// Para controlar la animacion del contenedor
-  double _altoContainer1 = 200;
-  double _anchoContainer1 = 200;
-  double _altoContainer2 = 200;
-  double _anchoContainer2 = 200;
-  Color _colorContainer1 = Colors.yellow[100];
-  Color _colorContainer2 = Colors.red[100];
-  BorderRadiusGeometry _borderRadiuscontainer = BorderRadius.circular(1);
-  bool _bandera = null;
-
   AnimationController _controller;
 
   @override
@@ -70,23 +60,26 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  color: Colors.yellow[100],
-                  elevation: 10,
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Image.asset("assets/img/fichayellow.png"),
-                        Divider(),
-
-                        Text("Invite a friend")
-                      ],
+                child: Container(
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
-                  ),
+                    color: Colors.yellow[100],
+                    elevation: 10,
+                    child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          SizedBox(height:30),
+                          Image.asset("assets/img/fichayellow.png"),
+                          SizedBox(width:250),
+                          Divider(),
+                          Text("Invite a friend", style:TextStyle(color: Colors.black, fontSize: 20.0) ),
+                          SizedBox(height:30),
+                        ],
+                      ),
+                    ),
+                ),
                 onTap: () async {
                     await new Future.delayed(const Duration(milliseconds: 500));
                     Navigator.push(context, new MaterialPageRoute(builder: (__) => new InvitarPage(ads:false)));
@@ -109,9 +102,12 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
                   child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Image.asset("assets/img/fichared.png"),
-                        Divider(),
-                        Text("Join game"),
+                        SizedBox(height:30),
+                          Image.asset("assets/img/fichared.png"),
+                          SizedBox(width:250),
+                          Divider(),
+                          Text("Join game", style:TextStyle(color: Colors.black, fontSize: 20.0) ),
+                          SizedBox(height:30),
                       ],
                     ),
                   ),
@@ -127,22 +123,5 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
         ],
       ),
     );
-  }
-
-
-  void _animateContaienrs(int increment, bool nCont){
-    setState(() {
-      if (nCont){
-        _anchoContainer1 = (200+increment).toDouble();
-        _altoContainer1 = (200+increment).toDouble();
-        _colorContainer1 = Colors.yellow[400];
-        _borderRadiuscontainer = BorderRadius.circular(8);
-      }else{
-        _anchoContainer2 = (200+increment).toDouble();
-        _altoContainer2 = (200+increment).toDouble();
-        _colorContainer2 = Colors.red[400];
-        _borderRadiuscontainer = BorderRadius.circular(8);
-      }
-    });  
   }
 }

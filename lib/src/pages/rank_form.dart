@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
+import 'package:flutter_snake/src/widget/go_back.dart';
 import 'package:flutter_snake/src/widget/menu_lateral.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -40,6 +41,8 @@ class _RankFromPageState extends State<RankFromPage> {
     return Scaffold(
         drawer: MenuLateral(),
         appBar: AppBar(
+          automaticallyImplyLeading: true,
+          leading: GoBack.volverAtras(context),
           title: Text("RankForm Page"),
         ),
         body: ListView(

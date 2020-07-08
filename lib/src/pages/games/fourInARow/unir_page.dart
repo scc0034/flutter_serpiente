@@ -65,7 +65,7 @@ class _UnirPageState extends State<UnirPage> {
             borderRadius: BorderRadius.circular(20),
           ),
           labelText: "Code",
-          hintText: "XxXxXxXxXxX",
+          hintText: "",
       ),
       onChanged: (value) {
         setState(() {

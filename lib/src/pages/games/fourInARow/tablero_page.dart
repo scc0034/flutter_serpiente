@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 //import 'dart:html';
 import 'dart:math' show Random;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -238,8 +237,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         // Miramos si tenemos datos dentro del snapshot
         if(snapshot.hasData){
           DocumentSnapshot doc = snapshot.data;
-
-          print(doc["emailRed"]);
           
           //List<dynamic> list = map.values.toList();
           return GridView.builder(

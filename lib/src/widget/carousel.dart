@@ -6,13 +6,16 @@ import 'package:flutter/material.dart';
  */
 //TODO conseguir imagenes y hacerlas del mismo size.
 final List<String> imgList = [
-  'https://live.mrf.io/statics/i/ps/www.muycomputer.com/wp-content/uploads/2017/07/lenguaje-de-programaci%C3%B3n-1.jpg?width=1200&enable=upscale',
-  'https://licencias.info/wp-content/uploads/2019/07/angularjs.jpg',
-  'https://cambiodigital-ol.com/wp-content/uploads/2018/11/Logo_Java.jpg',
-  'https://cdn.yazilimkitabi.com/Content/image/flutter.png',
-  'https://www.koskila.net/wp-content/uploads/2019/01/logo-microsoft-sql-server-595x3350.jpg',
-  'https://i.blogs.es/a49483/logo-mongodb-tagline-2/1366_2000.png',
-  'https://miro.medium.com/max/1200/1*Vr5hW7ykUC3l1V1yHa6Rfw.png'
+  'assets/img/carousel/python.jpg',
+  'assets/img/carousel/angularjs.jpg',
+  'assets/img/carousel/flutter.png',
+  'assets/img/carousel/firebase.png',
+  'assets/img/carousel/java.jpg',
+  'assets/img/carousel/bootstrap.png',
+  'assets/img/carousel/html.jpg',
+  'assets/img/carousel/javascript.jpg',
+  'assets/img/carousel/git.png',
+
 ];
 
 class Carousel extends StatelessWidget {
@@ -39,7 +42,7 @@ class Carousel extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: Stack(
                     children: <Widget>[
-                      Image.network(item, fit: BoxFit.cover, width: 1000.0),
+                      Image.asset(item, fit: BoxFit.fitHeight),
                       Positioned(
                         bottom: 0.0,
                         left: 0.0,
@@ -55,16 +58,16 @@ class Carousel extends StatelessWidget {
                               end: Alignment.topCenter,
                             ),
                           ),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          child: Text(
+                          /*padding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),*/
+                          /*child: Text(
                             'No. ${imgList.indexOf(item)} image',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
                             ),
-                          ),
+                          ),*/
                         ),
                       ),
                     ],
