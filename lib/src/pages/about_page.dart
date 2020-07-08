@@ -68,7 +68,7 @@ class _AboutPageState extends State<AboutPage> {
     return Scaffold(
       drawer: MenuLateral(),
       appBar: AppBar(
-        title: Text("About Page"),
+        title: Text("About Me"),
       ),
       // Contenido de la parte de about
       body: SingleChildScrollView(

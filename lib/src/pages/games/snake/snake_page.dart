@@ -122,7 +122,7 @@ class _SnakePageState extends State<SnakePage> {
                   },
                   child: Text("Points $_puntuacion",
                     key: ValueKey<int>(_puntuacion),
-                    style: Theme.of(context).textTheme.headline5,
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                     
                   ),
           ),

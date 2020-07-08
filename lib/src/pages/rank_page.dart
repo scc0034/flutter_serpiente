@@ -44,7 +44,7 @@ class _RankPageState extends State<RankPage> {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           leading: GoBack.volverAtras(context),
-          title: Text("Ranking Page"),
+          title: Text("Ranking Snake"),
         ),
         body: Container(
           // Crea el Widget según llega el contenido

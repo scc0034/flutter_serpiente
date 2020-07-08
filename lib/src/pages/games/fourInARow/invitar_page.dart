@@ -60,7 +60,7 @@ class _InvitarPageState extends State<InvitarPage> {
         excludeHeaderSemantics: true,
         automaticallyImplyLeading: true,
           leading: GoBack.volverAtras(context),
-        title: Text("Invitar amigo"),
+        title: Text("Invite a friend"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

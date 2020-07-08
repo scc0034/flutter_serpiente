@@ -210,7 +210,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
                     ),
                   ),
                   Container(
-                    child: Text("Time $min : $seg"),
+                    child: Text("Time $min : $seg", style: 
+                      TextStyle(color: Colors.black, ),),
                   ),
                   SizedBox(width: 20,),
                 ],
@@ -681,11 +682,12 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
             title: Text('THE WINNER IS:'),
             content: Text(winner),
             actions: <Widget>[
-              Column(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.network(winnerImg),
+                  CircleAvatar(
+                    child:Image.network(winnerImg),),
                 ],
               ),
               Row(

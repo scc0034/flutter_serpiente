@@ -43,7 +43,7 @@ class _RankFromPageState extends State<RankFromPage> {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           leading: GoBack.volverAtras(context),
-          title: Text("RankForm Page"),
+          title: Text("Rank Form"),
         ),
         body: ListView(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),

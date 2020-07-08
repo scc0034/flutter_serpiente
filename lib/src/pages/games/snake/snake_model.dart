@@ -5,9 +5,9 @@ class SnakeModel {
   ///Numero de casillas del tablero dependiendo de la pantalla
   static Map<String,int> pixelRatio = {
     "20:9" : 679,
-    "19:9" : 679,
-    "18:9" : 599, 
-    "defecto" : 400,
+    "19:9" : 599,
+    "18:9" : 559, 
+    "defecto" : 399,
   };
 
   /// Mapa para saber los opuestos de cada dirección

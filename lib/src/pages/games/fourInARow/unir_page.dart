@@ -38,8 +38,7 @@ class _UnirPageState extends State<UnirPage> {
     return Scaffold(
       appBar: AppBar(
         excludeHeaderSemantics: true,
-
-        title: Text("Invitar amigo"),
+        title: Text("Join Game"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

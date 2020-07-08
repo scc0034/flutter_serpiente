@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         drawer: MenuLateral(),
         appBar: AppBar(
-          title: Text("Home Page"),
+          title: Text("Home"),
         ),
         body: Scaffold(
           body: AdBanner(ads: this.ads),

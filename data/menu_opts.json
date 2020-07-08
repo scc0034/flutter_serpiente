@@ -24,7 +24,7 @@
         {
             "ruta" : "about",
             "icon" : "about",
-            "texto": "About"
+            "texto": "About Me" 
         }
     ]
 }
