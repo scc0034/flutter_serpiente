@@ -54,8 +54,9 @@ class _LoginPageState extends State<LoginPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Material(
-                child: FlutterLogo(
-                  size: 150.0,
+                child: CircleAvatar(
+                  maxRadius: 75,
+                  child: Image.asset("assets/img/logoapp.jpg"),
                 ),
               ),
               SizedBox(height: 50),
