@@ -54,6 +54,9 @@ class _LoginPageState extends State<LoginPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Material(
+                /*child: FlutterLogo(
+                  size: 150.0,
+                ),*/
                 child: CircleAvatar(
                   maxRadius: 75,
                   child: Image.asset("assets/img/logoapp.jpg"),
@@ -62,7 +65,7 @@ class _LoginPageState extends State<LoginPage>
               SizedBox(height: 50),
               DelayedAnimation(
                 child: Text(
-                  "Flutter_snake",
+                  "Flutter games",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35.0),
                 ),
                 delay: delayedAmount + 1000,

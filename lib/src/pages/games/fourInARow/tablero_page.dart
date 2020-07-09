@@ -52,6 +52,9 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   /// Variables de control de la entrada de mensajes
   final TextEditingController textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
+  int _cuentaAtrasMsg = -1;/// Controla el tiempo que se muestra el mensaje
+  int _cuentaAtrasField = -1;
+  bool _enableField = true;
 
   /// Variables de los mensajes
   AnimationController controller;
@@ -100,7 +103,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         excludeHeaderSemantics: true,
         automaticallyImplyLeading: true,
         leading: _volverAtras(),
-        title: Text("Jugando 4 en raya"),
+        title: Text("4 in a row Online"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -180,6 +183,9 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           if(m==null){
             m="";
           }
+          if (_cuentaAtrasMsg<0 && m.compareTo("") !=0){ 
+            _cuentaAtrasMsg = 10;/// Duración del mensaje hasta que se borra
+          }
           return Container(
             height: 65,
             color: _colorR,
@@ -201,11 +207,20 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
                           opacity: animation,
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:[
-                                Bubble(
-                                  style: styleBubble,
-                                  child: Text(m, style: TextStyle(color: Colors.black),),
-                                )
+                              children: <Widget>[
+                                m.compareTo("")==0? Container():
+                                AnimatedSwitcher(
+                                  duration: const Duration(milliseconds: 500),
+                                  transitionBuilder: (Widget child, Animation<double> animation) {
+                                    return FadeTransition(child: child,opacity: animation);
+                                  },
+                                  child: Bubble(
+                                    //key: ValueKey<String>(m.toString()),
+                                    style: styleBubble,
+                                    child: Text(m, style: TextStyle(color: Colors.black),),
+                                  ),
+                                ),
+                                
                               ]
                           )
                         )
@@ -366,12 +381,13 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           Flexible(
             child: Container(
               child: TextField(
-                maxLength: 20,
+                enabled: _enableField,
+                maxLength: 15,
                 cursorColor: Colors.black,
                 style: TextStyle( fontSize: 15.0, color: Colors.black),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
-                  hintText: 'Type your message...',
+                  hintText: 'Type your short message...',
                   hintStyle: TextStyle(color: Colors.black),
                 ),
                 focusNode: focusNode,
@@ -382,8 +398,10 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: IconButton(
-                icon: Icon(Icons.send, color: Colors.black, semanticLabel: "Send",),
-                onPressed: () => _enviarMsg(textEditingController.text),
+                icon: 
+                _enableField? Icon(Icons.send, color: Colors.black, semanticLabel: "Send",) : 
+                    Icon(Icons.cancel, color: Colors.black, semanticLabel: "!",),
+                onPressed: () => _enableField? _enviarMsg(textEditingController.text) : null,
               ),
             ),
             color: Colors.white,
@@ -427,21 +445,35 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     _timer = new Timer.periodic(Duration(seconds: 1),
     (Timer _timer) => setState(()  {
       s +=1;
+      _cuentaAtrasMsg -=1;
+      _cuentaAtrasField -= 1;
       if(s == 60){
         m+=1;
         s = 0;
       }
-      s<10?seg ="0$s" : seg="$s";
-      m<10?min ="0$m" : min="$m";
+      setState(() {
+        s<10?seg ="0$s" : seg="$s";
+        m<10?min ="0$m" : min="$m";
 
-      if(s%2==0){
-        _actualizaMap();
-        bool finJuego = _mapVarGame["_endGame"];
-        if(finJuego){
-          _timer.cancel();
-          _mostrarFinal(context,_mapVarGame["winner"].toString(),_mapVarGame["winnerImg"]);
+        // Update cada dos segundos
+        if(s%2==0){
+          _actualizaMap();
+          bool finJuego = _mapVarGame["_endGame"];
+          if(finJuego){
+            _timer.cancel();
+            _mostrarFinal(context,_mapVarGame["winner"].toString(),_mapVarGame["winnerImg"]);
+          }
         }
-      }
+        // Cuenta atrás es cero borramos el contenido
+        if (_cuentaAtrasMsg == 0){
+          _borrarMensajeInvitado();
+        }
+
+        if (_cuentaAtrasField == 0){
+          _enableField = !_enableField;
+        }
+       });
+      
     }),
     );
   }
@@ -687,33 +719,39 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
             title: Text('THE WINNER IS:'),
             content: Text(winner),
             actions: <Widget>[
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  CircleAvatar(
-                    child:Image.network(winnerImg),),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    child: new Container(
-                    child: Row(
-                      children: [
-                        new Text("Salir"),
-                        SizedBox(width: 10,),
-                        Icon(Icons.exit_to_app)
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      CircleAvatar(
+                        child:Image.network(winnerImg),),
+                    ],
                   ),
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushNamed(context, "/");
-                      });
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
+                        child: new Container(
+                        child: Row(
+                          children: [
+                            new Text("Salir"),
+                            SizedBox(width: 10,),
+                            Icon(Icons.exit_to_app)
+                          ],
+                        ),
+                      ),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.pushNamed(context, "/");
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -729,9 +767,9 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       _mapVarGame[k] == emailGoogle ? aux=k.toString() : aux="";
 
       if (aux.compareTo("emailRed") == 0){
-        return _mapVarGame["emailRed"];
-      }else if(aux.compareTo("emailYellow") == 0){
         return _mapVarGame["emailYellow"];
+      }else if(aux.compareTo("emailYellow") == 0){
+        return _mapVarGame["emailRed"];
       }
     }
   }
@@ -745,7 +783,21 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       _mapVarGame[k] = msg;
       firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
     }
+    setState(() {
+      _enableField = !_enableField;
+    _cuentaAtrasField = 15;
+    });
+    ///Deshabilitamos en textfield hasta dentro de 15 segundos
     
+    
+  }
+
+  void _borrarMensajeInvitado(){
+    String invitado = getEmailInvitado();
+    invitado = invitado.split("@")[0]+"msg";
+    invitado = invitado.replaceAll(".", "");
+    _mapVarGame[invitado] = "";
+     firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
   }
 
 }
