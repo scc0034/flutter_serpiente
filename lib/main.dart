@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_snake/src/models/variables_persistentes.dart';
 import 'package:flutter_snake/src/pages/home_page.dart';
 import 'package:flutter_snake/src/routes/routes.dart';
@@ -18,6 +19,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    /// Controlamos que solo se pueda tener el movil en modo retrato, para que no gire
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        //DeviceOrientation.portraitDown,
+    ]);
     return ChangeNotifierProvider<ThemeChanger>(
       builder: (_) => ThemeChanger(ThemeData.light()),
       child: new MaterialAppWithTheme(),
