@@ -22,6 +22,7 @@ class TableroPage extends StatefulWidget {
 
 class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin{
 
+  /// Es el código de la base de datos que permite jugar
   String code = "";
   _TableroPageState({this.code});
 
@@ -40,7 +41,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   /// Turno
   Color _colorY = Colors.white;
   Color _colorR = Colors.white;
-  String _fotoArriba = "https://deporteros.pe/wp-content/uploads/2017/07/icon-persona.png";
+  //https://deporteros.pe/wp-content/uploads/2017/07/icon-persona.png
+  String _fotoArriba = "";
   final int _numFichasEnd = 4;
 
   //Tablero
@@ -79,14 +81,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         duration: const Duration(milliseconds: 5000), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 
-    /*animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        controller.forward();
-      }
-    });*/
-
     controller.forward();
     super.initState();
   }
@@ -119,14 +113,14 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           ),
           // ABAJO
           _pintarAbajo(context),
-          // ZONA de mandar los mensajes
+          // ZONA MSG
           _pintarMsg(),
         ]
       )
     );
   }
 
-  ///Método que nos da una flecha con la que volver atrás concretamente al home
+  /// Widget con la flecha de atrás del appbar
   Widget _volverAtras(){ 
     return IconButton(
       icon: Icon(Icons.home), 
@@ -149,6 +143,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         }
         // Miramos si tenemos datos dentro del snapshot
         if(snapshot.hasData){
+
+          /// Control del color de los turnos y el color
           DocumentSnapshot doc = snapshot.data;
           String t = doc["turno"].toString();
 
@@ -168,18 +164,14 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
               }else{
                 _colorR=Colors.white;
               }
-              
             }
           }
           
-          
+          /// Control de que tenemos mensaje
           String invitado = getEmailInvitado();
-          print("SOY $emailGoogle y mi invitado es$invitado");
           invitado = invitado.split("@")[0]+"msg";
           invitado = invitado.replaceAll(".", "");
           String m = doc[invitado.toString()].toString();
-          print(doc.toString());
-          print("EL INVITADO $invitado , MENSAJE ES -> $m");
           if(m==null){
             m="";
           }
@@ -220,11 +212,9 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
                                     child: Text(m, style: TextStyle(color: Colors.black),),
                                   ),
                                 ),
-                                
                               ]
                           )
                         )
-                          
                       ], 
                     ),
                   ),
@@ -241,7 +231,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     );
   }
 
-  // Método para pintar el tablero en tiempo real con los datos de la base de datos firestore
+  /// Método para pintar el tablero en tiempo real con los datos de la base de datos firestore
   Widget _pintarTablero(BuildContext context){
     Color colorFondo = Colors.blue;
     Color colorFicha = Colors.white;
@@ -290,23 +280,26 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
                   ),
                 ),
                 onTap: () async{
-                  print("HEMOS PULSADO EN LA CELDA $index");
 
                   /// Miramos si se puede meter la ficha en la casilla pulsada
                   int celdaAbajo = index+_nFil;
+                  /// Miramos que no se a terminado el juego
+                  if(doc["endGame"] == false){
 
+                  
                   //Miramos si estamos en la última fila
-                  if(celdaAbajo >= celdas){
-                    //Miramos que el index este vacio
-                    if(doc[index.toString()].toString().compareTo("")==0){
-                      await _putFicha(index);
-                    }
-                  }else{
-                    //Miramos si la celda de abajo esta vacia
-                    if(doc[celdaAbajo.toString()].toString().compareTo("")!=0){
-                      print("Celda de abajo no eta vacia");
+                    if(celdaAbajo >= celdas){
+                      //Miramos que el index este vacio
                       if(doc[index.toString()].toString().compareTo("")==0){
                         await _putFicha(index);
+                      }
+                    }else{
+                      //Miramos si la celda de abajo esta vacia
+                      if(doc[celdaAbajo.toString()].toString().compareTo("")!=0){
+                        print("Celda de abajo no eta vacia");
+                        if(doc[index.toString()].toString().compareTo("")==0){
+                          await _putFicha(index);
+                        }
                       }
                     }
                   }
@@ -332,6 +325,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         }
         // Miramos si tenemos datos dentro del snapshot
         if(snapshot.hasData){
+
+          /// Control del color segun el turno
           DocumentSnapshot doc = snapshot.data;
           String t = doc["turno"].toString();
           if(t.compareTo("") == 0){
@@ -352,7 +347,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
             }
           }
-          
           return Container(
             height: 65,
             color:_colorY,
@@ -454,15 +448,14 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       setState(() {
         s<10?seg ="0$s" : seg="$s";
         m<10?min ="0$m" : min="$m";
-
+        bool finJuego = _mapVarGame["_endGame"];
+        if(finJuego){
+          _timer.cancel();
+          _mostrarFinal(context,_mapVarGame["winner"].toString(),_mapVarGame["winnerImg"]);
+        }
         // Update cada dos segundos
         if(s%2==0){
           _actualizaMap();
-          bool finJuego = _mapVarGame["_endGame"];
-          if(finJuego){
-            _timer.cancel();
-            _mostrarFinal(context,_mapVarGame["winner"].toString(),_mapVarGame["winnerImg"]);
-          }
         }
         // Cuenta atrás es cero borramos el contenido
         if (_cuentaAtrasMsg == 0){
@@ -488,7 +481,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
   /// Método que se encarga de decidir cual de los dos juagdores es el que empieza
   Future<void> _lanzamientoMoneda() async{
-    print("DENTRO DEL LANZAMIENTO DE LA MONEDA");
     String _turno = "";
 
     String msgTurno ="Comienza el jugador: ";
@@ -512,11 +504,9 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     
     /// Mostramos el mensaje de quien es el que tiene el turno
     showDialog(
-      
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-
           title: Text('Turn draw'),
           content: Text(msgTurno),
           actions: <Widget>[
@@ -531,7 +521,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     String aux = "";
     for (var k in _mapVarGame.keys) {
       _mapVarGame[k] == emailGoogle ? aux=k.toString() : aux="";
-
       if (aux.compareTo("emailRed") == 0){
         return _mapVarGame["imageUrlYellow"];
       }else if(aux.compareTo("emailYellow") == 0){
@@ -550,7 +539,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     /*index == 0? columna = (0).toString() : columna = (index%7).toString();*/
 
     if (_mapVarGame["turno"].compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
-      print("pulsando $emailGoogle dentro su turno");
       updated = true;
       ficha = "Y";
       _mapVarGame[index.toString()] =  ficha;
@@ -564,7 +552,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
     //Actualizamos la variable en la base de datos
     if (updated){
-      print("Estamos dentro del update");
       //Cambiamos el turno del jugador
       _mapVarGame["turno"].compareTo("yellow") == 0? _mapVarGame["turno"]="red" : _mapVarGame["turno"]="yellow";
       await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
@@ -573,10 +560,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     }
 
      bool endGame = await _controlFinPartida(index, ficha);
-    print("Lo que tenemos dentro del endGame = $endGame");
 
     if (endGame && updated){
-      print("DEBEMoS DE MOSTRAR EL MENSAJE DE QUE EL JUEGO A TERMINADO");
       _mapVarGame["_endGame"] = true;
       _mapVarGame["winner"] = emailGoogle;
       _mapVarGame["winnerImg"] = imageUrlGoogle;
@@ -717,45 +702,34 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('THE WINNER IS:'),
-            content: Text(winner),
-            actions: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        child:Image.network(winnerImg),),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      RaisedButton(
-                        child: new Container(
-                        child: Row(
-                          children: [
-                            new Text("Salir"),
-                            SizedBox(width: 10,),
-                            Icon(Icons.exit_to_app)
-                          ],
-                        ),
-                      ),
-                        onPressed: () {
-                          setState(() {
-                            Navigator.pushNamed(context, "/");
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min, // Controla que la ventana se ajuste al contenido
               
+              children: <Widget>[
+                Text(winner),
+                CircleAvatar(
+                  minRadius: 45,
+                  child:Image.network(winnerImg),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              RaisedButton(
+                  child: new Container(
+                  child: Row(
+                    children: [
+                      new Text("Salir"),
+                      SizedBox(width: 10,),
+                      Icon(Icons.exit_to_app)
+                    ],
+                  ),
+                ),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pushNamed(context, "/");
+                    });
+                  },
+                ),
             ],
           );
         });
@@ -774,7 +748,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     }
   }
   void _enviarMsg(String msg){
-    print("El MENSAJES ES $msg");
     // Miramos que tenga contenido
     if (msg.trim() != 0){
       textEditingController.clear();
@@ -787,9 +760,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       _enableField = !_enableField;
     _cuentaAtrasField = 15;
     });
-    ///Deshabilitamos en textfield hasta dentro de 15 segundos
-    
-    
   }
 
   void _borrarMensajeInvitado(){
@@ -799,5 +769,4 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     _mapVarGame[invitado] = "";
      firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
   }
-
 }
