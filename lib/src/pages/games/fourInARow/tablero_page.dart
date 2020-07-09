@@ -768,5 +768,5 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     invitado = invitado.replaceAll(".", "");
     _mapVarGame[invitado] = "";
      firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
-  }
+  }  
 }
