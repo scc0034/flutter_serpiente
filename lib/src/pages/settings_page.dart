@@ -134,7 +134,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     return SwitchListTile(
       value: _selectorBloques,
       title: Text('Bloks mode'),
-      subtitle: Text('Place repatted blocks across the board.'),
+      subtitle: Text('Enable blocks across the board.'),
       onChanged: (valor) {
         setState(() {
           if (valor) {
@@ -152,7 +152,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
     return SwitchListTile(
       value: _selectorMusica,
       title: Text('Music'),
-      subtitle: Text('Enable or disable game music'),
+      subtitle: Text('Enable or disable snake game music'),
       onChanged: (valor) {
         setState(() {
           if (valor) {

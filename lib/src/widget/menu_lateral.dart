@@ -110,7 +110,7 @@ class MenuLateral extends StatelessWidget {
         children: <Widget>[
           ListTile(
             title: Text('Version:'),
-            subtitle: Text('2.0.0'),
+            subtitle: Text('5.0.0'),
             onTap: () {},
           ),
         ],
