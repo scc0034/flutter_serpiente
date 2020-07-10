@@ -5,9 +5,8 @@ import 'package:firebase_admob/firebase_admob.dart';
  * Clase que cotrola los id que se usan en la aplicación en la parte de adservice
  */
 class AdMobService {
-
   AdMobService();
-  static BannerAd _bannerAd; 
+  static BannerAd _bannerAd;
   static InterstitialAd _interstitialAd;
 
   /// Método para inicializar la instancia con admob
@@ -24,7 +23,6 @@ class AdMobService {
     childDirected: true,
     nonPersonalizedAds: true,
   );
-
 
   /// DEvuelve el id de la aplicación en firebase
   static String getAdMobAppId() {
@@ -53,7 +51,7 @@ class AdMobService {
     return null;
   }
 
-  static InterstitialAd _createInterstitialAd(String adId){
+  static InterstitialAd _createInterstitialAd(String adId) {
     return InterstitialAd(
       adUnitId: InterstitialAd.testAdUnitId,
       targetingInfo: targetingInfo,
@@ -62,7 +60,7 @@ class AdMobService {
       },
     );
   }
-  
+
   /// Método que devuelve un bannerAd
   static BannerAd _createBannerAd(String adId) {
     return BannerAd(
@@ -91,12 +89,15 @@ class AdMobService {
 
   /// Método que carga el banner
   static void showInterstitialAd() {
-    if (_interstitialAd == null) _interstitialAd = _createInterstitialAd(getIdInterstitial());
+    if (_interstitialAd == null)
+      _interstitialAd = _createInterstitialAd(getIdInterstitial());
     _interstitialAd
       ..load()
-      ..show(anchorType: AnchorType.bottom,
-          anchorOffset: 0.0,
-          horizontalCenterOffset: 0.0,);
+      ..show(
+        anchorType: AnchorType.bottom,
+        anchorOffset: 0.0,
+        horizontalCenterOffset: 0.0,
+      );
   }
 
   /// Método que deseacitva el banner, dejandolo a null
@@ -106,7 +107,7 @@ class AdMobService {
   }
 
   /// Método que devuelve la información del target para usar en los videos fuera de la clase
-  static MobileAdTargetingInfo  getMobileTargetInfo (){
+  static MobileAdTargetingInfo getMobileTargetInfo() {
     return targetingInfo;
   }
 }

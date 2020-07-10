@@ -11,7 +11,7 @@ class RankPage extends StatefulWidget {
   RankPage({this.ads});
 
   @override
-  _RankPageState createState() => _RankPageState(ads : this.ads);
+  _RankPageState createState() => _RankPageState(ads: this.ads);
 }
 
 /*
@@ -22,16 +22,15 @@ class RankPage extends StatefulWidget {
  * https://www.youtube.com/watch?v=osp1WL7W9Wo
  * */
 class _RankPageState extends State<RankPage> {
-
   bool ads = false;
 
   _RankPageState({this.ads});
 
   @override
   void initState() {
-    if(ads){
+    if (ads) {
       AdMobService.showBannerAd();
-    }else{
+    } else {
       AdMobService.hideBannerAd();
     }
     super.initState();

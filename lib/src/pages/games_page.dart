@@ -4,12 +4,11 @@ import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 // ignore: must_be_immutable
 class GamesPage extends StatefulWidget {
-
   bool ads = false;
   GamesPage({this.ads});
-  
+
   @override
-  _GamesPageState createState() => _GamesPageState(ads:ads);
+  _GamesPageState createState() => _GamesPageState(ads: ads);
 }
 
 class _GamesPageState extends State<GamesPage> {
@@ -18,44 +17,44 @@ class _GamesPageState extends State<GamesPage> {
 
   @override
   void initState() {
-    if(ads){
+    if (ads) {
       AdMobService.showBannerAd();
-    }else{
+    } else {
       AdMobService.hideBannerAd();
     }
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuLateral(),
-      appBar: AppBar(
-        title: Text("All Games"),
-      ),
-      // Contenido de la parte de about
-      body: ListView(
-      children: <Widget>[
-        Divider(),
-        ListTile(
-          leading: ClipRect(
-            child: Image.asset("assets/img/snakeblue.png"),
-          ),
-          trailing: Icon(Icons.arrow_right),
-          title : Text("Snake"),
-          onTap: () => Navigator.pushNamed(context, "snake"),
+        drawer: MenuLateral(),
+        appBar: AppBar(
+          title: Text("All Games"),
         ),
-        Divider(),
-        ListTile(
-          leading: ClipRect(
-            child: Image.asset("assets/img/fourgame.png"),
-          ),
-          trailing: Icon(Icons.arrow_right),
-          title : Text("Four in a row ONLINE"),
-          onTap: () => Navigator.pushNamed(context, "four"),
-        ),
-        Divider(),
-      ],
-    ));
+        // Contenido de la parte de about
+        body: ListView(
+          children: <Widget>[
+            Divider(),
+            ListTile(
+              leading: ClipRect(
+                child: Image.asset("assets/img/snakeblue.png"),
+              ),
+              trailing: Icon(Icons.arrow_right),
+              title: Text("Snake"),
+              onTap: () => Navigator.pushNamed(context, "snake"),
+            ),
+            Divider(),
+            ListTile(
+              leading: ClipRect(
+                child: Image.asset("assets/img/fourgame.png"),
+              ),
+              trailing: Icon(Icons.arrow_right),
+              title: Text("Four in a row ONLINE"),
+              onTap: () => Navigator.pushNamed(context, "four"),
+            ),
+            Divider(),
+          ],
+        ));
   }
 }

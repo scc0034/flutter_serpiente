@@ -16,7 +16,7 @@ class AdBanner extends StatefulWidget {
   AdBanner({this.ads});
 
   @override
-  _AdBannerState createState() => _AdBannerState(ads : this.ads);
+  _AdBannerState createState() => _AdBannerState(ads: this.ads);
 }
 
 class _AdBannerState extends State<AdBanner> {
@@ -25,22 +25,21 @@ class _AdBannerState extends State<AdBanner> {
   _AdBannerState({this.ads});
   @override
   void initState() {
-    if(ads){
+    if (ads) {
       AdMobService.showBannerAd();
       //AdMobService.showInterstitialAd();
-    }else{
+    } else {
       AdMobService.hideBannerAd();
       //AdMobService.hideInterstitialAd();
-    }   
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SingleChildScrollView(
       child: Center(
-        /*child: Column(
+          /*child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -54,7 +53,7 @@ class _AdBannerState extends State<AdBanner> {
           ]
 
         ),*/
-      ),
+          ),
     );
   }
 

@@ -14,7 +14,6 @@ final List<String> imgList = [
   'assets/img/carousel/html.jpg',
   'assets/img/carousel/javascript.jpg',
   'assets/img/carousel/git.png',
-
 ];
 
 class Carousel extends StatelessWidget {

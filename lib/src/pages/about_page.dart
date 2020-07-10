@@ -24,22 +24,19 @@ class AboutPage extends StatefulWidget {
   AboutPage({this.ads});
 
   @override
-  _AboutPageState createState() => _AboutPageState(ads : this.ads);
-
-
+  _AboutPageState createState() => _AboutPageState(ads: this.ads);
 }
 
 class _AboutPageState extends State<AboutPage> {
-
   bool ads = false;
 
   _AboutPageState({this.ads});
-  
+
   @override
   void initState() {
-    if(ads){
+    if (ads) {
       AdMobService.showBannerAd();
-    }else{
+    } else {
       AdMobService.hideBannerAd();
     }
     super.initState();

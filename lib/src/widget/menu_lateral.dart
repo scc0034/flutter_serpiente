@@ -169,7 +169,7 @@ class MenuLateral extends StatelessWidget {
                   signOutGoogle();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) {
-                    return LoginPage(ads :false);
+                    return LoginPage(ads: false);
                   }), ModalRoute.withName('/'));
                 },
               ),

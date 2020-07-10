@@ -15,7 +15,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'dart:ui' show window;
 
-
 /*
  * Clase que contiene información relevante sobre la aplicación.
  * Esta página tiene que ser statefulWidget porque tenemos 
@@ -34,46 +33,45 @@ class SnakePage extends StatefulWidget {
  * Clase que se encarga de controlar 
  */
 class _SnakePageState extends State<SnakePage> {
-
   //ATRIBUTOS DE LA CLASE SNAKEPAGESTATE
   //TABLERO
-  List<int> _serpiente = [21, 22, 23];      // Vector la serpiente
-  int _cabeza = 23;                         // Cabeza serpiente
-  int _cola = 21;                           // Cola serpiente
-  List<int> _bloques = [];                  // Vector de los bloques
-  int _nBloques = 15;                       // Número de bloques en el tablero
-  List<int> _pared = [];                    // Vector pared borde tablero
-  List<int> _tuberia = [];                  // Vector tuberias
-  List<String> _tuberiaDir = [];            // Vector dir de la tuberia
-  static final int _nCol = 20;              // Número de columnas
+  List<int> _serpiente = [21, 22, 23]; // Vector la serpiente
+  int _cabeza = 23; // Cabeza serpiente
+  int _cola = 21; // Cola serpiente
+  List<int> _bloques = []; // Vector de los bloques
+  int _nBloques = 15; // Número de bloques en el tablero
+  List<int> _pared = []; // Vector pared borde tablero
+  List<int> _tuberia = []; // Vector tuberias
+  List<String> _tuberiaDir = []; // Vector dir de la tuberia
+  static final int _nCol = 20; // Número de columnas
   // ignore: unused_field
-  static final int _nFil = 25;              // Número de filas 
-  static int _nCasillas =0;             // Número de casillas
-  int _indexFood = -1;                      //Indice de la manzana inicial
-  static final Random _semilla = Random();  // Semilla para generar aleaatorios
+  static final int _nFil = 25; // Número de filas
+  static int _nCasillas = 0; // Número de casillas
+  int _indexFood = -1; //Indice de la manzana inicial
+  static final Random _semilla = Random(); // Semilla para generar aleaatorios
   int _puntuacion = 0; // Puntuación de la partida
 
   // CONTROL JUEGO
-  String _dir = "der";                      // Direccion
-  bool _inGame = false;                     // En juego?
-  bool _end = false;                        // Partida end ?
-  Timer timer;                              // Temporizador
-  
+  String _dir = "der"; // Direccion
+  bool _inGame = false; // En juego?
+  bool _end = false; // Partida end ?
+  Timer timer; // Temporizador
+
   //BASE DE DATOS LOCAL
   DatabaseService dbService = DatabaseService.instance;
-  bool _selectorBloques = false;            // Bloques
-  bool _selectorMusica = false;             //Musica
-  Duration _velocidad = Duration(milliseconds: 500);                      // Velocidad
-  bool _selectorTuberias = false;           //Tuberias
+  bool _selectorBloques = false; // Bloques
+  bool _selectorMusica = false; //Musica
+  Duration _velocidad = Duration(milliseconds: 500); // Velocidad
+  bool _selectorTuberias = false; //Tuberias
 
   //CONTROL MUSICAL, https://pub.dev/packages/audioplayers#-example-tab-
-  AudioPlayer advancedPlayer;               // Reproductor de sonidos
+  AudioPlayer advancedPlayer; // Reproductor de sonidos
   AudioPlayer advancedPlayer2;
-  AudioCache audioCacheBase;                // Cache de los sonidos
+  AudioCache audioCacheBase; // Cache de los sonidos
   AudioCache audioCacheSonidos;
 
   // ADMOB PUBLICIDAD
-  bool ads = false; 
+  bool ads = false;
   // ignore: unused_field
   bool _loaded = false;
   bool _videoVisto = false;
@@ -85,7 +83,7 @@ class _SnakePageState extends State<SnakePage> {
   @override
   void initState() {
     //Mostramos anuncios segun ads
-    ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
+    ads ? AdMobService.showBannerAd() : AdMobService.hideBannerAd();
     _loadRatio();
     _loadPared();
     _loadSettings();
@@ -110,52 +108,50 @@ class _SnakePageState extends State<SnakePage> {
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         drawer: MenuLateral(),
         appBar: AppBar(
-          automaticallyImplyLeading: true,
-          leading: GoBack.volverAtras(context),
-          title: Text("Snake Page"),
-          actions: <Widget>[
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(right: 15),
+            automaticallyImplyLeading: true,
+            leading: GoBack.volverAtras(context),
+            title: Text("Snake Page"),
+            actions: <Widget>[
+              Center(
+                  child: Padding(
+                padding: EdgeInsets.only(right: 15),
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
-                  transitionBuilder: (Widget child, Animation<double> animation) {
-                    return FadeTransition(child: child,opacity: animation);
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    return FadeTransition(child: child, opacity: animation);
                   },
-                  child: Text("Points $_puntuacion",
+                  child: Text(
+                    "Points $_puntuacion",
                     key: ValueKey<int>(_puntuacion),
                     style: TextStyle(color: Colors.white, fontSize: 18),
-                    
                   ),
-          ),
-            )
-          ),
-          ]
-        ),
+                ),
+              )),
+            ]),
         body: Container(
           child: _dibujarTablero(context),
         ));
   }
 
-  void _loadRatio(){
-        ///Método para calcular el ratio de pixeles
+  void _loadRatio() {
+    ///Método para calcular el ratio de pixeles
     double alto = window.physicalSize.height.toDouble();
     double ancho = window.physicalSize.width.toDouble();
-    double ratio = (alto/ancho);
-    if(ratio > 1.78 && ratio<1.93){
-       _nCasillas =  SnakeModel.pixelRatio["18:9"];
-    } else if(ratio<2.12){
+    double ratio = (alto / ancho);
+    if (ratio > 1.78 && ratio < 1.93) {
+      _nCasillas = SnakeModel.pixelRatio["18:9"];
+    } else if (ratio < 2.12) {
       _nCasillas = SnakeModel.pixelRatio["19:9"];
-    } else if(ratio<2.4){
+    } else if (ratio < 2.4) {
       _nCasillas = SnakeModel.pixelRatio["20:9"];
-    }else{
+    } else {
       _nCasillas = SnakeModel.pixelRatio["defecto"];
     }
   }
-  
+
   ///Método que se encarga de dibujar el tablero del snake
   Widget _dibujarTablero(BuildContext context) {
-
     return Container(
       child: Column(
         children: <Widget>[
@@ -165,7 +161,8 @@ class _SnakePageState extends State<SnakePage> {
             // EL tablero tiene que estar dentro del gesture para detectar los cambios
             child: GestureDetector(
               // Controlamos acciones que se hacen en la pantalla del tablero
-              onTap:() => _iniciarJuego(), // Sin parentesis para que se haga solo una vez el tap
+              onTap: () =>
+                  _iniciarJuego(), // Sin parentesis para que se haga solo una vez el tap
               onVerticalDragUpdate: (details) {
                 _controlVertical(details);
               },
@@ -183,14 +180,14 @@ class _SnakePageState extends State<SnakePage> {
                   // Evitamos que se pueda hacer scroll en pantalla
                   physics: NeverScrollableScrollPhysics(),
                   // Crea las casillas del tablero por defecto
-                  itemCount: _nCasillas+1,
+                  itemCount: _nCasillas + 1,
                   itemBuilder: (BuildContext context, int index) {
                     return _pintar(index);
                   },
                 ),
               ), // Tablero
             ),
-          ),  
+          ),
         ],
       ),
     );
@@ -203,11 +200,11 @@ class _SnakePageState extends State<SnakePage> {
       _inGame = true;
       //Temporizador que actualiza la pantalla, segun la _velocidad
       Timer.periodic(_velocidad, (timer) {
-        if (_gameOver() ) {
+        if (_gameOver()) {
           timer.cancel();
           _final();
         } else {
-          if(_moverSerpiente()){
+          if (_moverSerpiente()) {
             timer.cancel();
             _final();
           }
@@ -254,42 +251,44 @@ class _SnakePageState extends State<SnakePage> {
     //Miramos que index es, para saber el contenido de la casilla
     // FOOD
     if (_indexFood == index) {
-      paridad ?  colorBack = "par" : colorBack = "impar"; 
+      paridad ? colorBack = "par" : colorBack = "impar";
       int nImg = _puntuacion;
       if (_puntuacion >= SnakeModel.mapFoodUrl.length) {
         nImg = _puntuacion % SnakeModel.mapFoodUrl.length;
       }
       imgLocal = SnakeModel.mapFoodLocal[nImg];
       imgUrl = SnakeModel.mapFoodUrl[nImg];
-    // SERPIENTE
+      // SERPIENTE
     } else if (_serpiente.contains(index)) {
       colorBack = "serpiente";
       if (_bloques.contains(index) || _pared.contains(index)) {
         colorBack = "block";
-        imgLocal = SnakeModel.mapBlock["local"];  
-        imgUrl = SnakeModel.mapBlock["url"];            
-      }else if (_tuberia.contains(index)) {
+        imgLocal = SnakeModel.mapBlock["local"];
+        imgUrl = SnakeModel.mapBlock["url"];
+      } else if (_tuberia.contains(index)) {
         colorBack = "block";
-        imgLocal = SnakeModel.mapTuberiaLocal[_tuberiaDir[_tuberia.indexOf(index)]];  
+        imgLocal =
+            SnakeModel.mapTuberiaLocal[_tuberiaDir[_tuberia.indexOf(index)]];
         imgUrl = SnakeModel.mapTuberiaUrl[_tuberiaDir[_tuberia.indexOf(index)]];
       }
-    //BLOQUES
+      //BLOQUES
     } else if (_pared.contains(index) || _bloques.contains(index)) {
       colorBack = "block";
       imgUrl = SnakeModel.mapBlock["url"];
       imgLocal = SnakeModel.mapBlock["local"];
-    //TUBERIA
-    } else if(_tuberia.contains(index)){
+      //TUBERIA
+    } else if (_tuberia.contains(index)) {
       colorBack = "block";
-      imgLocal = SnakeModel.mapTuberiaLocal[_tuberiaDir[_tuberia.indexOf(index)]];  
+      imgLocal =
+          SnakeModel.mapTuberiaLocal[_tuberiaDir[_tuberia.indexOf(index)]];
       imgUrl = SnakeModel.mapTuberiaUrl[_tuberiaDir[_tuberia.indexOf(index)]];
-    }else{
-      paridad ?  colorBack = "par" : colorBack = "impar"; 
+    } else {
+      paridad ? colorBack = "par" : colorBack = "impar";
     }
 
     paridad = !paridad;
     // ignore: unnecessary_statements
-    _end==true ? colorBack= "end" : null;
+    _end == true ? colorBack = "end" : null;
 
     return Container(
       padding: EdgeInsets.all(0),
@@ -336,45 +335,45 @@ class _SnakePageState extends State<SnakePage> {
       _serpiente.add(_cabeza);
 
       //Entramos por la tuberia
-      if(_tuberia.contains(_cabeza)){
-        if(_controlChoque(_cabeza, _dir)){
+      if (_tuberia.contains(_cabeza)) {
+        if (_controlChoque(_cabeza, _dir)) {
           return true;
         }
         _serpiente.remove(_cabeza);
         // Miramos origen, para saber el destino
         int origen = _tuberia.indexOf(_cabeza);
         int destino;
-        origen == 1 ? destino = 0 : destino = 1; 
+        origen == 1 ? destino = 0 : destino = 1;
         int posTubDestino = _tuberia[destino];
-        String dirTubDestino = _tuberiaDir[destino]; 
-        
-        if (dirTubDestino == "der"){
-          _cabeza = posTubDestino+1;
+        String dirTubDestino = _tuberiaDir[destino];
+
+        if (dirTubDestino == "der") {
+          _cabeza = posTubDestino + 1;
           _dir = "der";
         }
-        if (dirTubDestino == "izq"){
-          _cabeza = posTubDestino-1;
+        if (dirTubDestino == "izq") {
+          _cabeza = posTubDestino - 1;
           _dir = "izq";
-        } 
-        if (dirTubDestino == "arriba"){
-          _cabeza = posTubDestino-_nCol;
+        }
+        if (dirTubDestino == "arriba") {
+          _cabeza = posTubDestino - _nCol;
           _dir = "arriba";
-        } 
-        if (dirTubDestino == "abajo"){
-          _cabeza = posTubDestino+_nCol;
+        }
+        if (dirTubDestino == "abajo") {
+          _cabeza = posTubDestino + _nCol;
           _dir = "abajo";
-        }    
-      
-        _serpiente.add(_cabeza); 
+        }
+
+        _serpiente.add(_cabeza);
       }
-      
+
       // Cuando come la serpiente
       if (_cabeza == _indexFood) {
         _nuevaManzana();
         _puntuacion += 1;
         // Sonido de que comemos la manzana
         // ignore: unnecessary_statements
-        _selectorMusica? audioCacheSonidos.play("eat.mp3") :null;
+        _selectorMusica ? audioCacheSonidos.play("eat.mp3") : null;
       } else {
         _serpiente.remove(_cola);
       }
@@ -385,7 +384,7 @@ class _SnakePageState extends State<SnakePage> {
   ///Método que controla si se produce un fallo y como consecuencia el final de la partida
   bool _gameOver() {
     bool terminar = false;
-    terminar = _controlChoque(_cabeza,_dir);
+    terminar = _controlChoque(_cabeza, _dir);
 
     if (terminar) {
       _end = true;
@@ -423,7 +422,7 @@ class _SnakePageState extends State<SnakePage> {
 
     if (puntosMejores == null || puntosMejores < _puntuacion) {
       mejoraPuntos = true;
-      if (puntosMejores == null){
+      if (puntosMejores == null) {
         puntosMejores = 0;
       }
       cabecera =
@@ -433,72 +432,73 @@ class _SnakePageState extends State<SnakePage> {
 
     // Una vez tenemos validado la mejora, mostramos el showdialog
     showGeneralDialog(
-      transitionBuilder: (context, a1, a2, widget) {
-      final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;
-      return Transform(
-        transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-        child: Opacity(
-          opacity: a1.value,
-          child: AlertDialog(
-            title: Text('GAME OVER'),
-            content: Text(cabecera),
-            actions: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset("assets/img/snake/gameover.png"),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  FlatButton(
-                    child: Text('Play Again'),
-                    onPressed: () {
-                      setState(() {
-                        _restartGame();
-                      });
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  SizedBox(width: 5,),
-                  FlatButton(
-                    child: Text(texto),
-                    hoverColor: Theme.of(context).toggleableActiveColor,
-                    onPressed: () {
-                      if (mejoraPuntos) {
-                        // Nos movemos a la página de formulario
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              RankFromPage(value: _puntuacion),
-                        ));
-                      } else {
-                        Navigator.pushNamed(context, "rank");
-                      }
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  __crearBotonReward(context),
-                ],
-              )
-            ],
-          )
-        ),
-      );
-    },
-    transitionDuration: Duration(milliseconds: 200),
-    barrierDismissible: true,
-    barrierLabel: '',
-    context: context,
-    // ignore: missing_return
-    pageBuilder: (context, animation1, animation2) {});
+        transitionBuilder: (context, a1, a2, widget) {
+          final curvedValue = Curves.easeInOutBack.transform(a1.value) - 1.0;
+          return Transform(
+            transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+            child: Opacity(
+                opacity: a1.value,
+                child: AlertDialog(
+                  title: Text('GAME OVER'),
+                  content: Text(cabecera),
+                  actions: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset("assets/img/snake/gameover.png"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        FlatButton(
+                          child: Text('Play Again'),
+                          onPressed: () {
+                            setState(() {
+                              _restartGame();
+                            });
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        FlatButton(
+                          child: Text(texto),
+                          hoverColor: Theme.of(context).toggleableActiveColor,
+                          onPressed: () {
+                            if (mejoraPuntos) {
+                              // Nos movemos a la página de formulario
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    RankFromPage(value: _puntuacion),
+                              ));
+                            } else {
+                              Navigator.pushNamed(context, "rank");
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        __crearBotonReward(context),
+                      ],
+                    )
+                  ],
+                )),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        // ignore: missing_return
+        pageBuilder: (context, animation1, animation2) {});
   }
 
   ///Método que se encarga de generar los bloques en el tablero
@@ -527,32 +527,33 @@ class _SnakePageState extends State<SnakePage> {
   }
 
   /// Método que reinicia el contenido de las variables
-  void _restartGame() {// Mirar lo que pasa cuando damos al boton de restart
+  void _restartGame() {
+    // Mirar lo que pasa cuando damos al boton de restart
     /*if(!_inGame){*/
-      _dir = "der";
-      _cabeza = 23;
-      _cola = 21;
-      _serpiente = [21, 22, 23];
-      _inGame = false;
-      _end = false;
-      _puntuacion = 0;
-      _videoVisto = false;
-      _nuevaManzana();
-      _rellenarBloques();
-      _loadTuberia();
-      _iniciarJuego();
-      _loadMusic();
-      _loadVideoReward();
+    _dir = "der";
+    _cabeza = 23;
+    _cola = 21;
+    _serpiente = [21, 22, 23];
+    _inGame = false;
+    _end = false;
+    _puntuacion = 0;
+    _videoVisto = false;
+    _nuevaManzana();
+    _rellenarBloques();
+    _loadTuberia();
+    _iniciarJuego();
+    _loadMusic();
+    _loadVideoReward();
     /*} */
   }
 
   /// Método que carga las opciones de la base de datos local
   void _loadSettings() async {
-    final String _selectorBloquesString = "selectorBloques"; 
+    final String _selectorBloquesString = "selectorBloques";
     final String _selectorMusicaString = "selectorMusica";
     final String _selectorVelocidadString = "selectorVelocidad";
     final String _selectorTuberiasString = "selectorTuberias";
-    
+
     // Carga de la velocidad de la serpiente
     final VariablesPersistentes variableVelocidad =
         await dbService.getVar(_selectorVelocidadString);
@@ -586,13 +587,13 @@ class _SnakePageState extends State<SnakePage> {
     if (variablePipe == null || variablePipe.value == 0) {
       _selectorTuberias = false;
     } else {
-       _selectorTuberias = true;
-       _loadTuberia();
+      _selectorTuberias = true;
+      _loadTuberia();
     }
   }
 
   ///Método que coloca los bloques en la pared
-  _loadPared() async{
+  _loadPared() async {
     for (var i = 0; i <= _nCasillas; i++) {
       if (i <= _nCol - 1 ||
           i >= _nCasillas - _nCol + 1 ||
@@ -609,32 +610,37 @@ class _SnakePageState extends State<SnakePage> {
   ///Método que coloca las tuberias
   _loadTuberia() {
     setState(() {
-      if(_selectorTuberias){
+      if (_selectorTuberias) {
         _tuberia = [];
         _tuberiaDir = [];
-         
+
         for (var i = 0; i < 2; i++) {
           int ale = _semilla.nextInt(_nCasillas);
-          while (_controlChoque(ale,null) || ale < (_nCol * 2 ) || _controlChoque(ale+1,null) || _controlChoque(ale-1,null) || _controlChoque(ale+_nCol,null) || _controlChoque(ale-_nCol,null)) {
+          while (_controlChoque(ale, null) ||
+              ale < (_nCol * 2) ||
+              _controlChoque(ale + 1, null) ||
+              _controlChoque(ale - 1, null) ||
+              _controlChoque(ale + _nCol, null) ||
+              _controlChoque(ale - _nCol, null)) {
             ale = _semilla.nextInt(_nCasillas);
           }
           _tuberia.add(ale);
         }
-        
+
         List<String> direccionesPosibles = [];
         // Calculamos las direcciones para la tueria
         for (var pipe in _tuberia) {
           direccionesPosibles = [];
-          if(!_controlChoque(pipe+1,null)){
+          if (!_controlChoque(pipe + 1, null)) {
             direccionesPosibles.add("der");
           }
-          if(!_controlChoque(pipe-1,null)){
+          if (!_controlChoque(pipe - 1, null)) {
             direccionesPosibles.add("izq");
           }
-          if(!_controlChoque(pipe+_nCol,null)){
+          if (!_controlChoque(pipe + _nCol, null)) {
             direccionesPosibles.add("arriba");
           }
-          if(!_controlChoque(pipe-_nCol,null)){
+          if (!_controlChoque(pipe - _nCol, null)) {
             direccionesPosibles.add("abajo");
           }
           int posicionAle = _semilla.nextInt(direccionesPosibles.length);
@@ -642,7 +648,6 @@ class _SnakePageState extends State<SnakePage> {
         }
       }
     });
-    
   }
 
   ///Método que se encarga de reporducir la música al iniciar el juego
@@ -672,7 +677,7 @@ class _SnakePageState extends State<SnakePage> {
   }
 
   // Carga los datos para continuar con el juego en el caso de que se vea video
-  void _continuar(){
+  void _continuar() {
     setState(() {
       _end = false;
       _inGame = false;
@@ -687,36 +692,40 @@ class _SnakePageState extends State<SnakePage> {
   // Método que nos devuelve el botón para ver videos reward
   Widget __crearBotonReward(BuildContext context) {
     return new RaisedButton(
-      child: new Container(
-        child: Row(
-          children: [
-            new Text(_isButtonDisabled ? "Not Video" : "Video"),
-            SizedBox(width: 10,),
-            Icon(_isButtonDisabled ? Icons.lock_outline  :  Icons.ondemand_video)
-          ],
+        child: new Container(
+          child: Row(
+            children: [
+              new Text(_isButtonDisabled ? "Not Video" : "Video"),
+              SizedBox(
+                width: 10,
+              ),
+              Icon(
+                  _isButtonDisabled ? Icons.lock_outline : Icons.ondemand_video)
+            ],
+          ),
         ),
-      ),
-      onPressed: () async {
-        if (!_videoVisto ) {
-          // En el caso de que no hubiera visto el video tenemos que mostrarlo
-          await RewardedVideoAd.instance.show().catchError((e) => print("error in showing ad: ${e.toString()}"));
-          _loaded = false;
-        } else {
-          print("no mostramos el video!");
-        } 
-      });
+        onPressed: () async {
+          if (!_videoVisto) {
+            // En el caso de que no hubiera visto el video tenemos que mostrarlo
+            await RewardedVideoAd.instance.show().catchError(
+                (e) => print("error in showing ad: ${e.toString()}"));
+            _loaded = false;
+          } else {
+            print("no mostramos el video!");
+          }
+        });
   }
 
   // Método que se encarga de cargar un video
-  void _loadVideoReward(){
+  void _loadVideoReward() {
     RewardedVideoAd.instance.listener =
         (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
       print("RewardedVideoAd event $event");
-      if (event == RewardedVideoAdEvent.closed){
+      if (event == RewardedVideoAdEvent.closed) {
         setState(() {
           _continuar();
-          Future.delayed(const Duration(milliseconds: 1000), () {    
-              _iniciarJuego();
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            _iniciarJuego();
           });
           Navigator.of(context).pop();
         });
@@ -728,47 +737,49 @@ class _SnakePageState extends State<SnakePage> {
       }
     };
     RewardedVideoAd.instance
-      .load(adUnitId: RewardedVideoAd.testAdUnitId, targetingInfo: AdMobService.getMobileTargetInfo())
-      .catchError((e) => print("error in loading 1st time"))
-      .then((v) => setState(() => _loaded = true));
+        .load(
+            adUnitId: RewardedVideoAd.testAdUnitId,
+            targetingInfo: AdMobService.getMobileTargetInfo())
+        .catchError((e) => print("error in loading 1st time"))
+        .then((v) => setState(() => _loaded = true));
   }
 
   // Método que cambia la dirección despues de que se produce una colision
-  void _cambiarDir(int colison){
+  void _cambiarDir(int colison) {
     String nuevaDir = "";
     // Miramos que pasa dependiendo de la dir (eje en el que se mueve), primero eje y
-    if (_dir == "arriba" || _dir == "abajo"){
-      int cabezaIzq = _cabeza-1;
-      int cabezaDer = _cabeza +1;
-      if(_cabeza<=(_nCol/2)){
-        if (!_controlChoque(cabezaDer,null)){
+    if (_dir == "arriba" || _dir == "abajo") {
+      int cabezaIzq = _cabeza - 1;
+      int cabezaDer = _cabeza + 1;
+      if (_cabeza <= (_nCol / 2)) {
+        if (!_controlChoque(cabezaDer, null)) {
           nuevaDir = "der";
-        }else if(!_controlChoque(cabezaIzq,null)){
+        } else if (!_controlChoque(cabezaIzq, null)) {
           nuevaDir = "izq";
         }
-      }else{
-        if (!_controlChoque(cabezaIzq,null)){
+      } else {
+        if (!_controlChoque(cabezaIzq, null)) {
           nuevaDir = "izq";
-        }else if(!_controlChoque(cabezaDer,null)){
+        } else if (!_controlChoque(cabezaDer, null)) {
           nuevaDir = "der";
         }
       }
     }
 
-    if (_dir == "der" || _dir == "izq"){
-      int cabezaArriba = _cabeza-_nCol;
-      int cabezaAbajo = _cabeza +_nCol;
-      
-      if(_cabeza<=(_nCasillas/2)){
-        if (!_controlChoque(cabezaAbajo,null)){
+    if (_dir == "der" || _dir == "izq") {
+      int cabezaArriba = _cabeza - _nCol;
+      int cabezaAbajo = _cabeza + _nCol;
+
+      if (_cabeza <= (_nCasillas / 2)) {
+        if (!_controlChoque(cabezaAbajo, null)) {
           nuevaDir = "abajo";
-        }else if(!_controlChoque(cabezaArriba,null)){
+        } else if (!_controlChoque(cabezaArriba, null)) {
           nuevaDir = "arriba";
         }
-      }else{
-        if (!_controlChoque(cabezaArriba,null)){
+      } else {
+        if (!_controlChoque(cabezaArriba, null)) {
           nuevaDir = "arriba";
-        }else if(!_controlChoque(cabezaAbajo,null)){
+        } else if (!_controlChoque(cabezaAbajo, null)) {
           nuevaDir = "abajo";
         }
       }
@@ -780,7 +791,7 @@ class _SnakePageState extends State<SnakePage> {
   }
 
   /// Método para controlar si se produce un impacto con algo
-  bool _controlChoque(int p, String dir ){
+  bool _controlChoque(int p, String dir) {
     if (_pared.contains(p) || _bloques.contains(p)) {
       return true;
     }
@@ -789,14 +800,13 @@ class _SnakePageState extends State<SnakePage> {
       return true;
     }
     // Control de choque contra tuberia
-    if(_tuberia.contains(p) && dir == null){
+    if (_tuberia.contains(p) && dir == null) {
       return true;
     }
-    if(dir!=null && _tuberia.contains(p) ){
-      if(SnakeModel.dirOpuesta[dir] != _tuberiaDir[_tuberia.indexOf(p)]){
+    if (dir != null && _tuberia.contains(p)) {
+      if (SnakeModel.dirOpuesta[dir] != _tuberiaDir[_tuberia.indexOf(p)]) {
         return true;
       }
-      
     }
     return false;
   }

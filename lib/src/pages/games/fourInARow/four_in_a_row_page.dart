@@ -11,11 +11,11 @@ class FourRowPage extends StatefulWidget {
   FourRowPage({this.ads});
 
   @override
-  _FourRowPageState createState() => _FourRowPageState(ads:ads);
+  _FourRowPageState createState() => _FourRowPageState(ads: ads);
 }
 
-class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin {
-
+class _FourRowPageState extends State<FourRowPage>
+    with TickerProviderStateMixin {
   ///Publicidad
   bool ads = false;
   _FourRowPageState({this.ads});
@@ -24,7 +24,7 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
 
   @override
   void initState() {
-    ads ?AdMobService.showBannerAd() : AdMobService.hideBannerAd();
+    ads ? AdMobService.showBannerAd() : AdMobService.hideBannerAd();
     _controller = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     super.initState();
@@ -32,10 +32,10 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
 
   @override
   void dispose() {
-    _controller.dispose();  
+    _controller.dispose();
     super.dispose();
   }
-  
+
   void onAfterBuild(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 1000), () {
       _controller.forward();
@@ -44,13 +44,12 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       drawer: MenuLateral(),
       appBar: AppBar(
         title: Text("Cuatro en raya Online"),
         automaticallyImplyLeading: true,
-          leading: GoBack.volverAtras(context),
+        leading: GoBack.volverAtras(context),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -68,27 +67,33 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
                     color: Colors.yellow[100],
                     elevation: 10,
                     child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          SizedBox(height:30),
-                          Image.asset("assets/img/fichayellow.png"),
-                          SizedBox(width:250),
-                          Divider(),
-                          Text("Invite a friend", style:TextStyle(color: Colors.black, fontSize: 20.0) ),
-                          SizedBox(height:30),
-                        ],
-                      ),
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        SizedBox(height: 30),
+                        Image.asset("assets/img/fichayellow.png"),
+                        SizedBox(width: 250),
+                        Divider(),
+                        Text("Invite a friend",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 20.0)),
+                        SizedBox(height: 30),
+                      ],
                     ),
+                  ),
                 ),
                 onTap: () async {
-                    await new Future.delayed(const Duration(milliseconds: 500));
-                    Navigator.push(context, new MaterialPageRoute(builder: (__) => new InvitarPage(ads:false)));
-
+                  await new Future.delayed(const Duration(milliseconds: 500));
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (__) => new InvitarPage(ads: false)));
                 },
               ),
             ],
           ),
-          SizedBox(height: 40,),
+          SizedBox(
+            height: 40,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -100,22 +105,25 @@ class _FourRowPageState extends State<FourRowPage> with TickerProviderStateMixin
                   color: Colors.red[100],
                   elevation: 10,
                   child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        SizedBox(height:30),
-                          Image.asset("assets/img/fichared.png"),
-                          SizedBox(width:250),
-                          Divider(),
-                          Text("Join game", style:TextStyle(color: Colors.black, fontSize: 20.0) ),
-                          SizedBox(height:30),
-                      ],
-                    ),
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      SizedBox(height: 30),
+                      Image.asset("assets/img/fichared.png"),
+                      SizedBox(width: 250),
+                      Divider(),
+                      Text("Join game",
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 20.0)),
+                      SizedBox(height: 30),
+                    ],
                   ),
-                onTap: () async{
-                   
-                    await new Future.delayed(const Duration(milliseconds: 500));
-                    Navigator.push(context, new MaterialPageRoute(builder: (__) => new UnirPage(ads:false)));
-                  
+                ),
+                onTap: () async {
+                  await new Future.delayed(const Duration(milliseconds: 500));
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (__) => new UnirPage(ads: false)));
                 },
               ),
             ],

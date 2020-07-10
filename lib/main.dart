@@ -21,8 +21,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     /// Controlamos que solo se pueda tener el movil en modo retrato, para que no gire
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        //DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+      //DeviceOrientation.portraitDown,
     ]);
     return ChangeNotifierProvider<ThemeChanger>(
       builder: (_) => ThemeChanger(ThemeData.light()),
@@ -62,7 +62,7 @@ class _MaterialAppWithThemeState extends State<MaterialAppWithTheme> {
       onGenerateRoute: (RouteSettings settings) {
         // En caso de que no encuentre la ruta, vuelve al homePage
         return MaterialPageRoute(
-          builder: (BuildContext context) => HomePage(ads : true),
+          builder: (BuildContext context) => HomePage(ads: true),
         );
       },
     );

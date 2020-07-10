@@ -4,10 +4,9 @@ import 'package:flutter_snake/src/widget/menu_lateral.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
-
   bool ads = false;
-  HomePage({this.ads}){
-    if(this.ads == null){
+  HomePage({this.ads}) {
+    if (this.ads == null) {
       this.ads = true;
     }
   }

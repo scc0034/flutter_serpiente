@@ -12,7 +12,7 @@ class LoginPage extends StatefulWidget {
   bool ads = false;
   LoginPage({this.ads});
   @override
-  _LoginPageState createState() => _LoginPageState(ads : ads);
+  _LoginPageState createState() => _LoginPageState(ads: ads);
 }
 
 class _LoginPageState extends State<LoginPage>
@@ -26,9 +26,9 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   void initState() {
-    if(ads){
+    if (ads) {
       AdMobService.showBannerAd();
-    }else{
+    } else {
       AdMobService.hideBannerAd();
     }
     // Controlador de la animación de los elementos
@@ -109,7 +109,9 @@ class _LoginPageState extends State<LoginPage>
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
-                return HomePage(ads: true,);
+                return HomePage(
+                  ads: true,
+                );
               },
             ),
           );

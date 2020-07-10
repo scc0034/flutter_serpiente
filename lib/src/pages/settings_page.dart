@@ -17,11 +17,10 @@ class SettingsPage extends StatefulWidget {
   SettingsPage({this.ads});
 
   @override
-  _SettingsPageState createState() => _SettingsPageState(ads : this.ads);
+  _SettingsPageState createState() => _SettingsPageState(ads: this.ads);
 }
 
 class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
-
   bool ads = false;
 
   _SettingsPageState({this.ads});
@@ -51,9 +50,9 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
   @override
   void initState() {
     super.initState();
-    if(ads){
+    if (ads) {
       AdMobService.showBannerAd();
-    }else{
+    } else {
       AdMobService.hideBannerAd();
     }
     // Carga de los valores
