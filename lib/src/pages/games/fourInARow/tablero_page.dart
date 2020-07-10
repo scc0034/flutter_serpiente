@@ -610,7 +610,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
     if(cadenaFila.contains(cadenaValidar[ficha])){
       print("WIN HORIZONTAL");
-      return true;
+      return true as Future;
     }
 
 
@@ -631,7 +631,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     }
     if(cadenaColumna.contains(cadenaValidar[ficha])){
       print("WIN VERTICAL");
-      return true;
+      return true as Future;
     }
 
     print("CADENA VERTICAL = $cadenaColumna \n");
@@ -647,7 +647,9 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     int filSI = fila;
     int colSI = columna;
     int indexSI = index;
+    int indexII = index;
     String cadenaSIID="";
+    String cadenaIISD = "";
     int menor = filSI;
     // Miramos cual de las dos es menor, ya que os limita la búsqueda
     filSI<colSI ? menor = filSI : menor = colSI;
@@ -679,36 +681,29 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
     if(cadenaSIID.contains(cadenaValidar[ficha])){
       print("WIN DIAGONAL SUP IZQ");
-      return true;
+      return true as Future;
     }
 
     print("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
 
     // CONTROLAMOS LA DIAGONAL INF IZQ - SUP DER
     print("=================================================================");
-    int indexII = index;
-    while(fila!=_nFil-1){
-      indexII = indexII +_nCol - 1;
-      fila++;
-    }
-    indexII == 0? nuevaColIndex = 0 : nuevaColIndex = indexII%_nCol;
-    indexII == 0? nuevaFilIndex = 0 : nuevaFilIndex = indexII~/_nCol;
-    String cadenaIISD = "";
-    for (var i = indexII; i <= 0; i -= (_nCol-1)) {
+    print("AHORA DIAGONA INFERIOR IZQUIERDA A SUPERIOR DERECHA");
+    print("lo que tenemos dentro de indexII = $indexII");
+    while(fila< _nFil-1){
       String contenido = _mapVarGame[indexII.toString()].toString();
-      print("MIRO $i, con el index = $indexII, cadena = $cadenaIISD");
-
       if(contenido.compareTo("") == 0){
         contenido = "-";
       }
       cadenaIISD+=contenido;
+      indexII = indexII +(_nCol - 1);
+      print("El nuevo valor del index = $indexII, con la cadena = $cadenaIISD");
+      fila++;
     }
-
-    print("CADENA INF IZQ= $cadenaIISD");
 
     if(cadenaIISD.contains(cadenaValidar[ficha])){
       print("WIN DIAGONAL iNF IZQ");
-      return true;
+      return true as Future;
     }
     print("=================================================================");
     
