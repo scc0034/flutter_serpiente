@@ -290,13 +290,13 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
                     if(celdaAbajo >= celdas){
                       //Miramos que el index este vacio
                       if(doc[index.toString()].toString().compareTo("")==0){
-                        await _putFicha(index,doc["turno"]);
+                        await _putFicha(index,doc["turno"],doc["endGame"]);
                       }
                     }else{
                       //Miramos si la celda de abajo esta vacia
                       if(doc[celdaAbajo.toString()].toString().compareTo("")!=0){
                         if(doc[index.toString()].toString().compareTo("")==0){
-                          await _putFicha(index,doc["turno"]);
+                          await _putFicha(index,doc["turno"],doc["endGame"]);
                         }
                       }
                     }
@@ -542,41 +542,44 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   }
 
   /// Méétodo que mete la ficha en la base de datos y cambia el turno
-  Future<void> _putFicha(int index, String turno) async{
+  Future<void> _putFicha(int index, String turno, bool endGame) async{
     bool updated = false;
     String ficha  ="";
+    if (endGame == false){
+      if (turno.compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
+        ficha = "Y";
+        _mapVarGame[index.toString()] =  ficha;
+        updated = true;
+      }
 
-    if (turno.compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
-      ficha = "Y";
-      _mapVarGame[index.toString()] =  ficha;
-      updated = true;
-    }
+      if (turno.compareTo("red") == 0 && emailGoogle.compareTo(_mapVarGame["emailRed"]) ==0 ){
+        ficha = "R";
+        _mapVarGame[index.toString()] =  ficha;
+        updated = true;
+      }
 
-    if (turno.compareTo("red") == 0 && emailGoogle.compareTo(_mapVarGame["emailRed"]) ==0 ){
-      ficha = "R";
-      _mapVarGame[index.toString()] =  ficha;
-      updated = true;
-    }
+      //Actualizamos la variable en la base de datos
+      if (updated){
+        _mapVarGame["turno"].compareTo("yellow") == 0? _mapVarGame["turno"]="red" : _mapVarGame["turno"]="yellow";
+        await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
+      }
+      bool endGame = false;
+      if(_controlFinHorizontal(index, ficha) || _controlFinVertical(index, ficha) || _controlFinDiagonal(index, ficha)){
+        endGame = true;
+      }
 
-    //Actualizamos la variable en la base de datos
-    if (updated){
-      _mapVarGame["turno"].compareTo("yellow") == 0? _mapVarGame["turno"]="red" : _mapVarGame["turno"]="yellow";
-      await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
-    }
+      print("Lo que tenemos dentro de endGame = $endGame");
 
-    bool endGame = await _controlFinPartida(index, ficha);
-
-    if (endGame && updated){
-      _mapVarGame["endGame"] = true;
-      _mapVarGame["winner"] = emailGoogle;
-      _mapVarGame["winnerImg"] = imageUrlGoogle;
-      await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
+      if (endGame && updated){
+        _mapVarGame["endGame"] = true;
+        _mapVarGame["winner"] = emailGoogle;
+        _mapVarGame["winnerImg"] = imageUrlGoogle;
+        await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
+      }
     }
   }
 
-  ///Método que se encarga de validar si la partida termina, cuando
-  Future<bool> _controlFinPartida(int index, String ficha) async{
-    /// Sacamos del index la fila y la coluna de la ficha
+  bool _controlFinHorizontal(int index, String ficha){
     int columna;
     int fila;
     int inicioFila;
@@ -584,18 +587,14 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       "R" : "RRRR",
       "Y" : "YYYY"
     };
-
     index == 0? columna = (0) : columna = (index%_nCol);
-    index == 0? fila = (0) : fila = (index~/_nFil); // ~/Parte entera de la division
-
-
-
-    print("------------------------------------------------------------------------------");
-    print("CONTROL DE LA HORIZONTAL\n");
+    index == 0? fila = (0) : fila = (index~/_nFil); // ~/Parte entera de la
+    /*print("------------------------------------------------------------------------------");
+    print("CONTROL DE LA HORIZONTAL\n");*/
     /// Miramos si tenemos alguna coincidencia en horizontal
     String cadenaFila = "";
     fila == 0? inicioFila = 0 : inicioFila = _nCol*fila;
-    print("INICIO DE LA FILA PARA CONTROL HORIZONTAL = $inicioFila");
+    //print("INICIO DE LA FILA PARA CONTROL HORIZONTAL = $inicioFila");
     for (var i = inicioFila; i < inicioFila+_nCol; i++) {
       String contenido = _mapVarGame[i.toString()].toString();
       if(contenido.compareTo("") == 0){
@@ -605,19 +604,29 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       print("Index mirado = $i, la cadena = $cadenaFila");
 
     }
-    print("CADENA HORIZONTAL = $cadenaFila \n");
-    print("------------------------------------------------------------------------------");
+    /*print("CADENA HORIZONTAL = $cadenaFila \n");
+    print("------------------------------------------------------------------------------");*/
 
     if(cadenaFila.contains(cadenaValidar[ficha])){
-      print("WIN HORIZONTAL");
-      return true as Future;
+      //print("WIN HORIZONTAL");
+      return true;
     }
+    return false;
+  }
 
 
-
-
-    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-    print("CONTROL DE LA VERTICAL");
+  bool _controlFinVertical(int index, String ficha){
+    int columna;
+    int fila;
+    int inicioFila;
+    Map<String,String> cadenaValidar = {
+      "R" : "RRRR",
+      "Y" : "YYYY"
+    };
+    index == 0? columna = (0) : columna = (index%_nCol);
+    index == 0? fila = (0) : fila = (index~/_nFil); // ~/Parte entera de la
+    /*print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+    print("CONTROL DE LA VERTICAL");*/
     /// Miramos que es lo que pasa en la vertical
     String cadenaColumna = "";
     for (var i = columna; i < celdas; i=i+7) {
@@ -631,19 +640,33 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     }
     if(cadenaColumna.contains(cadenaValidar[ficha])){
       print("WIN VERTICAL");
-      return true as Future;
+      return true;
     }
 
-    print("CADENA VERTICAL = $cadenaColumna \n");
-    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+    /*print("CADENA VERTICAL = $cadenaColumna \n");
+    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");*/
+    return false;
 
+  }
 
+  ///Método que se encarga de validar si la partida termina, cuando
+  bool _controlFinDiagonal(int index, String ficha){
+    /// Sacamos del index la fila y la coluna de la ficha
+    int columna;
+    int fila;
+    int inicioFila;
+    Map<String,String> cadenaValidar = {
+      "R" : "RRRR",
+      "Y" : "YYYY"
+    };
 
+    index == 0? columna = (0) : columna = (index%_nCol);
+    index == 0? fila = (0) : fila = (index~/_nFil); // ~/Parte entera de la division
 
-    print("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+    /*print("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
     print("CONTROL DE LA DIAGONAL SUP IZQ");
     /// Diagonal sup izq -> inf der, ya tenemos el inicio de la fila y la col
-    print("COLUMNA $columna");
+    print("COLUMNA $columna");*/
     int filSI = fila;
     int colSI = columna;
     int indexSI = index;
@@ -653,19 +676,19 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     int menor = filSI;
     // Miramos cual de las dos es menor, ya que os limita la búsqueda
     filSI<colSI ? menor = filSI : menor = colSI;
-    print("Lo que tenemos dentro de menor = $menor");
+    /*print("Lo que tenemos dentro de menor = $menor");*/
     while(menor !=0){
       indexSI = indexSI -_nCol - 1;
       menor--;
     }
     
-    print("El INDEX donde empieza a mirar es = $indexSI");
+    /*print("El INDEX donde empieza a mirar es = $indexSI");*/
     int nuevaColIndex ;
     int nuevaFilIndex;
     indexSI == 0? nuevaColIndex = 0 : nuevaColIndex = indexSI%_nCol;
     indexSI == 0? nuevaFilIndex = 0 : nuevaFilIndex = indexSI~/_nCol;
 
-    print("EL VALOR DE NUEVA COL INDEX = $nuevaColIndex");
+    /*print("EL VALOR DE NUEVA COL INDEX = $nuevaColIndex");*/
     //Iteramos para recorrer la diagonal sup izq _> inf der
     for (var i = indexSI; i < celdas; i += _nCol + 1) {
       print("MIRO $i, con el index = $indexSI, cadena = $cadenaSIID");
@@ -676,39 +699,48 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       cadenaSIID+=contenido;
     }
 
-    //Mostramos que tiene la cadena de cadenaSIID
-    print("CADENA SUERIOR IZQ DER INF = $cadenaSIID");
-
     if(cadenaSIID.contains(cadenaValidar[ficha])){
-      print("WIN DIAGONAL SUP IZQ");
-      return true as Future;
+      //print("WIN DIAGONAL SUP IZQ");
+      return true;
     }
 
-    print("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+    /*print("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
 
     // CONTROLAMOS LA DIAGONAL INF IZQ - SUP DER
     print("=================================================================");
     print("AHORA DIAGONA INFERIOR IZQUIERDA A SUPERIOR DERECHA");
     print("lo que tenemos dentro de indexII = $indexII");
-    while(fila< _nFil-1){
+    print("fila = $fila, el valor de la columna = $columna");*/
+
+    while(fila<_nFil){
+      indexII = indexII +(_nCol - 1);
+      print("El nuevo valor del index = $indexII, con la cadena = $cadenaIISD, el valor de la fila = $fila");
+      fila++;
+      columna--;
+    }
+    columna++;
+    //print("El valor de la columna donde empezamos a mirar = $columna");
+
+    for (var i = columna; i < _nCol-1; i++) {
       String contenido = _mapVarGame[indexII.toString()].toString();
       if(contenido.compareTo("") == 0){
         contenido = "-";
       }
       cadenaIISD+=contenido;
-      indexII = indexII +(_nCol - 1);
-      print("El nuevo valor del index = $indexII, con la cadena = $cadenaIISD");
-      fila++;
+      indexII = indexII -(_nCol - 1);
+      //print("El valor del index = $indexII , cadena = $cadenaIISD ");
     }
+
+    //print("El valor de la cadena con la que tenemos que validar = $cadenaIISD");
 
     if(cadenaIISD.contains(cadenaValidar[ficha])){
       print("WIN DIAGONAL iNF IZQ");
-      return true as Future;
+      return true;
     }
-    print("=================================================================");
+    //print("=================================================================");
     
     // En cualquier caso false
-    return false as Future;
+    return false;
   }
 
   void _mostrarFinal(BuildContext context, String winner, String winnerImg){
@@ -774,7 +806,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     }
     setState(() {
       _enableField = !_enableField;
-    _cuentaAtrasField = 15;
+    _cuentaAtrasField = 11;
     });
   }
 
