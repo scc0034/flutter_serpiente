@@ -159,6 +159,8 @@ class _InvitarPageState extends State<InvitarPage> {
       "inGame" : false,
       "endGame" : false,
       k : "",
+      "lanzamiento" : false,
+      "mostrado" : false,
     };
 
     /// Añadimos el tablero vacio

@@ -148,6 +148,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           DocumentSnapshot doc = snapshot.data;
           String t = doc["turno"].toString();
 
+          print("DENTRO DEL PINTAR ARRIBA------------------------------------------------------");
+          print("Turno = $t");
           if (t.compareTo("") == 0){
             _colorR = Colors.white;
           }else{
@@ -283,22 +285,21 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
                   /// Miramos si se puede meter la ficha en la casilla pulsada
                   int celdaAbajo = index+_nFil;
+
                   /// Miramos que no se a terminado el juego
                   if(doc["endGame"] == false){
-
                   
                   //Miramos si estamos en la última fila
                     if(celdaAbajo >= celdas){
                       //Miramos que el index este vacio
                       if(doc[index.toString()].toString().compareTo("")==0){
-                        await _putFicha(index);
+                        await _putFicha(index,doc["turno"]);
                       }
                     }else{
                       //Miramos si la celda de abajo esta vacia
                       if(doc[celdaAbajo.toString()].toString().compareTo("")!=0){
-                        print("Celda de abajo no eta vacia");
                         if(doc[index.toString()].toString().compareTo("")==0){
-                          await _putFicha(index);
+                          await _putFicha(index,doc["turno"]);
                         }
                       }
                     }
@@ -368,6 +369,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     );
   }
   
+  /// Widget de enviar los mensajes
   Widget _pintarMsg(){
   return Container(
       child: Row(
@@ -409,19 +411,18 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   }
 
   ///Método que actualiza la variable del mapa que contien las vars del juego
-  Future<void> _actualizaMap ()async{
+  Future<void> _actualizaMap() async{
     try {
       await firestoreDB.collection(_coleccionDB).document(code).get().then((snapDoc) {
         if(snapDoc.exists){
-          _mapVarGame = snapDoc.data;
+          setState(() {
+            _mapVarGame = snapDoc.data;
+          });
         }
     });
     } catch (err) {
       print("El error es: $err");
     }
-    setState(() {
-      
-    });
   }
 
   ///Método que nada más empezar la partida modifica la interfaz
@@ -436,6 +437,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   ///Método que da sensación de que se esta online, ya qe el tiempo pasa
   void _controlTiempo(){
     Timer _timer;
+    bool finJuego = false;
     _timer = new Timer.periodic(Duration(seconds: 1),
     (Timer _timer) => setState(()  {
       s +=1;
@@ -445,18 +447,25 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         m+=1;
         s = 0;
       }
-      setState(() {
+      setState(() async{
         s<10?seg ="0$s" : seg="$s";
         m<10?min ="0$m" : min="$m";
-        bool finJuego = _mapVarGame["_endGame"];
+
+        //Update cada dos segundos por si acaso
+
+        _actualizaMap();
+
+        /// Mostramos el cuadro dialogo de quien es el que comienza el turno
+        if(_mapVarGame["lanzamiento"] == true && _mapVarGame["mostrado"] == false){
+          _mostrarQuienComienza();
+        }
+        
+        finJuego = _mapVarGame["endGame"];
         if(finJuego){
           _timer.cancel();
           _mostrarFinal(context,_mapVarGame["winner"].toString(),_mapVarGame["winnerImg"]);
         }
-        // Update cada dos segundos
-        if(s%2==0){
-          _actualizaMap();
-        }
+        
         // Cuenta atrás es cero borramos el contenido
         if (_cuentaAtrasMsg == 0){
           _borrarMensajeInvitado();
@@ -483,25 +492,28 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   Future<void> _lanzamientoMoneda() async{
     String _turno = "";
 
-    String msgTurno ="Comienza el jugador: ";
-
     //Decidimos quien de los dos es el que comienza, tira la moneda el anfitrion
     if(_esAnfitrion()){
       _semilla.nextInt(2) == 0 ? _turno = "yellow" : _turno = "red";
       _mapVarGame["turno"] = _turno;
-      /// Guardamos el turno en la base de datos
+      _mapVarGame["lanzamiento"] = true;
       await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
     }
+  }
 
-    ///Hacemos el update del mapa
-    await _actualizaMap();
+  /// Método para mostrar el mensaje de quien es el que comienza la partida
+  void _mostrarQuienComienza() async{
+    String msgTurno ="Comienza el jugador: ";
+    String _turno = _mapVarGame["turno"];
 
-    if(_mapVarGame["turno"].toString().compareTo("red") == 0){
+    if(_turno.compareTo("red") == 0){
       msgTurno +=_mapVarGame["emailRed"];
-    }else{
+    }
+
+    if(_turno.compareTo("yellow") == 0){
       msgTurno +=_mapVarGame["emailYellow"];
     }
-    
+
     /// Mostramos el mensaje de quien es el que tiene el turno
     showDialog(
       context: context,
@@ -514,9 +526,12 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         );
       }
     );
+
+    _mapVarGame["mostrado"] = true;
+    await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
   }
 
-  ///Metodo que devuelve la url de la imagen de arriba, dependiendo del que juega
+  /// Metodo que devuelve la url de la imagen de arriba, dependiendo del que juega
   String _getFotoArriba(){
     String aux = "";
     for (var k in _mapVarGame.keys) {
@@ -530,39 +545,32 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   }
 
   /// Méétodo que mete la ficha en la base de datos y cambia el turno
-  Future<void> _putFicha(int index) async{
-
+  Future<void> _putFicha(int index, String turno) async{
     bool updated = false;
     String ficha  ="";
-    String posibleGanador = "";
-    // Calculamos en la columna que toca
-    /*index == 0? columna = (0).toString() : columna = (index%7).toString();*/
 
-    if (_mapVarGame["turno"].compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
-      updated = true;
+    if (turno.compareTo("yellow") == 0 && emailGoogle.compareTo(_mapVarGame["emailYellow"]) ==0 ){
       ficha = "Y";
       _mapVarGame[index.toString()] =  ficha;
+      updated = true;
     }
 
-    if (_mapVarGame["turno"].compareTo("red") == 0 && emailGoogle.compareTo(_mapVarGame["emailRed"]) ==0 ){
-      updated = true;
+    if (turno.compareTo("red") == 0 && emailGoogle.compareTo(_mapVarGame["emailRed"]) ==0 ){
       ficha = "R";
       _mapVarGame[index.toString()] =  ficha;
+      updated = true;
     }
 
     //Actualizamos la variable en la base de datos
     if (updated){
-      //Cambiamos el turno del jugador
       _mapVarGame["turno"].compareTo("yellow") == 0? _mapVarGame["turno"]="red" : _mapVarGame["turno"]="yellow";
       await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
-      //Volvemos a cargar los datos del mapa
-      _actualizaMap();
     }
 
-     bool endGame = await _controlFinPartida(index, ficha);
+    bool endGame = await _controlFinPartida(index, ficha);
 
     if (endGame && updated){
-      _mapVarGame["_endGame"] = true;
+      _mapVarGame["endGame"] = true;
       _mapVarGame["winner"] = emailGoogle;
       _mapVarGame["winnerImg"] = imageUrlGoogle;
       await firestoreDB.collection(_coleccionDB).document(code).updateData(_mapVarGame);
@@ -583,7 +591,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     index == 0? columna = (0) : columna = (index%_nCol);
     /// ~/ se queda con la parte entera de la division
     index == 0? fila = (0) : fila = (index~/_nFil);
-
+    print("------------------------------------------------------------------------------");
     print("CONTROL DE LA HORIZONTAL\n");
     /// Miramos si tenemos alguna coincidencia en horizontal
     String cadenaFila = "";
@@ -597,12 +605,13 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       cadenaFila+=contenido;
     }
     print("CADENA HORIZONTAL = $cadenaFila \n");
+    print("------------------------------------------------------------------------------");
 
     if(cadenaFila.contains(cadenaValidar[ficha])){
       print("WIN HORIZONTAL");
       return true;
     }
-
+    /*
     print("CONTROL DE LA VERTICAL");
     /// Miramos que es lo que pasa en la vertical
     String cadenaColumna = "";
@@ -690,7 +699,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       return true;
     }
     print("=================================================================");
-
+    */
     // En cualquier caso false
     return false;
   }
