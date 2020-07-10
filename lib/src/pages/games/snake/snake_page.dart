@@ -46,6 +46,7 @@ class _SnakePageState extends State<SnakePage> {
   List<int> _tuberia = [];                  // Vector tuberias
   List<String> _tuberiaDir = [];            // Vector dir de la tuberia
   static final int _nCol = 20;              // Número de columnas
+  // ignore: unused_field
   static final int _nFil = 25;              // Número de filas 
   static int _nCasillas =0;             // Número de casillas
   int _indexFood = -1;                      //Indice de la manzana inicial
@@ -73,6 +74,7 @@ class _SnakePageState extends State<SnakePage> {
 
   // ADMOB PUBLICIDAD
   bool ads = false; 
+  // ignore: unused_field
   bool _loaded = false;
   bool _videoVisto = false;
   bool _isButtonDisabled = false;
@@ -307,6 +309,7 @@ class _SnakePageState extends State<SnakePage> {
 
   ///Método que sirve para actualizar la posición de la serpiente
   bool _moverSerpiente() {
+    // ignore: missing_return
     setState(() {
       if (_end || _controlChoque(_cabeza, _dir)) {
         _gameOver();
@@ -494,6 +497,7 @@ class _SnakePageState extends State<SnakePage> {
     barrierDismissible: true,
     barrierLabel: '',
     context: context,
+    // ignore: missing_return
     pageBuilder: (context, animation1, animation2) {});
   }
 

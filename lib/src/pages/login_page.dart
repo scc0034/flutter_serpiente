@@ -7,6 +7,7 @@ import 'package:flutter_snake/src/utils/delayed_animation.dart';
 /*
  * Clase que se encarga del login de los usuarios con gmail
  */
+// ignore: must_be_immutable
 class LoginPage extends StatefulWidget {
   bool ads = false;
   LoginPage({this.ads});

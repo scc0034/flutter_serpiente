@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 /*
  * https://pub.dev/packages/carousel_slider#-example-tab-
  */
-//TODO conseguir imagenes y hacerlas del mismo size.
 final List<String> imgList = [
   'assets/img/carousel/python.jpg',
   'assets/img/carousel/angularjs.jpg',

@@ -6,9 +6,9 @@ import 'package:flutter_snake/src/pages/games/fourInARow/tablero_page.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
-import 'package:flutter_snake/src/widget/go_back.dart';
-import 'package:flutter_snake/src/widget/menu_lateral.dart';
+import 'package:flutter_snake/src/widget/go_back.dart'; 
 
+// ignore: must_be_immutable
 class InvitarPage extends StatefulWidget {
 
   bool ads = false;
@@ -184,6 +184,7 @@ class _InvitarPageState extends State<InvitarPage> {
 
   /// Método que comprueba cada segundo si tenemos el otro jugador durante 2 mins
   void _esperaJugador(BuildContext context){
+    // ignore: unused_local_variable
     Timer _timer;
     int s;
     int m;

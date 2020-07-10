@@ -4,7 +4,7 @@ import 'dart:math' show Random;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
-import 'package:bubble/bubble.dart' show Bubble, BubbleStyle, BubbleNip, BubbleEdges, BubbleClipper;
+import 'package:bubble/bubble.dart';
 import 'package:flutter/animation.dart';
 
 
@@ -12,6 +12,7 @@ import 'package:flutter/animation.dart';
 /// Clase que controla el juego del 4 en raya
 /// Aclara que el de color yellow es el anfitrión,
 /// por lo que lanza la moneda para ver quien empieza
+// ignore: must_be_immutable
 class TableroPage extends StatefulWidget {
   String code = "";
   TableroPage({this.code});
@@ -43,7 +44,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   Color _colorR = Colors.white;
   //https://deporteros.pe/wp-content/uploads/2017/07/icon-persona.png
   String _fotoArriba = "";
-  final int _numFichasEnd = 4;
 
   //Tablero
   final int _nCol = 7;
@@ -225,6 +225,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
                 ],
               )
           );
+        }else{
+          return Container(child: Text("Sin contenido"));
         }
       },// Final del builder
     );
@@ -305,6 +307,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
               );
             }
           );
+        }else{
+          return Container(child: Text("Sin contenido"));
         }
       },// Final del builder
     );
@@ -361,6 +365,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
                 ],
               )
           );
+        }else{
+          return Container(child: Text("Sin contenido"));
         }
       },// Final del builder
     );
@@ -433,6 +439,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
   ///Método que da sensación de que se esta online, ya qe el tiempo pasa
   void _controlTiempo(){
+    // ignore: unused_local_variable
     Timer _timer;
     bool finJuego = false;
     _timer = new Timer.periodic(Duration(seconds: 1),
@@ -539,6 +546,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         return _mapVarGame["imageUrlRed"];
       }
     }
+    return "https://cdn.onlinewebfonts.com/svg/img_365985.png";
   }
 
   /// Méétodo que mete la ficha en la base de datos y cambia el turno
@@ -580,6 +588,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
   }
 
   bool _controlFinHorizontal(int index, String ficha){
+    // ignore: unused_local_variable
     int columna;
     int fila;
     int inicioFila;
@@ -617,7 +626,9 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
   bool _controlFinVertical(int index, String ficha){
     int columna;
+    // ignore: unused_local_variable
     int fila;
+    // ignore: unused_local_variable
     int inicioFila;
     Map<String,String> cadenaValidar = {
       "R" : "RRRR",
@@ -654,6 +665,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     /// Sacamos del index la fila y la coluna de la ficha
     int columna;
     int fila;
+    // ignore: unused_local_variable
     int inicioFila;
     Map<String,String> cadenaValidar = {
       "R" : "RRRR",
@@ -682,11 +694,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       menor--;
     }
     
-    /*print("El INDEX donde empieza a mirar es = $indexSI");*/
-    int nuevaColIndex ;
-    int nuevaFilIndex;
-    indexSI == 0? nuevaColIndex = 0 : nuevaColIndex = indexSI%_nCol;
-    indexSI == 0? nuevaFilIndex = 0 : nuevaFilIndex = indexSI~/_nCol;
 
     /*print("EL VALOR DE NUEVA COL INDEX = $nuevaColIndex");*/
     //Iteramos para recorrer la diagonal sup izq _> inf der
@@ -794,9 +801,11 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         return _mapVarGame["emailRed"];
       }
     }
+    return "";
   }
   void _enviarMsg(String msg){
     // Miramos que tenga contenido
+    // ignore: unrelated_type_equality_checks
     if (msg.trim() != 0){
       textEditingController.clear();
       String k = emailGoogle.split("@")[0]+"msg";
