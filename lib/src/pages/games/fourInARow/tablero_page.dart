@@ -147,9 +147,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
           /// Control del color de los turnos y el color
           DocumentSnapshot doc = snapshot.data;
           String t = doc["turno"].toString();
-
-          print("DENTRO DEL PINTAR ARRIBA------------------------------------------------------");
-          print("Turno = $t");
           if (t.compareTo("") == 0){
             _colorR = Colors.white;
           }else{
@@ -589,8 +586,10 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     };
 
     index == 0? columna = (0) : columna = (index%_nCol);
-    /// ~/ se queda con la parte entera de la division
-    index == 0? fila = (0) : fila = (index~/_nFil);
+    index == 0? fila = (0) : fila = (index~/_nFil); // ~/Parte entera de la division
+
+
+
     print("------------------------------------------------------------------------------");
     print("CONTROL DE LA HORIZONTAL\n");
     /// Miramos si tenemos alguna coincidencia en horizontal
@@ -603,6 +602,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         contenido = "-";
       }
       cadenaFila+=contenido;
+      print("Index mirado = $i, la cadena = $cadenaFila");
+
     }
     print("CADENA HORIZONTAL = $cadenaFila \n");
     print("------------------------------------------------------------------------------");
@@ -611,7 +612,11 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       print("WIN HORIZONTAL");
       return true;
     }
-    /*
+
+
+
+
+    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
     print("CONTROL DE LA VERTICAL");
     /// Miramos que es lo que pasa en la vertical
     String cadenaColumna = "";
@@ -621,6 +626,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         contenido = "-";
       }
       cadenaColumna+=contenido;
+      print("Index mirado = $i, la cadena = $cadenaColumna");
+
     }
     if(cadenaColumna.contains(cadenaValidar[ficha])){
       print("WIN VERTICAL");
@@ -628,8 +635,12 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     }
 
     print("CADENA VERTICAL = $cadenaColumna \n");
+    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 
 
+
+
+    print("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
     print("CONTROL DE LA DIAGONAL SUP IZQ");
     /// Diagonal sup izq -> inf der, ya tenemos el inicio de la fila y la col
     print("COLUMNA $columna");
@@ -654,14 +665,13 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
 
     print("EL VALOR DE NUEVA COL INDEX = $nuevaColIndex");
     //Iteramos para recorrer la diagonal sup izq _> inf der
-    for (var i = nuevaColIndex; i < _nCol; i++) {
-      print("MIRO $i, con el index = $indexSI");
-      String contenido = _mapVarGame[indexSI.toString()].toString();
-      if(contenido.compareTo("") == 0){
+    for (var i = indexSI; i < celdas; i += _nCol + 1) {
+      print("MIRO $i, con el index = $indexSI, cadena = $cadenaSIID");
+      String contenido = _mapVarGame[i.toString()].toString();
+      if(contenido.compareTo("") == 0 ){
         contenido = "-";
       }
       cadenaSIID+=contenido;
-      indexSI += _nCol + 1;
     }
 
     //Mostramos que tiene la cadena de cadenaSIID
@@ -671,6 +681,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       print("WIN DIAGONAL SUP IZQ");
       return true;
     }
+
+    print("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
 
     // CONTROLAMOS LA DIAGONAL INF IZQ - SUP DER
     print("=================================================================");
@@ -685,6 +697,8 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     for (var i = nuevaColIndex; i < _nCol; i++) {
       print("MIRO $i, con el index = $indexII");
       String contenido = _mapVarGame[indexII.toString()].toString();
+      print("MIRO $i, con el index = $indexII, cadena = $cadenaIISD");
+
       if(contenido.compareTo("") == 0){
         contenido = "-";
       }
@@ -699,7 +713,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
       return true;
     }
     print("=================================================================");
-    */
+    
     // En cualquier caso false
     return false;
   }
