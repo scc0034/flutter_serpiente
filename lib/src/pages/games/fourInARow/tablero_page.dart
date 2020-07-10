@@ -694,8 +694,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     indexII == 0? nuevaColIndex = 0 : nuevaColIndex = indexII%_nCol;
     indexII == 0? nuevaFilIndex = 0 : nuevaFilIndex = indexII~/_nCol;
     String cadenaIISD = "";
-    for (var i = nuevaColIndex; i < _nCol; i++) {
-      print("MIRO $i, con el index = $indexII");
+    for (var i = indexII; i <= 0; i -= (_nCol-1)) {
       String contenido = _mapVarGame[indexII.toString()].toString();
       print("MIRO $i, con el index = $indexII, cadena = $cadenaIISD");
 
@@ -703,7 +702,6 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
         contenido = "-";
       }
       cadenaIISD+=contenido;
-      indexII -= _nCol+1;
     }
 
     print("CADENA INF IZQ= $cadenaIISD");
@@ -715,7 +713,7 @@ class _TableroPageState extends State<TableroPage> with TickerProviderStateMixin
     print("=================================================================");
     
     // En cualquier caso false
-    return false;
+    return false as Future;
   }
 
   void _mostrarFinal(BuildContext context, String winner, String winnerImg){
