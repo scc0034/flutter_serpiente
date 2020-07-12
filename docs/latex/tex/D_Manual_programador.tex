@@ -8,10 +8,26 @@ El repositorio se encuentra alojado en \href{https://github.com/scc0034/flutter_
 
 \begin{itemize}
 \item \textbf{./}
-Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de los archivos más importantes, que es es \emph{pubspec.yalm}. Este archivos se usa para hacer las importaciones de las nuevas funcionalidades que queramos dar a nuestra aplicación.
+Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de los archivos más importantes, que es es \emph{pubspec.yalm}. Este archivos se usa para hacer las importaciones de lós paquetes con las funcionalidades que queramos dar a nuestra aplicación.
 
 \begin{itemize}
-	\item \textbf{a}: 
+	\item \textbf{build}: Este directorio contiene todo lo relativo a las compilaciones, es decir, tanto como para hacer las pruebas en local de la aplicación , o crear los \emph{releases} que creamos oportunos. Además contiene todo lo relativo a las conexiones con Android Studio y Firebase, ya que necesita hacer las llamadas a este para lanzar los emuladores con la máquina virtual correspondiente. Dentro de esta estructura algunos de los ficheros más importantes son:
+	\begin{itemize}
+		\item \textbf{key.properties}: propeidades de la key, ya que esta nos permite desplegar la aplicación en la \emph{Play Store}. Es algo que no se tiene que perder ni modificar, ya que es de sumo valor. 
+		\item \textbf{app/google-services.json}: fichero que descargamos desde Firebase, para que la aplicación tenga las conexiones con este \emph{Cloud service}, es decir, contienen las claves de conexión. En el caso de que tengamos que lanzar la app con otro de servicio de Firebase, podemos hacerlo cambiando este fichero.
+		\imagen{techprog/google-services.jpg}{Google services}
+		\item \textbf{app/build.gradle}: Fichero que contiene lo necesario para hacer las compilaciones, ya que como vemos tiene el SDK mínimo y máximo con el que trabaja (limitando el número de dispositivos que son compatibles),el número de versión, ya que cuando lo subamos a la \emph{Play Store}, es algo que debemos de revisar, ya que si no vamos a tener problemas de versionado. Además de los parámetros usados en la clave como podemos ver en la siguiente imagen.
+		\imagen{techprog/app_build_gradle.jpg}{app/build.gradle}
+		\item \textbf{app/keysnake.jks}: clave cifrada generada mediante el comando \ref{fig:commandkey}, esta no se puede perder, ya que sin ella es imposible desplegar la aplicación en la \emph{Play Store}.Es conveniente hacer alguna copia de seguridad en local.
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.15\textwidth]{/techprog/keysnakecommand}
+			\caption{Comando generar clave key}
+			\label{fig:commandkey}
+		\end{figure}	
+		\item \textbf{c}: 
+	\end{itemize}
 	\item \textbf{b}: 
 	\item \textbf{c}: 
 \end{itemize}
