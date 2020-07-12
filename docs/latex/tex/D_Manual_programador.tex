@@ -1,8 +1,10 @@
 \apendice{Documentación técnica de programación}
 
+%%INTRODUCCION
 \section{Introducción}
 En este anexo se describe la documentación técnica de programación para este proyecto. Incluye los primeros pasos que son la instalación del proyecto, la estructura de la aplicación o finalmente como compilarlo, desplegarlo o los diferentes tipos de configuraciones realizados. La idea es poder facilitar a los futuros desarrolladores una guía con la que poder comenzar, en el caso de que quisieran continuar con el trabajo.
 
+%% eSTRUCTURA DE DIRECTORIOS
 \section{Estructura de directorios}
 El repositorio se encuentra alojado en \href{https://github.com/scc0034/flutter_serpiente}{Github}. La estructura de ficheros que sigue es la siguiente, destacando algunos de los más importantes:
 
@@ -43,13 +45,30 @@ Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de
 		 
 	\end{itemize}
 \end{itemize}
-
-
-
 \end{itemize}
 
+%% MANUAL DEL PROGRAMADOR
 \section{Manual del programador}
+Este manual del programador tiene como objetivo ayudar a las personas futuras que estén interesadas en la continuación del proyecto, o simplemente que tengan ganas de aprender como se ha realizado. Para ello debemos de realizar las instalaciones de las siguientes herramientas:
 
+\begin{itemize}
+	\tightlist
+	\item Flutter.
+	\item Visual Studio Code.
+	\item Android Studio.
+	\item Git.
+\end{itemize}
+
+\subsection{Flutter}
+Es un SDK de código abierto creado por Google. Ofrece la versatilidad de crear aplicaciones móviles tanto como para \emph{iOS} y \emph{Android}, pero también para el entorno web. Internamente el lenguaje de programación es Dart.js, un \emph{framework}, que también es \emph{Open Source} desarrollado por Google, ya que pretende mejorar algunas de las carencias que tiene \emph{javascript}.
+
+Para la instalación de Flutter debemos de ir a su \href{https://flutter.dev/docs/get-started/install}{web oficial} y descargarlo, dependiendo del sistema operativo que tengamos usaremos una versión u otra. (v.17.5 \emph{stable}).
+
+Al descomprimir el fichero nos daremos cuenta de que tenemos un directorio (no ejecutables), por lo que debemos de dejar este en un lugar en concreto para después añadirlo a las variables de usuario. En mi caso yo lo deje en la siguiente ruta de mi ordenador personal C:$\backslash$src$\backslash$flutter.
+
+Una vez tengamos el paso anterior debemos de actualizar las variables de usuario, apuntando al directorio bin de la ruta anterior, como vemos en la siguiente imagen:
+
+\imagen{techprog/variablesEntorno.jpg}{Variables entorno}
 \section{Compilación, instalación y ejecución del proyecto}
 
 \section{Pruebas del sistema}
