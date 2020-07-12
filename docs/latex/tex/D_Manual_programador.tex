@@ -57,6 +57,8 @@ Este manual del programador tiene como objetivo ayudar a las personas futuras qu
 	\item Android Studio.
 	\item Visual Studio Code.
 	\item Git.
+	\item Firebase Console.
+	\item Play Store Console.
 \end{itemize}
 
 \subsection{Flutter:}
@@ -70,10 +72,15 @@ Una vez tengamos el paso anterior debemos de actualizar las variables de usuario
 
 \imagen{techprog/variablesEntorno.jpg}{Variables entorno}
 
+Por defecto la rama de Flutter es la \emph{stable}, de las ramas disponibles: \emph{stable, beta, dev, master}. Pero si en el caso de necesitar la misma versión de Flutter, el comando necesario es:
+
+\imagen{techprog/version}{Comando version Flutter}
+
+
 \subsection{Android Studio:}
 Es el IDE oficial de Google, que remplaza a Eclipse, basado en \emph{IntelliJ IDEA}, publicado de manera gratuita con Licencia Apache 2.0.
 
-En nuestro caso, no programaremos en este IDE, ya que es complicado trabajar con Flutter directamente, solo lo vamos a utilizar para la creación de las máquinas virtuales para emular el sistema operativo Android. Por lo que descargamos de la \href{https://developer.android.com/studio}{web oficial Android Studio} e instalamos.
+En nuestro caso, no programaremos en este IDE, ya que es complicado trabajar con Flutter directamente, solo lo vamos a utilizar para la creación de las máquinas virtuales para emular el sistema operativo Android. Por lo que descargamos de la \href{https://developer.android.com/studio}{web oficial Android Studio} e instalamos, en mi caso uso la versión 3.6.
 
 Una vez lo tengamos instalado creamos las máquinas virtuales, para ello nos vamos a la barra de herramientas Tools>AVD manager y creamos las que sean necesarias, en mi caso tengo dos, con Andorid R, que es la versión 10 de sistema operativo, ya que es la última estable que nos ofrece el IDE.
 \imagen{techprog/vm.jpg}{Máquinas virtuales}
@@ -81,7 +88,7 @@ Una vez lo tengamos instalado creamos las máquinas virtuales, para ello nos vam
 \subsection{Visual Studio Code:}
 Es el editor de código creado por Microsoft, permite mucha versatilidad y es eficiente para la edición del código en flutter. Es de código abierto bajo la licencia MIT.
 
-Lo podemos descargar de la \href{https://code.visualstudio.com/}{web VS Code}.
+Lo podemos descargar de la \href{https://code.visualstudio.com/}{web VS Code}, en mi caso uso la versión 1.47.
 
 Una vez lo tengamos instalado, procedemos a instalar los siguiente \emph{Snippets} que nos ayudan a la creación del código, ya que son como los atajos de teclado. En cada uno de los enlaces, podemos ver una descripción de que es lo que hace cada una de estas herramientas:
 
@@ -91,9 +98,31 @@ Una vez lo tengamos instalado, procedemos a instalar los siguiente \emph{Snippet
 	\item \href{https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2}{Bracket Pair Colorizer 2}. MIT License.
 	\item \href{https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code}{Dart}. MIT License.
 	\item \href{https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter}{Flutter}. MIT License.
-	
 \end{itemize}
 
+\subsection{Git:}
+Es un software para el control de las versiones, que nos permite trabajar mediante comandos desde \emph{Git Bash}, la licencia es GNU-GPL v2.  La última versión estable con la que he trabajado es 2.27 y la podemos encontrar \href{https://git-scm.com/}{web ofical}.
+
+\subsection{Firebase Console:}
+La consola de \href{https://console.firebase.google.com/?hl=es}{Firebase} es la que nos permite el control de todas las características de \emph{Cloud Services}, desde la autentificación de los usuarios, base de datos o AdMob services, entre otras muchas.
+
+Al estar registrado con mi cuenta personal, os tengo que dar permisos de administrador en el caso de que fuera necesario, para ello no dudéis en mandarme un correo \href{mailto:casalyepa@gmail.com}{casalyepa@gmail.com}
+
+\imagen{techprog/firebase.jpg}{Firebase console}
+
+\subsection{Play Store Console:}
+La consola de \href{https://play.google.com/apps/publish/?account=9184458375980004308#AppListPlace}{Play Store} es la herramienta web que nos permite hacer el despligue de la aplicación, tanto como para hacer las pruebas beta, o para subirla y que todo el mundo se la pueda descargar.
+
+La revisión de cada una de las nuevas versiones puede tardar en ser validada, por lo que tenemos que tener paciencia.
+
+Al igual que con Firebase, os tengo que dar permisos en el caso de que sea necesario hacer nuevos despliegues de la app \href{mailto:casalyepa@gmail.com}{casalyepa@gmail.com}
+
+\imagen{techprog/playstore.jpg}{Play Store console}
+
+%% 	COMPILACIÓN DEL PROYECTO INSTALACIÓN Y EJECUCION
 \section{Compilación, instalación y ejecución del proyecto}
+En este apartado se muestran los pasos necesarios para hacer una copia del proyecto en Github y poder trabajar en local desplegando la aplicación en los emuladores.
+
+
 
 \section{Pruebas del sistema}
