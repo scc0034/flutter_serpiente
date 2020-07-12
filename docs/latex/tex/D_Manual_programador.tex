@@ -123,6 +123,25 @@ Al igual que con Firebase, os tengo que dar permisos en el caso de que sea neces
 \section{Compilación, instalación y ejecución del proyecto}
 En este apartado se muestran los pasos necesarios para hacer una copia del proyecto en Github y poder trabajar en local desplegando la aplicación en los emuladores.
 
+\subsection{Clonación del proyecto:}
+\begin{enumerate}
+	\item Nos colocamos en el directorio donde queramos tener el proyecto y abrimos \emph{git bash} mediante el botón derecho:\imagen{techprog/clonar.png}{Abrir git bash}
+	\item Procedemos a clonar el proyecto con el comando : 
+	\texttt{git clone \\https://github.com/scc0034/flutter\_serpiente.git}~\ref{fig:git-clone}
+\end{enumerate}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{techprog/gitclone.jpg}
+	\caption{Comando para clonar el repositorio.}\label{fig:git-clone}
+\end{figure}
+\subsection{Instalación de los paquetes:}
+Una vez tengamos el proyecto clonado, debemos de ejecutar el comando \texttt{flutter upgrade}, para traer todos los paquetes, ya que si no las importaciones de cada uno de las páginas van a aparecer como erróneas.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{techprog/flutterupgrade.jpg}
+	\caption{Actualización paquetes}\label{fig:upgrade}
+\end{figure}
 
+Una vez lo hagamos debemos de reiniciar Visual Studio Code.
 \section{Pruebas del sistema}
