@@ -4,7 +4,7 @@
 En este anexo se describe la documentación técnica de programación para este proyecto. Incluye los primeros pasos que son la instalación del proyecto, la estructura de la aplicación o finalmente como compilarlo, desplegarlo o los diferentes tipos de configuraciones realizados. La idea es poder facilitar a los futuros desarrolladores una guía con la que poder comenzar, en el caso de que quisieran continuar con el trabajo.
 
 \section{Estructura de directorios}
-El repositorio se encuentra alojado en \href{https://github.com/scc0034/flutter_serpiente}{Github}. La estructura de ficheros que sigue es la siguiente:
+El repositorio se encuentra alojado en \href{https://github.com/scc0034/flutter_serpiente}{Github}. La estructura de ficheros que sigue es la siguiente, destacando algunos de los más importantes:
 
 \begin{itemize}
 \item \textbf{./}
@@ -18,26 +18,32 @@ Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de
 		\imagen{techprog/google-services.jpg}{Google services}
 		\item \textbf{app/build.gradle}: Fichero que contiene lo necesario para hacer las compilaciones, ya que como vemos tiene el SDK mínimo y máximo con el que trabaja (limitando el número de dispositivos que son compatibles),el número de versión, ya que cuando lo subamos a la \emph{Play Store}, es algo que debemos de revisar, ya que si no vamos a tener problemas de versionado. Además de los parámetros usados en la clave como podemos ver en la siguiente imagen.
 		\imagen{techprog/app_build_gradle.jpg}{app/build.gradle}
-		\item \textbf{app/keysnake.jks}: clave cifrada generada mediante el comando \ref{fig:commandkey}, esta no se puede perder, ya que sin ella es imposible desplegar la aplicación en la \emph{Play Store}.Es conveniente hacer alguna copia de seguridad en local.
+		\item \textbf{app/key/keysnake.jks}: clave cifrada generada mediante el comando \ref{fig:commandkey}, esta no se puede perder, ya que sin ella es imposible desplegar la aplicación en la \emph{Play Store}.Es conveniente hacer alguna copia de seguridad en local.
 		
-		\begin{figure}
+		\begin{figure}[H]
 			\centering
-			\includegraphics[width=1.15\textwidth]{/techprog/keysnakecommand}
-			\caption{Comando generar clave key}
+			\includegraphics[width=1.0\textwidth]{/techprog/keysnakecommand}
+			\caption{Comando generar clave keyStore}
 			\label{fig:commandkey}
-		\end{figure}	
-		\item \textbf{c}: 
+		\end{figure}	 
 	\end{itemize}
-	\item \textbf{b}: 
-	\item \textbf{c}: 
+	\item \textbf{assets}: directorio que contiene los activos de imágenes y audio de la aplicación. 
+	\item \textbf{data/menu-opt.json}: fichero \emph{json} con la estructura del menú \emph{drawer}, con los nombres de ruta, nombre de icono y nombre de la página. 
+	\item \textbf{docs/latex}: memoria y anexos del trabajo final de grado.
+	\item \textbf{lib}: contiene los ficheros que se compilan para crear la aplicación. La estructura interna de directorios es la siguiente:
+	\begin{itemize}
+		\item \textbf{main.dart}: fichero principal del que cuelga toda la aplicación.
+		\item \textbf{models}: contiene los modelos para crear las instancias de los objetos de la base de datos.
+		\item \textbf{pages}: cada una de las interfaces o páginas de la aplicación.
+		\item \textbf{providers}: proveedores de algunos servicios internos.
+		\item \textbf{routes}: rutas de la aplicación.
+		\item \textbf{services}: instancias a los servicios externos de la aplicación.
+		\item \textbf{utils}: utilidades.
+		\item \textbf{widgets}: elementos gráficos reutilizables.
+		 
+	\end{itemize}
 \end{itemize}
 
-Tambien contiene los siguientes archivos:
-\begin{itemize}
-	\item \textbf{a}: 
-	\item \textbf{b}:
-	\item \textbf{c}:
-\end{itemize}
 
 
 \end{itemize}
