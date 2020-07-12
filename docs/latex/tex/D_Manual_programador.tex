@@ -144,4 +144,20 @@ Una vez tengamos el proyecto clonado, debemos de ejecutar el comando \texttt{flu
 \end{figure}
 
 Una vez lo hagamos debemos de reiniciar Visual Studio Code.
+
+\subsection{Ejecución del proyecto:}
+Podemos hacerlo de tres maneras:
+\begin{enumerate}
+	\item Descargar la última versión de subida a la \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Play Store}, esto solo es válido para el despliegue de la aplicación, no para desarrollo.
+	\item Desde la consola de git, \texttt{flutter devices}, para ver que dispositivos tenemos disponibles, en el caso de que dentro de la lista no se muestre nada, debemos de ir a Andorid Studio y arrancar una de las máquinas virtuales~\ref{fig:run} .
+	Si en la lista tenemos dispositivos, ejecutamos el siguiente comando \texttt{flutter run -d emulator-id}, siendo el id, el número de la máquina virtual que nos muestra el comando anterior.
+	\item Desde Visual Studio Code (debemos de tener las herramientas de visual studio), damos al \texttt{F5} nos pide que dispositivo queremos arrancar, en el caso de que tengamos un movil conectado, aparecerá en la lista y se ejecuta\ref{fig:run}.
+\end{enumerate} 	
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{techprog/inicio.jpg}
+	\caption{Máquina virtual}\label{fig:run}
+\end{figure}
+
 \section{Pruebas del sistema}
