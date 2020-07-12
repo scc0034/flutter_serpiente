@@ -387,6 +387,8 @@ class _SnakePageState extends State<SnakePage> {
     terminar = _controlChoque(_cabeza, _dir);
 
     if (terminar) {
+      print("--------------------------------------------------------------");
+      print("Impacto! Final del juego! Cabeza = $_cabeza _bloques = $_bloques");
       _end = true;
       if (_selectorMusica) {
         audioCacheSonidos.play("impact.mp3");

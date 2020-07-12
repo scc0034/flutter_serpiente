@@ -151,7 +151,7 @@ Podemos hacerlo de tres maneras:
 	\item Descargar la última versión de subida a la \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Play Store}, esto solo es válido para el despliegue de la aplicación, no para desarrollo.
 	\item Desde la consola de git, \texttt{flutter devices}, para ver que dispositivos tenemos disponibles, en el caso de que dentro de la lista no se muestre nada, debemos de ir a Andorid Studio y arrancar una de las máquinas virtuales~\ref{fig:run} .
 	Si en la lista tenemos dispositivos, ejecutamos el siguiente comando \texttt{flutter run -d emulator-id}, siendo el id, el número de la máquina virtual que nos muestra el comando anterior.
-	\item Desde Visual Studio Code (debemos de tener las herramientas de visual studio), damos al \texttt{F5} nos pide que dispositivo queremos arrancar, en el caso de que tengamos un movil conectado, aparecerá en la lista y se ejecuta\ref{fig:run}.
+	\item Desde Visual Studio Code (debemos de tener las herramientas de visual studio), damos al \texttt{F5} nos pide que dispositivo queremos arrancar, en el caso de que tengamos un movil físico conectado, aparecerá en la lista, una vez elijamos donde se lanza, lo veremos ahí.\ref{fig:run}.
 \end{enumerate} 	
 
 \begin{figure}[H]
@@ -160,4 +160,73 @@ Podemos hacerlo de tres maneras:
 	\caption{Máquina virtual}\label{fig:run}
 \end{figure}
 
+\subsection{Generar los apks}
+Hay dos opciones para generar los ficheros, dependiendo del destino de cada uno de ellos, es decir, las opciones que nos encontramos son la siguientes:
+\begin{enumerate}
+	\item Generar el \emph{bundle} para hacer el despliegue en \emph{Play Store}, para ello el comando que tenemos que escribir en la consola es: \texttt{flutter build appbundle}. Nos genera un archivo \emph{.aab}, de tal forma que dependiendo de que dispositivo descargue la app, desde la tienda, se baje unos archivos u otros, con el fin de que la aplicación pese menos.  Antes de generar el nuevo \emph{bundle}, debemos mirar que versión de la app tenemos en la tienda, para cambiar la versión de la aplicación en local a una mayor, de tal forma que al subirla no se den problemas de incompatibilidad. En la salida por pantalla del comando nos dice en que ruta se encuentran los ficheros generados.
+	\item Generar las apks para cada uno de los sistemas: \texttt{flutter build apk --releases}. En la ejecución del comando nos dice la ruta en la que se encuentran los ficheros generados.
+\end{enumerate} 
+
+%% PRUEBAS DEL SISTEMA
 \section{Pruebas del sistema}
+Para validar el correcto funcionamiento del producto, se han hecho diferentes tipos de pruebas: unitarias, de integración y de sistema. Hay que destacar que Flutter tiene herramientas para la automatización de test (\emph{Appian} es una de ellas), pero debido a lo ajustado del proyecto, no se han realizado, mediante estas, ya que no se pueden grabar los test como con \emph{Selenium}, por poner un ejemplo similar. 
+
+Es decir, prácticamente es otro trabajo final de grado, que se puede incluir la aplicación, por eso es otra de la líneas futuras con las que seguir, con metodologías de programación dirigida por los test, como es el caso de \empt{TDD: Test-Driven Development}.
+
+\subsection{Pruebas de unitarias:}
+Se han realizado de forma simple o \emph{hardcodeando prints} en el propio código y mostrándolos por el terminal en tiempo de ejecución. Sabiendo que la aplicación es sencilla, puedo permitírmelo, pero en el caso de continuar con el desarrollo, sería algo imprescindible. Han validado pequeños módulos o fragmentos de código, con el fin de garantizar de que estas pequeñas unidades funcionen. Uno de los ejemplos es~\ref{fig:impacto}:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{techprog/impacto.jpg}
+	\caption{Máquina virtual}\label{fig:impacto}
+\end{figure}
+
+\subsubsection{Pruebas de caja negra:}
+En otros casos se han realizado casos de prueba de caja negra para algunas líneas de código~\ref{fig:codigocontrolchoque}. Para realizar las pruebas es necesario construir las tablas con clases de equivalencia válidas y no válidas~\ref{tabla:casosNegros}. Después la tabla de los diferentes casos de prueba con los resultados obtenidos~\ref{tabla:derivacion}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{techprog/codigocontrolchoque.jpg}
+	\caption{Código para las pruebas de caja negra}\label{fig:codigocontrolchoque}
+\end{figure}
+
+Dando como resultado las dos siguientes tablas:
+
+La primera de las tablas define las clases de equivalencia que son válidas y las que no.
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{ccc}
+			\hline
+			Condición entrada		& Clase válida		& Clase no válida \\ \hline
+			p dentro del tablero	&1. p>0 AND p<n celdas		&2. p<0 AND p>n celdas\\
+			dir debe ser válida		&3. null,der,izq,abajo,arriba		&4. dir no válida\\
+		\end{tabular}
+		\caption{Clases de equivalencia}
+		\label{table:casosNegros}
+	\end{center}
+\end{table}
+
+La segunda tabla es una comprobación de lo que sucede para cada una de las clases de equivalencia. Dependiendo de si se produce choque con alguno de los elementos se devuelve true, en el caso de que no se devuelve false.
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{ccc}
+			\hline
+			Entrada		& Clase cubierta		& Resultado \\ \hline
+			p =	10		&1(clase válida)		&return true/false\\
+			p =	-2		&2						&Mensaje error\\
+			p =	600		&2						&Mensaje error\\
+			dir = null  &3(clase válida)		&return true/false\\
+			dir = der   &3(clase válida)		&return true/false\\
+			dir = izq   &3(clase válida)		&return true/false\\
+			dir = abajo &3(clase válida)		&return true/false\\
+			dir = arriba&3(clase válida)		&return true/false\\
+			dir = diag	&4						&Mensaje error\\
+		\end{tabular}
+		\caption{Derivación en casos de prueba de caja negra}
+		\label{table:derivacion}
+	\end{center}
+\end{table}
+\subsection{Pruebas de integración:}
+Confirmar que el conjunto de módulos anteriormente validados funcionen todos en conjunto
+
