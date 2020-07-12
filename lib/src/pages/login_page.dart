@@ -3,6 +3,8 @@ import 'package:flutter_snake/src/pages/home_page.dart';
 import 'package:flutter_snake/src/services/admob_service.dart';
 import 'package:flutter_snake/src/services/sing_in_service.dart';
 import 'package:flutter_snake/src/utils/delayed_animation.dart';
+import 'package:url_launcher/url_launcher.dart'; // Permite abrir el navegador web
+
 
 /*
  * Clase que se encarga del login de los usuarios con gmail
@@ -90,6 +92,21 @@ class _LoginPageState extends State<LoginPage>
               SizedBox(height: 50),
               DelayedAnimation(
                 child: _signInButton(),
+                delay: delayedAmount + 1000,
+              ),
+              SizedBox(height: 15,),
+              DelayedAnimation(
+                child: GestureDetector(
+                  child: Text("Privacy policy",),
+                  onTap: () async{
+                    String url = "https://flutter-snake.flycricket.io/privacy.html";
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                  }
+                  ),
                 delay: delayedAmount + 1000,
               ),
             ],
