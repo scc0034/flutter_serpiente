@@ -163,8 +163,8 @@ Podemos hacerlo de tres maneras:
 \subsection{Generar los apks}
 Hay dos opciones para generar los ficheros, dependiendo del destino de cada uno de ellos, es decir, las opciones que nos encontramos son la siguientes:
 \begin{enumerate}
-	\item Generar el \emph{bundle} para hacer el despliegue en \emph{Play Store}, para ello el comando que tenemos que escribir en la consola es: \texttt{flutter build appbundle}. Nos genera un archivo \emph{.aab}, de tal forma que dependiendo de que dispositivo descargue la app, desde la tienda, se baje unos archivos u otros, con el fin de que la aplicación pese menos.  Antes de generar el nuevo \emph{bundle}, debemos mirar que versión de la app tenemos en la tienda, para cambiar la versión de la aplicación en local a una mayor, de tal forma que al subirla no se den problemas de incompatibilidad. En la salida por pantalla del comando nos dice en que ruta se encuentran los ficheros generados.
-	\item Generar las apks para cada uno de los sistemas: \texttt{flutter build apk --releases}. En la ejecución del comando nos dice la ruta en la que se encuentran los ficheros generados.
+	\item \textbf{Para la tienda:} Generar el \emph{bundle}~\cite{wiki:bundle} para hacer el despliegue en \emph{Play Store}, para ello el comando que tenemos que escribir en la consola es: \texttt{flutter build appbundle}. Nos genera un archivo \emph{.aab}, de tal forma que dependiendo de que dispositivo descargue la app, desde la tienda, se baje unos archivos u otros, con el fin de que la aplicación pese menos.  Antes de generar el nuevo \emph{bundle}, debemos mirar que versión de la app tenemos en la tienda, para cambiar la versión de la aplicación en local a una mayor, de tal forma que al subirla no se den problemas de incompatibilidad. En la salida por pantalla del comando nos dice en que ruta se encuentran los ficheros generados.
+	\item \textbf{Apks:} Generar las apks para cada uno de los sistemas: \texttt{flutter build apk --releases}. En la ejecución del comando nos dice la ruta en la que se encuentran los ficheros generados.
 \end{enumerate} 
 
 %% PRUEBAS DEL SISTEMA
