@@ -15,16 +15,24 @@
       },
       "oauth_client": [
         {
-          "client_id": "66474218378-c32kj0tepp9bleapoigc3ekmb5jpui5l.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ubu.flutter_snake",
-            "certificate_hash": "8aa991f820f74731872ee34b4f46e34b219c9b1a"
-          }
+            "android_info": {
+                "certificate_hash": "a440f3bd84f368a28f4d979e7818b748f2018930",
+                "package_name": "com.ubu.flutter_snake"
+            },
+            "client_id": "66474218378-k2q99gn7l6qs2vno1he375bklmjga5h2.apps.googleusercontent.com",
+            "client_type": 1
         },
         {
-          "client_id": "66474218378-ulikh2ufgq5m6o87ups31q1da50kk8d4.apps.googleusercontent.com",
-          "client_type": 3
+            "android_info": {
+                "certificate_hash": "8aa991f820f74731872ee34b4f46e34b219c9b1a",
+                "package_name": "com.ubu.flutter_snake"
+            },
+            "client_id": "66474218378-c32kj0tepp9bleapoigc3ekmb5jpui5l.apps.googleusercontent.com",
+            "client_type": 1
+        },
+        {
+            "client_id": "66474218378-ulikh2ufgq5m6o87ups31q1da50kk8d4.apps.googleusercontent.com",
+            "client_type": 3
         }
       ],
       "api_key": [
@@ -33,6 +41,7 @@
         }
       ],
       "services": {
+        "admob_app_id": "ca-app-pub-7462396340145780~9170330392",
         "appinvite_service": {
           "other_platform_oauth_client": [
             {

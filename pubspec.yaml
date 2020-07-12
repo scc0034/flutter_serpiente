@@ -45,9 +45,11 @@ dependencies:
   # Lo necesario para conectarnos a firebase y login con cuenta de  Google
   # https://medium.com/flutter-community/flutter-implementing-google-sign-in-71888bca24ed
   firebase_auth: ^0.16.1
+  google_sign_in: ^4.5.1 
+  
   firebase_core: ^0.4.5
   firebase_core_web: ^0.1.1+2
-  google_sign_in: ^4.5.1  
+   
   firebase_admob: ^0.9.3+2 
   # Control de los anuncios
   admob_flutter: "^0.3.4"

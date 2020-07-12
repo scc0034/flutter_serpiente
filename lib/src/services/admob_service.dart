@@ -7,6 +7,7 @@ import 'package:firebase_admob/firebase_admob.dart';
 class AdMobService {
   AdMobService();
   static BannerAd _bannerAd;
+  static BannerAd _bannerAdOficial;
   static InterstitialAd _interstitialAd;
 
   /// Método para inicializar la instancia con admob
@@ -64,7 +65,7 @@ class AdMobService {
   /// Método que devuelve un bannerAd
   static BannerAd _createBannerAd(String adId) {
     return BannerAd(
-      adUnitId: BannerAd.testAdUnitId,
+      adUnitId: adId,
       size: AdSize.banner,
       targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
@@ -73,9 +74,10 @@ class AdMobService {
     );
   }
 
+
   /// Método que carga el banner
   static void showBannerAd() {
-    if (_bannerAd == null) _bannerAd = _createBannerAd(getIdBanner());
+    if (_bannerAd == null) _bannerAd = _createBannerAd(BannerAd.testAdUnitId.toString());
     _bannerAd
       ..load()
       ..show(anchorOffset: 0.0, anchorType: AnchorType.bottom);
@@ -85,6 +87,20 @@ class AdMobService {
   static void hideBannerAd() async {
     await _bannerAd.dispose();
     _bannerAd = null;
+  }
+
+    /// Método que carga el banner
+  static void showBannerAdOficial() {
+    if (_bannerAdOficial == null) _bannerAdOficial = _createBannerAd(getIdBanner());
+    _bannerAdOficial
+      ..load()
+      ..show(anchorOffset: 0.0, anchorType: AnchorType.bottom);
+  }
+
+  /// Método que deseacitva el banner, dejandolo a null
+  static void hideBannerAdOficial() async {
+    await _bannerAdOficial.dispose();
+    _bannerAdOficial = null;
   }
 
   /// Método que carga el banner
