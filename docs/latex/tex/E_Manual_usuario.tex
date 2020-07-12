@@ -1,11 +1,46 @@
 \apendice{Documentación de usuario}
 
 \section{Introducción}
+En este apartado se recoge todo lo que un usuario necesita conocer para poder ejecutar la aplicación en su teléfono móvil Android personal y los requisitos mínimos necesarios.
 
 \section{Requisitos de usuarios}
+Los requerimientos necesarios para poder ejecutar la aplicación en el teléfono son:
+\begin{itemize}
+	\tightlist
+	\item
+	Disponer de un terminal que al menos tenga la versión de Android en \emph{Lollipop}, ya que esta cuenta con el SDK mínimo con el que se ha desarrollado la aplicación, siendo este el 21~\cite{wiki:versionAndroid}.
+	\item
+	Es necesario disponer de conexión a Internet, tanto como para bajarse la aplicación en \emph{Store}, como para usar los servicios, ya que es necesario logearse con \emph{Google}
+	\item La clasificación de contenido, es PEGI 3~\cite{wiki:pegi}. 
+	\item En el caso de que la descarga se realice mediante la tienda oficial, los países para los que la aplicación está disponible son: España, Francia, Portugal e Irlanda. En el caso de que no sea así, será necesario descargar desde Github~\pageref{descargaGit}.
+\end{itemize}
 
 \section{Instalación}
+La instalación se puede hacer a través de dos métodos diferentes:
 
+\subsection{GitHub:}\label{descargaGit}
+Desde el repositorio donde está el proyecto en el apartado de las \emph{releases}~\cite{github:releases}, podemos encontrar la última de las versiones compiladas, con el fin de descargarla.
+
+Al ser una aplicación de orígenes desconocidos debemos permitir dando permisos de la siguiente manera:
+\begin{enumerate}
+	\tightlist
+	\item Ir a los ajustes del terminal.
+	\item Apartado de privacidad o seguridad.
+	\item Activar el \emph{slider} de `Orígenes desconocidos''.
+	\item Ejecutar el fichero .apk que acabamos de descargar.
+	\item Instalar y abrir la aplicación.
+\end{enumerate}
+
+\subsection{Play Store:}
+La manera más cómoda de hacerlo, es dirigirse \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Flutter games}, que es el enlace de descarga para dispositivos móviles Android. La versión disponible es la 6, ya que he tenido que realizar varias pruebas, con el fin de validar la disponibilidad, por eso el número que tiene.
+
+
+
+\imagen{manual/tienda.jpg}{Tienda con el proyecto}
+
+El proceso de instalación es simple, solo tenemos que dar al botón de instalar. En el caso de que nos encontremos en el navegador web, nos deja elegir el dispositivo que tenemos vinculado a nuestra cuenta de \emph{Google}. Si por otra parte nos encontramos desde el terminal, se instalará sin ningún problema.
+
+En el caso de que se lancen nuevas versiones del producto, las actualizaciones se realizarán de forma automática.
 \section{Manual del usuario}
 
 
