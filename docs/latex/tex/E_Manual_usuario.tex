@@ -335,6 +335,22 @@ En el caso de que tengamos una clave válida, se redirigirá hacia la pantalla d
 \end{figure}
 
 \subsubsection{Juego}\label{cuatrojuego}
-Cuando se entra en la pantalla, se genera una clave única, que es necesaria para hacer la conexión por parte del invitado. Para ello tenemos un botón \emph{share}, que facilita el compartir la \emph{key}.
+Página con el contenido del juego. La distribución de la pantalla~\ref{fig:cuatrojuego} es la siguiente, comenzando por la parte de arriba hasta abajo:
 
-Hay disponible un botón de volver, que lo que hace es destruir la clave para salir a la pantalla anterior~\ref{fig:cuatromenu}. Es el mismo efecto que si se da a la pestaña de volver atrás.
+\begin{itemize}
+	\item Cabecera superior, se encuentra el rival a batirse, representado mediante una imagen, siendo esta la de la cuenta de \emph{Google}. Dependiendo del color de fondo, se nos indica si está en su turno o no.
+	
+	En la parte central hay un espacio para mostrar los mensajes recibidos por parte del contrincante.
+	
+	En la parte lateral derecha se encuentra el contador del tiempo transcurrido.
+	 
+	\item En la parte central tenemos el tablero, de siete filas por siete columnas. En el caso de que sea nuestro turno, se debe pinchar en la pantalla, donde sea posible colocar una ficha, es decir, que si debajo de la celda se encuentra vacío no será posible colocar la ficha y se deberá a proceder a buscar otro sito.
+	
+	\item En la parte inferior, se encuentra la imagen de del aliado, es decir, puede ser el jugador que se unió o que creo la partida, dependiendo de quién sea el que haya tomado ese rol.
+	
+	Si esta zona se encuentra con el color de fondo distinto de blanco indica que es el turno de este.
+	
+	\item Campo para introducir mensajes, este está limitado a 15 caracteres, porque está destinado para mensajes breves o emoticonos.
+	
+	A la derecha de este campo, se encuentra el botón de enviar. Una vez se envía el mensaje, este se deshabilita, para no saturar la línea. Pasados 10 segundos volverá a estar operativo.
+\end{itemize}
