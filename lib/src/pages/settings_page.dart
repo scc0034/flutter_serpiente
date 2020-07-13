@@ -133,7 +133,7 @@ class _SettingsPageState extends State<SettingsPage> with ChangeNotifier {
   Widget _crearSwitchBloques(BuildContext context) {
     return SwitchListTile(
       value: _selectorBloques,
-      title: Text('Bloks mode'),
+      title: Text('Blocks mode'),
       subtitle: Text('Enable blocks across the board.'),
       onChanged: (valor) {
         setState(() {
