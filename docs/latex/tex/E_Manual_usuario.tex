@@ -255,12 +255,16 @@ Cuando se produce el \emph{game over}~\ref{fig:gameover}, tenemos 3 opciones de 
 		\caption{Vídeo recompensa}\label{fig:video}
 		\end{figure}
 	
-	Es necesario que se permanezca los segundos indicados para volver a poder jugar.
+	Es necesario que se permanezca los segundos indicados para volver a continuar con el juego. 
+	
+	Tras el impacto la partida decide que dirección toma la serpiente de forma eficiente para evitar que se produzcan situaciones extrañas.
 		
 \end{enumerate}
 
 \subsection{Ranking}\label{rank}
 Es una clasificación de jugadores, dependiendo de la puntuación lograda en el juego del snake~\ref{fig:snakepage}. Según que usuario entre a ver el contenido de este~\ref{fig:rankpage}, se verá una línea de color dorado que indicando el nivel obtenido.
+
+Para el podio de los tres primeros jugadores aparecerá una insignia en forma de medalla, destacando el logro conseguido.
 
 \begin{figure}[H]
 	\centering
@@ -269,7 +273,13 @@ Es una clasificación de jugadores, dependiendo de la puntuación lograda en el 
 \end{figure}
 
 \subsection{Menú juego cuatro en raya online}\label{cuatromenu}
-Es la pantalla inicial del juego~\ref{fig:cuatromenu}, ya que siendo en modo online, uno de los jugadores debe de ser el creador de la  partida~\ref{fig:cuatroinvitar} (\emph{invite friend}) y el otro que se una~\ref{fig:cuatroinvitar} (\emph{join game}), a la partida creada.
+Es la pantalla inicial del juego~\ref{fig:cuatromenu}, ya que siendo en modo online, uno de los jugadores debe de ser el creador de la  partida (\emph{invite friend}) y el otro que se una (\emph{join game}), a la partida creada.
+
+Por lo que tenemos dos botones que nos redirigen a:
+\begin{itemize}
+	\item Invitar a un amigo~\ref{fig:cuatroinvitar}.
+	\item Unirse a una partida creada~\ref{fig:cuatrounir}.
+\end{itemize}
 
 \begin{figure}[H]
 	\centering
@@ -282,7 +292,6 @@ Cuando se entra en la pantalla, se genera una clave única, que es necesaria par
 
 Hay disponible un botón de volver, que lo que hace es destruir la clave para salir a la pantalla anterior~\ref{fig:cuatromenu}. Es el mismo efecto que si se da a la pestaña de volver atrás.
 
-En el caso de que el contador del tiempo restante \emph{time left}, llegue a cero es porque se da por hecho que por parte del invitado no tenemos respuesta.
 
 \begin{figure}[H]
 	\centering
@@ -290,10 +299,25 @@ En el caso de que el contador del tiempo restante \emph{time left}, llegue a cer
 	\caption{Invitar cuatro en raya}\label{fig:cuatroinvitar}
 \end{figure}
 
-Cuando se pulsa en el botón de compartir nos sale un cuadro de diálogo mostrando las aplicaciones que facilitan el envío de la clave.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{manual/sharegame.jpg}
+	\caption{Compartir clave}\label{fig:sharegame}
+\end{figure}
+
+Cuando se pulsa en el botón de compartir nos sale un cuadro de diálogo~\ref{fig:sharegame} mostrando las aplicaciones que facilitan el envío de la clave.
+
+En el caso de que el contador del tiempo restante \emph{time left}, llegue a cero es porque se da por hecho que no se recibe respuesta por parte invitado, saliendo el cuadro de diálogo~\ref{fig:noplayerfound}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.8\textwidth]{manual/sharegame.jpg}
-	\caption{Compartir clave}\label{fig:sharegame}
+	\includegraphics[width=0.6\textwidth]{manual/noplayerfound.jpg}
+	\caption{Sin jugador}\label{fig:noplayerfound}
 \end{figure}
+
+\subsubsection{Invitar}\label{cuatrounir}
+Pantalla con un formulario de entrada de datos~\ref{fig:cuatrounir}, se usa para escribir la clave recibida por parte del compañero o amigo. 
+
+Si se da la situación de que no es la clave correcta se avisará por pantalla~\ref{fig:uniralert}.
+
+En el caso de que tengamos una clave válida, se redirigirá hacia la pantalla del juego~\ref{fig:cuatrojuego}.
