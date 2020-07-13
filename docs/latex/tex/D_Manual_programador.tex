@@ -230,6 +230,8 @@ La segunda tabla es una comprobación de lo que sucede para cada una de las clas
 	\end{center}
 \end{table}
 
+Tras realizar los casos de caja negra, como es el caso anterior, me he dado cuenta de que es imprescindible la automatización de los test. Ya que nos ahorra gran cantidad de tiempo, y en el momento que la aplicación falle, veremos si se produce el error.
+
 \subsection{Pruebas de integración y sistema:}
 Confirmar que el conjunto de módulos anteriormente validados, funcionen todos de manera interrelacionada unos con otros. Para ello lo que se ha hecho es un testeo de funcionamiento en el terminal físico, lo que conlleva un \emph{testing} simultáneo de la interfaz. 
 
@@ -237,3 +239,7 @@ Muchos de los errores son más fáciles de encontrar así, porque en la máquina
 
 En estas pruebas de interfaz, se encontraron algunos campos que no eran visibles de manera correcta o que su usabilidad era reducida. Lo que supuso la mejora correspondiente.
 
+\subsection{Pruebas de despliegue de la aplicación}
+Este tipo de pruebas es algo muy complejo de controlar, ya que, hasta desplegamos la aplicación en la tienda, algunos de los errores permanecen enmascarados, durante el proceso de implementación. Esto es debido a trabajar con máquinas virtuales, capadas en algunos aspectos o simplemente que es un compilado de la aplicación instalada, sin tener que pasar por la tienda. O simplemente que no es el entorno real de usuario.
+
+Por lo que para ello sería muy recomendable hacer unas pruebas de beta cerrada, ya que la plataforma de \emph{Play Store Console}, tenemos opciones para ello.
