@@ -58,7 +58,7 @@ Las ventanas de las que consta la aplicación son las siguientes:
 	\item Ranking~\pageref{rank}.
 	\item Cuatro en raya online menú~\pageref{cuatromenu}:.
 	\subitem Invitar~\pageref{cuatroinvitar}.
-	\subitem Unirse~\pageref{cuatrounirse}.
+	\subitem Unirse~\pageref{cuatrounir}.
 	\subitem Juego~\pageref{cuatrojuego}.
 \end{itemize}
 
@@ -315,9 +315,26 @@ En el caso de que el contador del tiempo restante \emph{time left}, llegue a cer
 	\caption{Sin jugador}\label{fig:noplayerfound}
 \end{figure}
 
-\subsubsection{Invitar}\label{cuatrounir}
+\subsubsection{Unir}\label{cuatrounir}
 Pantalla con un formulario de entrada de datos~\ref{fig:cuatrounir}, se usa para escribir la clave recibida por parte del compañero o amigo. 
 
 Si se da la situación de que no es la clave correcta se avisará por pantalla~\ref{fig:uniralert}.
 
 En el caso de que tengamos una clave válida, se redirigirá hacia la pantalla del juego~\ref{fig:cuatrojuego}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{manual/joingame.jpg}
+	\caption{Formulario para unirse a partida}\label{fig:cuatrounir}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{manual/uniralert.jpg}
+	\caption{Alerta de clave no válida}\label{fig:uniralert}
+\end{figure}
+
+\subsubsection{Juego}\label{cuatrojuego}
+Cuando se entra en la pantalla, se genera una clave única, que es necesaria para hacer la conexión por parte del invitado. Para ello tenemos un botón \emph{share}, que facilita el compartir la \emph{key}.
+
+Hay disponible un botón de volver, que lo que hace es destruir la clave para salir a la pantalla anterior~\ref{fig:cuatromenu}. Es el mismo efecto que si se da a la pestaña de volver atrás.
