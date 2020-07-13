@@ -105,11 +105,19 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	\item \textbf{RNF-2 Seguridad:} ofrecer la aplicación desde la \emph{Store}, ya que esta tiene soporte integrado de antivirus. Lo que una garantía de confianza. Ninguno de los datos deben de ser ofrecidos a terceros, exceptuando a Google. 
 	
 	Mediante una cifrado de extremo a extremo (SHA-1~\cite{wiki:sha1}) se realizaran las comunicaciones con \emph{Firebase cloud}.
+	
 	\item \textbf{RNF-3 Escalabilidad:} todo el sistema tiene que ser escalable dependiendo del número de usuarios simultáneos que estén usando la app.
-	\item \textbf{RNF-4 Usabilidad:} interfaces como las interacciones con el usuario, tienen que ser lo más amigables posibles.
-	\item \textbf{RNF-6 Disponibilidad:} la aplicación tiene que estar operativa en cualquier momento, así como garantizar una frecuencia de actualizaciones periódica.
-	\item \textbf{RNF-7 Seguridad:}
+	\item \textbf{RNF-4 Usabilidad:} interfaces como las interacciones con el usuario, tienen que ser lo más amigables posibles. (\emph{responsive})
+	\item \textbf{RNF-5 Disponibilidad:} la aplicación tiene que estar operativa en cualquier momento, así como garantizar una frecuencia de actualizaciones periódica.
+	\item \textbf{RNF-6 Plataforma:} dirigido a dispositivos con el sistema operativo Android, desde la versión 10.0 Lollipop.
 \end{itemize}
+
 \section{Especificación de requisitos}
+En este apartado se muestran los diagramas de casos de uso, con una breve descripción.
 
+\subsection{Actores}
+Solo tenemos un tipo de actor que puede interactuar con la aplicación, que es el usuario estándar. Este será capad de ver todo el contenido que tiene asociado a su cuenta.
 
+Como apreciación, los desarrolladores tendrán acceso al \emph{backend}, donde se puede gestionar la plataforma y la tienda. Pero no es un usuario final de la aplicación, por lo que quedan excluidos del diagrama de casos de uso. Ya que esto es algo inherente a su cargo.
+
+\subsection{Diagrama de casos de uso}
