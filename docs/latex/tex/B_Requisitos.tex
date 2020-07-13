@@ -79,7 +79,7 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	\begin{itemize}
 		\tightlist
 		\item \textbf{RF-6.1 Control juego:} la aplicación tiene que ser capad de trabajar con los choques que se producen, con la comida, pared, bloques, o tuberías.
-		\item \textbf{RF-6.2 Mostrar la puntuación:} la aplicación tiene que ser capad de mostrar la puntuación que lleva en la partida.
+		\item \textbf{RF-6.2 Mostrar la puntuación:} la app tiene que ser capad de mostrar la puntuación que lleva en la partida.
 		\item \textbf{RF-6.3 Compartir la puntuación:} el jugador tiene que ser capad de subir la puntuación una vez termine la partida. Siempre y cuando esta sea mejor a otra anterior.
 		\item \textbf{RF-6.4 Mostrar el ranking:} el usuario tiene que ser capad de ver la puntuación del resto de jugadores, así como la que ha logrado.
 	\end{itemize}
@@ -92,12 +92,24 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 		\item \textbf{RF-7.1 Invitar:} el usuario tiene que ser capad de invitar a otro jugador, compartiendo una clave de acceso a la partida. Tiene que haber un botón que ayude a hacer esta tarea.
 		\item \textbf{RF-7.2 Unirse:} el usuario mediante un formulario debe de ser capad de ingresar la clave de acceso de la parida.
 		\item \textbf{RF-7.3 Dinámica del juego:} la aplicación tiene que ser capad de controlar los diferentes eventos se producen durante la partida, como pueden ser, sorteo de inicio, ficha no válida, formación del cuatro en raya, advertir de quien gana.
-		\item \textbf{RF-7.4 Hablar mediante chat:} el usuario tiene que ser capad de mandar mensajes cortos, de no más de 15 caracteres. Después de remitir el mensaje, se tiene que bloquear esta opción durante 10 segundos, para no sobrescribir otros mensajes o que se sature el juego.
+		\item \textbf{RF-7.4 Hablar mediante chat:} el usuario tiene que tener la capacidad de mandar mensajes cortos, de no más de 15 caracteres. Después de remitir el mensaje, se tiene que bloquear esta opción durante 10 segundos, para no sobrescribir otros mensajes o que se sature el juego.
 	\end{itemize}
 
 \end{itemize}
 
-
+\subsection{Requisitos no funcionles}
+\begin{itemize}
+	\tightlist
+	%%INICIO DE LA SESIÓN
+	\item \textbf{RNF-1 Rendimiento:} la capacidad de dar una calidad de producto homogénea, no se debe ver menguada por tiempos de carga, cuelgues en el sistema o cualquier problema / incidencia que lastre el desempeño del producto.
+	\item \textbf{RNF-2 Seguridad:} ofrecer la aplicación desde la \emph{Store}, ya que esta tiene soporte integrado de antivirus. Lo que una garantía de confianza. Ninguno de los datos deben de ser ofrecidos a terceros, exceptuando a Google. 
+	
+	Mediante una cifrado de extremo a extremo (SHA-1~\cite{wiki:sha1}) se realizaran las comunicaciones con \emph{Firebase cloud}.
+	\item \textbf{RNF-3 Escalabilidad:} todo el sistema tiene que ser escalable dependiendo del número de usuarios simultáneos que estén usando la app.
+	\item \textbf{RNF-4 Usabilidad:} interfaces como las interacciones con el usuario, tienen que ser lo más amigables posibles.
+	\item \textbf{RNF-6 Disponibilidad:} la aplicación tiene que estar operativa en cualquier momento, así como garantizar una frecuencia de actualizaciones periódica.
+	\item \textbf{RNF-7 Seguridad:}
+\end{itemize}
 \section{Especificación de requisitos}
 
 
