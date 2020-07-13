@@ -796,14 +796,14 @@ class _SnakePageState extends State<SnakePage> {
   /// p es el punto donde se mira si tenemos el choque
   /// dir es la dirección del choque para el caso de la tubería
   bool _controlChoque(int p, String dir) {
-    if(p<0 && p>_nCasillas){
+    /*if(p<0 && p>_nCasillas){
       print("Error, punto fuera del tablero.");
     }
 
     if(dir !=null || dir.compareTo("der") != 0 || dir.compareTo("izq") != 0|| 
     dir.compareTo("abajo") != 0|| dir.compareTo("arriba") != 0){
       print("Error en las direccion.");
-    }
+    }*/
 
     if (_pared.contains(p) || _bloques.contains(p)) {
       return true;

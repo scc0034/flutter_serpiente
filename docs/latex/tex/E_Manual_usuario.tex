@@ -49,20 +49,20 @@ Las ventanas de las que consta la aplicación son las siguientes:
 
 \begin{itemize}
 	\tightlist
-	\item Log in.
-	\item Home.
-	\item About.
-	\item Settings.
-	\item Menú de los juegos.
-	\item Snake.
-	\item Ranking.
-	\item Cuatro en raya menú.
-	\item Cuatro en raya invitar.
-	\item Cuatro en raya unirse.
-	\item Cuatro en raya juego.
+	\item Log in~\pageref{login}.
+	\item Home~\pageref{home}.
+	\item About~\pageref{about}.
+	\item Settings~\pageref{settings}.
+	\item Menú de juegos~\pageref{menugames}.
+	\item Snake~\pageref{snake}.
+	\item Ranking~\pageref{rank}.
+	\item Cuatro en raya online menú~\pageref{cuatromenu}:.
+	\subitem Invitar~\pageref{cuatroinvitar}.
+	\subitem Unirse~\pageref{cuatrounirse}.
+	\subitem Juego~\pageref{cuatrojuego}.
 \end{itemize}
 
-\subsection{Log in}
+\subsection{Log in}\label{login}
 Es la primera ventana que nos encontramos cuando lanzamos la aplicación. Es necesario que nos registremos siempre con la cuenta de \emph{Google} que tengamos disponible, ya que muchos de los servicios están en la nube, no esta permitido el acceso mediante anonimato.
 
 \begin{figure}[H]
@@ -88,7 +88,7 @@ Cuando pulsamos en el botón de \emph{sign in with Google}, nos aparecerá la ve
 Una vez completemos este proceso, la ventana siguiente a la que nos redirige la aplicación es el Home~\ref{fig:homepage}.
 
 
-\subsection{Home}
+\subsection{Home}\label{home}
 Esta página, es donde se muestra el póster del proyecto, además de tener el acceso al menú lateral de la aplicación. Para acceder a este tenemos que deslizar lateralmente a la derecha, y para cerrarlo, tenemos que hacer el proceso inverso deslizando hacia la izquierda o pulsando fuera del menú~\ref{fig:menuhome}. Otra de las formas de entrar a este es pulsando el menú hamburguesa.
 
 \begin{figure}[H]
@@ -135,7 +135,7 @@ En el caso de que queramos salir de la sesión que tenemos abierta, debemos de p
 	\caption{Sign Out}\label{fig:salir}
 \end{figure}
 
-\subsection{Settings}
+\subsection{Settings}\label{settings}
 Esta apartado del menú, es para manejar las opciones referentes a la aplicación, como podemos ver~\ref{fig:settingspage}. Cada una de estas, es un \emph{slider} o deslizador, que si está activado, quiere decir que está a \emph{true} o verdadero.
 
 \begin{figure}[H]
@@ -159,7 +159,7 @@ Una descripción de lo que hacen cada uno de los ajustes:
 	\item \textbf{Hard mode:} crea dos tuberías por las cuales la serpiente puede teletransportarse en el tablero, durante el  snake~\ref{fig:snakepage}.
 \end{itemize}
 
-\subsection{About me}
+\subsection{About me}\label{about}
 Pretende mostrar la información referente al creador de la aplicación, como muestra el diseño~\ref{fig:aboutpage}. Se aprecia un \emph{corousel}, con imágenes de los lenguajes de programación conocidos y debajo de este unos icono botones, que enlazan con las páginas de interés.
 
 \begin{figure}[H]
@@ -186,7 +186,7 @@ Para el coso de \emph{Gmail}, nos abre la vista~\ref{fig:mailto}, para mandar un
 	\caption{Mail to}\label{fig:mailto}
 \end{figure}
 
-\subsection{Menú de juegos}
+\subsection{Menú de juegos}\label{menugames}
 En este apartado se nos muestra una lista con todos los juegos de la colección que están disponibles, la finalidad es que el usuario pueda decidir, de una manera sencilla a qué quiere jugar. Por lo que es tan simple como pulsar en la opción correspondiente~\ref{fig:gamespage}.
 
 \begin{figure}[H]
@@ -195,8 +195,105 @@ En este apartado se nos muestra una lista con todos los juegos de la colección 
 	\caption{Games menú}\label{fig:gamespage}
 \end{figure}
 
+\subsection{Snake}\label{snake}
+Es el juego de la serpiente~\ref{fig:snakepage}. Cuando se entra el juego permanece a la espera hasta que se toca la pantalla (\emph{onTab}. Una vez se produzca esto comienza el la serpiente a moverse. El diseño del tablero, depende de las opciones que se tengan seleccionadas en settings~\ref{fig:settingspage}.
 
+El juego consiste en lograr la mayor puntuación posible comiendo lenguajes de programación que están repartidos de forma aleatoria por toda la superficie disponible del tablero.
 
+El marcador de los puntos se encuentra arriba a la derecha de la pantalla.
 
+Los controles de desplazamiento son :
+\begin{itemize}
+	\item \textbf{Arriba:} deslizamiento vertical superior.
+	\item \textbf{Abajo:} deslizamiento vertical inferior.
+	\item \textbf{Derecha:} deslizamiento lateral derecho.
+	\item \textbf{Izquierda:} deslizamiento latera izquierdo.
+\end{itemize}
 
+Cabe destacar que el menú no está disponibles para las ventanas de los juegos, porque puede que se interfiera con la navegabilidad del sistema.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.9\textwidth]{manual/snake.jpg}
+	\caption{Snake game}\label{fig:snakepage}
+\end{figure}
+
+El juego finaliza, desplegando la ventana~\ref{fig:gameover}, cuando se da una de las siguientes situaciones:
+\begin{itemize}
+	\item Impacto en la pared que rodea el tablero.
+	\item Choque contra uno de los bloques repartidos en la superficie.
+	\item No entrar en la tubería por la apertura..
+	\item Cabeza de la serpiente choque contra el cuerpo de la misma.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.9\textwidth]{manual/gameover.jpg}
+	\caption{Snake game over}\label{fig:gameover}
+\end{figure}
+
+Cuando se produce el \emph{game over}~\ref{fig:gameover}, tenemos 3 opciones de las que se debe elegir una:
+
+\begin{enumerate}
+	\item \textbf{Play Again:} vuelves a jugar la partida con el contador de los puntos a cero.
+	\item \textbf{Submit score:} si se da la situación de una mejora de puntuación, con respecto a la mejor obtenida en anteriores partidas, para el jugador que se encuentra logueado, se nos mandará al formulario~\ref{fig:rankform} de ingreso de datos.
+	En el caso de que no tengamos mejora, se puede ver el ranking~\ref{fig:rankpage}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=0.9\textwidth]{manual/rankform.jpg}
+		\caption{Formulario del ranking}\label{fig:rankform}
+	\end{figure}
+	
+	En el formulario está el campo de correo y puntuación bloqueadas como medida de seguridad, por lo que se nos deja la opción de añadir un \emph{nick}. Una vez pulsado el botón de \emph{Submit}, nos llevará a la pantalla de ranking~\ref{fig:rankpage}.
+	
+	\item \textbf{Video:} permite ver un vídeo para volver a continuar con la partida. Esta opción solo está disponible una vez por juego.
+	
+		\begin{figure}[H]
+		\centering
+		\includegraphics[height=0.7\textwidth]{manual/video.jpg}
+		\caption{Vídeo recompensa}\label{fig:video}
+		\end{figure}
+	
+	Es necesario que se permanezca los segundos indicados para volver a poder jugar.
+		
+\end{enumerate}
+
+\subsection{Ranking}\label{rank}
+Es una clasificación de jugadores, dependiendo de la puntuación lograda en el juego del snake~\ref{fig:snakepage}. Según que usuario entre a ver el contenido de este~\ref{fig:rankpage}, se verá una línea de color dorado que indicando el nivel obtenido.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.8\textwidth]{manual/rankpage.jpg}
+	\caption{Ranking}\label{fig:rankpage}
+\end{figure}
+
+\subsection{Menú juego cuatro en raya online}\label{cuatromenu}
+Es la pantalla inicial del juego~\ref{fig:cuatromenu}, ya que siendo en modo online, uno de los jugadores debe de ser el creador de la  partida~\ref{fig:cuatroinvitar} (\emph{invite friend}) y el otro que se una~\ref{fig:cuatroinvitar} (\emph{join game}), a la partida creada.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.7\textwidth]{manual/cuatromenu.jpg}
+	\caption{Menú del cuatro en raya}\label{fig:cuatromenu}
+\end{figure}
+
+\subsubsection{Invitar}\label{cuatroinvitar}
+Cuando se entra en la pantalla, se genera una clave única, que es necesaria para hacer la conexión por parte del invitado. Para ello tenemos un botón \emph{share}, que facilita el compartir la \emph{key}.
+
+Hay disponible un botón de volver, que lo que hace es destruir la clave para salir a la pantalla anterior~\ref{fig:cuatromenu}. Es el mismo efecto que si se da a la pestaña de volver atrás.
+
+En el caso de que el contador del tiempo restante \emph{time left}, llegue a cero es porque se da por hecho que por parte del invitado no tenemos respuesta.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.7\textwidth]{manual/invite.jpg}
+	\caption{Invitar cuatro en raya}\label{fig:cuatroinvitar}
+\end{figure}
+
+Cuando se pulsa en el botón de compartir nos sale un cuadro de diálogo mostrando las aplicaciones que facilitan el envío de la clave.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.8\textwidth]{manual/sharegame.jpg}
+	\caption{Compartir clave}\label{fig:sharegame}
+\end{figure}
