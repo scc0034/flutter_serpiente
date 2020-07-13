@@ -51,8 +51,8 @@ android {
         minSdkVersion 21 // Version de kitkat
         // minSdkVersion 16 // muy viejo
         targetSdkVersion 28
-        versionCode 6
-        versionName "6.0"
+        versionCode 7
+        versionName "6.1"
     }
     //NUEVO PLAY STORE
     signingConfigs {
