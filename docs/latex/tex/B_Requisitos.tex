@@ -42,12 +42,13 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-2.1 Menú lateral} el usuario debe poder entrar al menú mediante un \emph{scroll lateral}.
-		\item \textbf{RF-2.1 Integración con el RF-1.3:} Para que se disponga la salida en cualquier momento de la aplicación es necesario incluir en el menú, los datos de usuario con la capacidad de salir.
+		\item \textbf{RF-2.1 Mostrar el menú lateral} el usuario debe poder entrar al menú mediante un \emph{scroll lateral}.
+		\item \textbf{RF-2.2 Navegar:} la capacidad de navegar entre las diferentes ventanas que ofrece la aplicación.
+		\item \textbf{RF-2.3 Integración con el RF-1.3:} Para que se disponga la salida en cualquier momento de la aplicación es necesario incluir en el menú, los datos de usuario con la capacidad de salir.
 	\end{itemize}
 
 	%% ALGUNOS DE LOS AJUSTES DEBEN DE SER SELECCIONABLES
-	\item \textbf{RF-3 Ventana de opciones~\ref{fig:settingspage}} la aplicación tiene que ser capad de gestionar algunas de las diferentes capacidades del producto, que el usuario desee.
+	\item \textbf{RF-3 Configurar app~\ref{fig:settingspage}} la aplicación tiene que ser capad de gestionar algunas de las diferentes capacidades del producto, que el usuario desee.
 	
 	\begin{itemize}
 		\tightlist
@@ -60,8 +61,8 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-4.1 Opción \emph{dark mode}:} la aplicación tiene que ser capada de cambiar el color del sistema, para ahorrar batería o para mejorar el contraste.
-		\item \textbf{RF-4.2 Opciónes del juego snake:} algunas de las opciones de este juego deben de ser controlables desde el apartado de ajustes.
+		\item \textbf{RF-4.1 Mostrar carousel imagenes:} enseñar al usuario fotografías de los lenguajes de programación que el creador de la aplicación conoce.
+		\item \textbf{RF-4.2 Consultar mediante \emph{iconbuttons}:} unos botones que redirijan a contenido relevante del creador.
 	\end{itemize}
 	
 	%% PUBLICIDAD INTEGRADA
@@ -69,7 +70,7 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-5.1 Publicidad mediante \emph{banner}:} mostrar en el \emph{footer} un contenedor de anuncios, proporcionados estos por Google.
+		\item \textbf{RF-5.1 Mostrar \emph{banner}:} mostrar en el \emph{footer} un contenedor de anuncios, proporcionados estos por Google.
 		\item \textbf{RF-5.2 Continuar Snake:} el usuario tiene que ser capad de ver un video, como recompensa, continuar en la partida. 
 	\end{itemize}
 
@@ -78,7 +79,7 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-6.1 Control juego:} la aplicación tiene que ser capad de trabajar con los choques que se producen, con la comida, pared, bloques, o tuberías.
+		\item \textbf{RF-6.1 Jugar snake:} la aplicación tiene que ser capad de trabajar con los choques que se producen, con la comida, pared, bloques, o tuberías.
 		\item \textbf{RF-6.2 Mostrar la puntuación:} la app tiene que ser capad de mostrar la puntuación que lleva en la partida.
 		\item \textbf{RF-6.3 Compartir la puntuación:} el jugador tiene que ser capad de subir la puntuación una vez termine la partida. Siempre y cuando esta sea mejor a otra anterior.
 		\item \textbf{RF-6.4 Mostrar el ranking:} el usuario tiene que ser capad de ver la puntuación del resto de jugadores, así como la que ha logrado.
@@ -89,10 +90,11 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-7.1 Invitar:} el usuario tiene que ser capad de invitar a otro jugador, compartiendo una clave de acceso a la partida. Tiene que haber un botón que ayude a hacer esta tarea.
-		\item \textbf{RF-7.2 Unirse:} el usuario mediante un formulario debe de ser capad de ingresar la clave de acceso de la parida.
-		\item \textbf{RF-7.3 Dinámica del juego:} la aplicación tiene que ser capad de controlar los diferentes eventos se producen durante la partida, como pueden ser, sorteo de inicio, ficha no válida, formación del cuatro en raya, advertir de quien gana.
-		\item \textbf{RF-7.4 Hablar mediante chat:} el usuario tiene que tener la capacidad de mandar mensajes cortos, de no más de 15 caracteres. Después de remitir el mensaje, se tiene que bloquear esta opción durante 10 segundos, para no sobrescribir otros mensajes o que se sature el juego.
+		\item \textbf{RF-7.1 Mostrar menú juego:} la app tiene que ser capad de enseñar un menú intermedio con el fin de poder elegir entre invitar o unirse.
+		\item \textbf{RF-7.2 Invitar:} el usuario tiene que ser capad de invitar a otro jugador, compartiendo una clave de acceso a la partida. Tiene que haber un botón que ayude a hacer esta tarea.
+		\item \textbf{RF-7.3 Unirse:} el usuario mediante un formulario debe de ser capad de ingresar la clave de acceso de la parida.
+		\item \textbf{RF-7.4 Jugar cuatro en raya:} la aplicación tiene que ser capad de controlar los diferentes eventos se producen durante la partida, como pueden ser, sorteo de inicio, ficha no válida, formación del cuatro en raya, advertir de quien gana.
+		\item \textbf{RF-7.5 Hablar mediante chat:} el usuario tiene que tener la capacidad de mandar mensajes cortos, de no más de 15 caracteres. Después de remitir el mensaje, se tiene que bloquear esta opción durante 10 segundos, para no sobrescribir otros mensajes o que se sature el juego.
 	\end{itemize}
 
 \end{itemize}
@@ -121,3 +123,35 @@ Solo tenemos un tipo de actor que puede interactuar con la aplicación, que es e
 Como apreciación, los desarrolladores tendrán acceso al \emph{backend}, donde se puede gestionar la plataforma y la tienda. Pero no es un usuario final de la aplicación, por lo que quedan excluidos del diagrama de casos de uso. Ya que esto es algo inherente a su cargo.
 
 \subsection{Diagrama de casos de uso}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.93\textwidth]{requisitos/diagramauso.png}
+	\caption{Diagrama con los casos de uso}\label{fig:diagramausp}
+\end{figure}
+
+\subsection{Casos de uso}
+\tablaSmallSinColores{Caso de uso 1: Sign in}{p{3cm} p{.75cm} p{9.5cm}}{tablaUC0}{
+	\multicolumn{3}{l}{Caso de uso 1} \\
+}
+{
+	Descripción                            & \multicolumn{2}{p{10.25cm}}{Permite al usuario acceder a la aplicación mediante su cuenta de Google. Como consultar la política de privacidad.} \\\hline
+	\multirow{2}{3.5cm}{Requisitos}   &\multicolumn{2}{p{10.25cm}}{RF-1} \\\cline{2-3}
+	& \multicolumn{2}{p{10.25cm}}{RF-1.1} \\\cline{2-3}
+	& \multicolumn{2}{p{10.25cm}}{RF-1.2}
+	\\\hline
+	Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Tener la aplicación descargada en el terminal}   \\\hline
+	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
+	& 1    & EL usuario clicka en 'Privacy policy'.
+	\\\cline{2-3}
+	& 2    & Se muestra el navegador con lo política.
+	\\\cline{2-3}
+	& 3    & Se pulsa en el botón de 'Sign in'.
+	\\\cline{2-3}
+	& 4    & Se indica que cuenta de Google usar, entrando dentro de la aplicación.
+	\\\hline
+	Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{Ninguna.} \\\hline
+	Excepciones                        & \multicolumn{2}{p{10.25cm}}{No disponer de cuenta de Google}\\\hline
+	Importancia                            & Alta \\\hline
+	Urgencia                               & Alta \\
+	Frecuencia                               & Alta \\
+}
