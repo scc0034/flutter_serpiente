@@ -167,4 +167,35 @@ Por lo que una vez sabemos que la arquitectura es BLoC, he pretendido tener inte
 \end{itemize}
 
 \section{Diseño de interfaces}\label{nterfaces }
-Como se comenta en el apéndice del especificación de requisitos~\pageref{requisitos}, la mayor parte de las interfaces se diseñaron con el cliente, a través de bocetos, con la finalidad de facilitar la comunicación y el entendimiento cliente-analista. Un ejemplo de esto es la siguiente imagen~\ref{fig:boceto}.
+Como se comenta en el apéndice del especificación de requisitos~\pageref{requisitos}, la mayor parte de las interfaces se diseñaron con el cliente, a través de bocetos, con la finalidad de facilitar la comunicación y el entendimiento cliente-analista. Un ejemplo de esto es la siguiente imagen~\ref{fig:borrador}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=1.2\textwidth]{disenio/borrador2.jpeg}
+	\caption{Boceto de diseño}\label{fig:borrador}
+\end{figure}
+
+El diseño final de cada una de las interfaces de la aplicación se puede encontrar en el apéndice Manual de usuario~\pageref{manualusuario}.
+
+\subsection{Material Design}
+Gran parte de los componentes o widgets de la aplicación son provistos por la compañía Google y su paquete de diseño llamado: Material Desing. Podemos encontrar en la \href{https://material.io/develop/flutter}{web} toda la documentación. Por lo que esto nos ha garantizado tener unos patrones de diseño según el estándar de Android. 
+
+Para los juegos habría que testear si el diseño responsive se garantiza, ya que el diseño de los tableros está en contenedores que no son dinámicos. Lo que implica que con la gran heterogeneidad del ecosistema, encontremos fallos.
+
+\subsection{Paleta de colores}
+La paleta de colores es la ofrecida por Material Desing Palete,~\href{https://material.io/design/color/the-color-system.html#color-theme-creation}{web}. Se supone que garantiza un gran contraste para facilitar la lectura, como el reconocimiento correcto de los contornos. Como consecuencia lo dota de gran usabilidad.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{disenio/palette.png}
+	\caption{Paleta de colores}\label{fig:palette}
+\end{figure}
+
+\subsection{Iconos}
+Los iconos son provistos por Google, también dentro del material design. La lista de los icono se puede encontrar \href{https://material.io/resources/icons/?style=sharp}{aquí}, un fragmento de esta lista~\ref{fig:iconos}:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{disenio/iconos.png}
+	\caption{Algunos iconos}\label{fig:iconos}
+\end{figure}
