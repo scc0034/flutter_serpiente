@@ -79,10 +79,19 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 	
 \end{itemize}
 
-Otra de las formas en las que se almacenan los datos es mediante un fichero en local. Esto solo es usado para la configuración del menú, ya que cada vez que se crea el \emph{Widget} del menú lateral, lee el fichero \emph{.json} para sacar los datos necesarios. Esto se podría haber usado de la misma forma para solventar el problema de sqlflite~\pageref{sqlflite}.
+Otra de las formas en las que se almacenan los datos es mediante un fichero en local. Esto solo es usado para la configuración del menú, ya que cada vez que se crea el \emph{Widget} del menú lateral, lee el \emph{.json} para sacar los datos necesarios. Esta lógica de negocio se podría haber usado de la misma forma para solventar el problema de sqlflite~\pageref{sqlflite}.
 
 \section{Diseño procedimental}
+Para la gran mayoría de procesos importantes se han hecho diagramas de flujo, con el fin de resolver y comprender algunas de las lógicas de negocio más importantes. Como puede ser el siguiente diagrama~\ref{fig:snakediagrama} para la partida del snake:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%SARA
 
 \section{Diseño arquitectónico}
+La arquitectura de la aplicación ha seguido el el patrón de diseño BLoC~\cite{xurxodev:bloc}. Significa \emph{Business Logic Component}. Fue creado por Paolo Soare y Cong Hu, los dos de Google y presentado en la conferencia de Dart en 2018. Por lo que es algo bastante nuevo.
+
+Para comprender el porque de esta arquitectura es necesario saber como funcionan los estados compartidos entre los componentes en los framework declarativos~\pageref{declarativo}.
+
+\subsection{Framework declarativo}\label{declarativo}
+Los framework declarativos son aquellos donde las vistas se crean y actualizan en base a los datos con los que la vista esta enlazada, de tal forma que, cuando estos datos cambian de valor, se actualizan con una nueva renderización.
 
 
