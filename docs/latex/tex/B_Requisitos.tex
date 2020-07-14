@@ -137,7 +137,7 @@ Como apreciación, los desarrolladores tendrán acceso al \emph{backend}, donde 
 }
 {
 	Descripción                            & \multicolumn{2}{p{10.25cm}}{Permite al usuario acceder a la aplicación mediante su cuenta de Google. Como consultar la política de privacidad.} \\\hline
-	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-1,RF-1.1,RF-1.2} \\\cline{1-3}Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Tener la aplicación descargada en el terminal}   \\\hline
+	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-1, RF-1.1, RF-1.2} \\\cline{1-3}Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Tener la aplicación descargada en el terminal}   \\\hline
 	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
 	& 1    & EL usuario clicka en 'Privacy policy'.
 	\\\cline{2-3}
@@ -160,7 +160,7 @@ Como apreciación, los desarrolladores tendrán acceso al \emph{backend}, donde 
 }
 {
 	Descripción                            & \multicolumn{2}{p{10.25cm}}{Da la capacidad al usuario de navegar entre las ventanas de la aplicación, como salir de la misma en el caso de que así lo requiera.} \\\hline
-	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-2,RF-2.1,RF-2.2,RF-2.3,RF-1.3} \\\cline{1-3}
+	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-2, RF-2.1, RF-2.2, RF-2.3, RF-1.3} \\\cline{1-3}
 	Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Haber realizado el requsito funcional primero.}   \\\hline
 	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
 	& 1    & Deslizamiento horizontal derecho o pulsación en la hamburguesa, para mostrar el menú lateral.
@@ -182,7 +182,7 @@ Como apreciación, los desarrolladores tendrán acceso al \emph{backend}, donde 
 }
 {
 Descripción                            & \multicolumn{2}{p{10.25cm}}{Dotar al usuario de las herramientas necesarias para poder hacer cambios de alguna de las partes del sistema.} \\\hline
-Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-3,RF-3.1,RF-3.2} \\\cline{1-3}
+Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-3, RF-3.1, RF-3.2} \\\cline{1-3}
 Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Haber realizado el requisito funcional uno.}   \\\hline
 \multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
 & 1    & Escoger del menú lateral la parte de 'settings'.
@@ -202,7 +202,7 @@ Frecuencia                               & Alta \\
 }
 {
 	Descripción                            & \multicolumn{2}{p{10.25cm}}{Disponer de la opción de ver quien es el creador de la aplicación y navegar a recursos.} \\\hline
-	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-3,RF-3.1,RF-3.2} \\\cline{1-3}
+	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-4, RF-4.1, RF-4.2} \\\cline{1-3}
 	Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Haber realizado el requisito funcional uno.}   \\\hline
 	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
 	& 1    & Escoger del menú lateral la parte de 'About me'.
@@ -214,4 +214,74 @@ Frecuencia                               & Alta \\
 	Importancia                            & Baja \\\hline
 	Urgencia                               & Baja \\\hline
 	Frecuencia                             & Baja \\
+}
+
+%%CASO DE USO INTEGRACIÓN DE LA PUBLICIDAD DENTRO DE LA APP
+\tablaSmallSinColores{Caso de uso 5: Contenido publicitario}{p{3cm} p{.75cm} p{9.5cm}}{tablaUC0}{
+	\multicolumn{3}{l}{Caso de uso 5: Contenido publicitario} \\
+}
+{
+	Descripción                            & \multicolumn{2}{p{10.25cm}}{Durante la ejecución, en ciertas ventanas tiene que estar disponible el contenido publicitario, así como video recompensas para poder continuar con la partida del snake.} \\\hline
+	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-5, RF-5.1, RF-5.2} \\\cline{1-3}
+	Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Haber realizado el requisito funcional uno. Producir un 'game over' en el juego del snake.}   \\\hline
+	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
+	& 1    & Disponible en las ventanas apropiadas. Si son pulsados, nos deben de abrir el navegador o la 'play store'.
+	\\\cline{2-3}
+	& 2    & En el juego del snake, ver el video hasta completar el tiempo requerido del mismo, para que nos den otra vida.
+	\\\hline
+	Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{Continuar con la partida del snake.} \\\hline
+	Excepciones                        & \multicolumn{2}{p{10.25cm}}{Ninguna.}\\\hline
+	Importancia                            & Alta \\\hline
+	Urgencia                               & Alta \\\hline
+	Frecuencia                             & Alta \\
+}
+
+%%CASO DE USO PARA EL JUEGO DEL SNAKE
+\tablaSmallSinColores{Caso de uso 6: Juego del snake}{p{3cm} p{.75cm} p{9.5cm}}{tablaUC0}{
+	\multicolumn{3}{l}{Caso de uso 6: Juego del snake} \\
+}
+{
+	Descripción                            & \multicolumn{2}{p{10.25cm}}{La aplicación tiene que permitir a los usuarios pasar un buen rato jugando al snake.} \\\hline
+	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-6, RF-6.1, RF-6.2, RF-6.3, RF-6.4 } \\\cline{1-3}
+	Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Ninguna.}   \\\hline
+	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
+	& 1    & Abrir el menú lateral para navegar a la pestaña de juegos, una vez dentro tenemos que elegir el juego del snake.
+	\\\cline{2-3}
+	& 2    & Intentar conseguir la mayor puntuación posible.
+	\\\cline{2-3}
+	& 3    & Si morimos, ver video para continuar con la partida.
+	\\\cline{2-3}
+	& 4    & En el caso de tener mejora de puntuación, mostrar el formulario para compartirla.
+	\\\hline
+	Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{Mostrar el ranking del snake.} \\\hline
+	Excepciones                        & \multicolumn{2}{p{10.25cm}}{Ninguna.}\\\hline
+	Importancia                            & Alta \\\hline
+	Urgencia                               & Alta \\\hline
+	Frecuencia                             & Alta \\
+}
+
+%%CASO DE USO PARA EL JUEGO DEL CUATRO EN RAYA
+\tablaSmallSinColores{Caso de uso 7: Juego cuatro en raya online}{p{3cm} p{.75cm} p{9.5cm}}{tablaUC0}{
+	\multicolumn{3}{l}{Caso de uso 7: Juego cuatro en raya online} \\
+}
+{
+	Descripción                            & \multicolumn{2}{p{10.25cm}}{Dar la capacidad a los jugadores de crear o unirse a partidas, con el fin de poder batirse en batallas del cuatro en raya. Durante estas tiene que ser posible el envio de mensajes cortos.} \\\hline
+	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-7, RF-7.1, RF-7.2, RF-7.3, RF-7.4, RF-7.7 } \\\cline{1-3}
+	Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Tener un compañero con el que batirnos.}   \\\hline
+	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
+	& 1    & Abrir el menú lateral para navegar a la pestaña de juegos, una vez dentro tenemos que elegir el juego del cuatro en raya.
+	\\\cline{2-3}
+	& 2    & Dependiendo del rol que tomemos para el juego, podemos compartir un código o ingresar este para comenzar con la partida.
+	\\\cline{2-3}
+	& 3    & Si no se encuentra el rival, la partida finalizará.
+	\\\cline{2-3}
+	& 4    & Poder mandar mensajes cortos durante el juego.
+	\\\cline{2-3}
+	& 5    & Si se da la situación de final de partida mostrar que jugador es el ganador.
+	\\\hline
+	Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{Ninguna.} \\\hline
+	Excepciones                        & \multicolumn{2}{p{10.25cm}}{Ninguna.}\\\hline
+	Importancia                            & Alta \\\hline
+	Urgencia                               & Alta \\\hline
+	Frecuencia                             & Alta \\
 }
