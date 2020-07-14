@@ -129,7 +129,7 @@ Los objetivos cuando se presentó este patrón en la conferencia de Google eran 
 	
 	El problema de esto es que renderiza Widgets que no han sufrido cambios, es decir, se cambia un padre y también se tienen que renderizar los hijos, lo que implica una carga de trabajo mayor.
 	
-	\item \textbf{Tener un mapa del formato de la vista:} los datos formatean la presentación, de tal manera que la vista se renderiza dependiendo de los datos. Lo que hace que sean reultilizables.
+	\item \textbf{Tener un mapa del formato de la vista:} los datos formatean la presentación, de tal manera que la vista se renderiza dependiendo de los datos. Lo que hace que sean reutilizables.
 	
 \end{itemize}
 
@@ -138,5 +138,32 @@ Los objetivos cuando se presentó este patrón en la conferencia de Google eran 
 	\includegraphics[width=1\textwidth]{disenio/bloc.png}
 	\caption{Diseño bloc}\label{fig:bloc}
 \end{figure}
+
+Por lo que una vez sabemos que la arquitectura es BLoC, he pretendido tener internamente una estructura de directorios ordenada, dependiendo de cada uno de los componentes que integre, como se puede ver en la imagen~\ref{fig:estructura}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.75\textwidth]{disenio/estructura.png}
+	\caption{Estructura de directorios aplicación}\label{fig:estructura}
+\end{figure}
+
+\begin{itemize}
+	\item \textbf{main.dart:} fichero del que se lanza toda la aplicación, es decir, es el componente raiz de la misma, de la que cuelgan el resto.
+	
+	\item \textbf{models:} ficheros que representan algún modelo de datos. 
+	
+	\item \textbf{pages:} ficheros que contienen la vista de la aplicación, así como la lógica de negocio para cada una de estas. 
+	
+	\item \textbf{providers:} ficheros que porveen (\emph{future binding}) de contenido internamente.
+	
+	\item \textbf{routes:} directorio con el fichero del componente de las rutas. Facilita la navegabilidad, ya que las rutas ahora se pueden hacer mediante llamadas por nombre.
+	
+	\item \textbf{services:} componentes que proveen de servicios externos, como es el caso de Firebase.
+	
+	\item \textbf{utils:} componentes que tiene utilidades, de tal manera que puedan ser reutilizados.
+	
+	\item \textbf{widget:} ficheros que contienen componentes para que puedan ser reutilizados.
+	
+\end{itemize}
 
 \section{Diseño de interfaces}\label{nterfaces }
