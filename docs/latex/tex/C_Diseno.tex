@@ -82,16 +82,49 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 Otra de las formas en las que se almacenan los datos es mediante un fichero en local. Esto solo es usado para la configuración del menú, ya que cada vez que se crea el \emph{Widget} del menú lateral, lee el \emph{.json} para sacar los datos necesarios. Esta lógica de negocio se podría haber usado de la misma forma para solventar el problema de sqlflite~\pageref{sqlflite}.
 
 \section{Diseño procedimental}
-Para la gran mayoría de procesos importantes se han hecho diagramas de flujo, con el fin de resolver y comprender algunas de las lógicas de negocio más importantes. Como puede ser el siguiente diagrama~\ref{fig:snakediagrama} para la partida del snake:
+Para la gran mayoría de procesos importantes se han hecho diagramas de flujo, con el fin de resolver y comprender algunas de las lógicas de negocio más importantes. Un ejemplo de esto es el siguiente diagrama~\ref{fig:snakediagrama} para la partida del snake:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%SARA
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=1.2\textwidth]{disenio/flow.png}
+		\caption{Diagrama de flujo juego snake}\label{fig:snakediagrama}
+	\end{figure}
 
 \section{Diseño arquitectónico}
-La arquitectura de la aplicación ha seguido el el patrón de diseño BLoC~\cite{xurxodev:bloc}. Significa \emph{Business Logic Component}. Fue creado por Paolo Soare y Cong Hu, los dos de Google y presentado en la conferencia de Dart en 2018. Por lo que es algo bastante nuevo.
+La arquitectura de la aplicación ha seguido el el patrón de diseño BLoC~\cite{xurxodev:bloc}. Significa \emph{Business Logic Component}~\pageref{bloc}. Fue creado por Paolo Soare y Cong Hu, los dos de Google y presentado en la conferencia de Dart en 2018. Por lo que es algo bastante nuevo.
 
 Para comprender el porque de esta arquitectura es necesario saber como funcionan los estados compartidos entre los componentes en los framework declarativos~\pageref{declarativo}.
 
 \subsection{Framework declarativo}\label{declarativo}
-Los framework declarativos son aquellos donde las vistas se crean y actualizan en base a los datos con los que la vista esta enlazada, de tal forma que, cuando estos datos cambian de valor, se actualizan con una nueva renderización.
+Los framework declarativos son aquellos donde las vistas se crean y actualizan en base a los datos con los que la vista esta enlazada, de tal forma que, cuando estos datos cambian de valor, se actualizan con una nueva renderización. Es decir, cada uno de estos componentes tiene un estado.
+
+Los frameworks declarativos más conocidos son: \emph{React.js. node.js, dart.js o Flutter}
+
+En el caso de flutter, los componentes son conocidos como Widgets, y pueden tener 3 estados:
+
+\begin{itemize}
+	\item \textbf{Sin estado:} no guardan información.
+	\item \textbf{Con estado local:} los datos son del widget como puede ser la posición del scroll.
+	\item \textbf{Con estado global:} para compartir datos entre diferentes widgets. Como puede ser la sesión de usuario.
+\end{itemize}
+
+Un ejemplo de declaración de widget que tiene el estado dinámico~\ref{fig:estado}, para este caso extiende de \emph{statefulwidget}:
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{disenio/estado.png}
+	\caption{Estado Flutter}\label{fig:estado}
+\end{figure}
+
+\subsection{BLoC}\label{bloc}
+Este patrón lo que pretende es que los componentes sean intermediarios entre las vistas y el modelo. Esta basado en la programación reactiva, utilizando el patrón observer, en Flutter es llamado \emph{Streams} , lo dota de gran versatilidad.
+
+Los objetivos cuando se presentó este patrón en la conferencia de Google eran tres:
+
+\begin{itemize}
+	\item \textbf{Centralizar la lógica de negocio:}
+	\item \textbf{Centralizar los cambios de estados:}
+	\item \textbf{Tener un mapa del formato de la vista:}
+\end{itemize}
 
 
+\section{Diseño de interfaces}\label{nterfaces }
