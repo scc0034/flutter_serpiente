@@ -98,7 +98,7 @@ Para comprender el porque de esta arquitectura es necesario saber como funcionan
 \subsection{Framework declarativo}\label{declarativo}
 Los framework declarativos son aquellos donde las vistas se crean y actualizan en base a los datos con los que la vista esta enlazada, de tal forma que, cuando estos datos cambian de valor, se actualizan con una nueva renderización. Es decir, cada uno de estos componentes tiene un estado.
 
-Los frameworks declarativos más conocidos son: \emph{React.js. node.js, dart.js o Flutter}
+Los frameworks declarativos más conocidos son: \emph{React.js. Angular, dart.js o Flutter}
 
 En el caso de flutter, los componentes son conocidos como Widgets, y pueden tener 3 estados:
 
@@ -110,10 +110,10 @@ En el caso de flutter, los componentes son conocidos como Widgets, y pueden tene
 
 Un ejemplo de declaración de widget que tiene el estado dinámico~\ref{fig:estado}, para este caso extiende de \emph{statefulwidget}:
 	\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.9\textwidth]{disenio/estado.png}
-	\caption{Estado Flutter}\label{fig:estado}
-\end{figure}
+		\centering
+		\includegraphics[width=0.9\textwidth]{disenio/estado.png}
+		\caption{Estado Flutter}\label{fig:estado}
+	\end{figure}
 
 \subsection{BLoC}\label{bloc}
 Este patrón lo que pretende es que los componentes sean intermediarios entre las vistas y el modelo. Esta basado en la programación reactiva, utilizando el patrón observer, en Flutter es llamado \emph{Streams} , lo dota de gran versatilidad.
@@ -121,10 +121,22 @@ Este patrón lo que pretende es que los componentes sean intermediarios entre la
 Los objetivos cuando se presentó este patrón en la conferencia de Google eran tres:
 
 \begin{itemize}
-	\item \textbf{Centralizar la lógica de negocio:}
-	\item \textbf{Centralizar los cambios de estados:}
-	\item \textbf{Tener un mapa del formato de la vista:}
+	\item \textbf{Centralizar la lógica de negocio:} pretende crear aplicaciones sin una arquitectura definida, con componentes de gran tamaño, con toda la lógica de negocio, donde se incluye también las llamadas a un web service o una API, todo dentro del widget.
+	
+	La idea es que con este principio de inversión de la dependencia, estas clases solo tengan la lógica, permitiendo que la aplicación escale mejor o que se pueda integrar con diferentes tecnologías.
+	
+	\item \textbf{Centralizar los cambios de estados:} cada uno de los componentes es encargado de trabajar con los eventos que se producen, ya que estos son los que van a modificar los datos, y por lo tanto, el estado del componente.
+	
+	El problema de esto es que renderiza Widgets que no han sufrido cambios, es decir, se cambia un padre y también se tienen que renderizar los hijos, lo que implica una carga de trabajo mayor.
+	
+	\item \textbf{Tener un mapa del formato de la vista:} los datos formatean la presentación, de tal manera que la vista se renderiza dependiendo de los datos. Lo que hace que sean reultilizables.
+	
 \end{itemize}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{disenio/bloc.png}
+	\caption{Diseño bloc}\label{fig:bloc}
+\end{figure}
 
 \section{Diseño de interfaces}\label{nterfaces }
