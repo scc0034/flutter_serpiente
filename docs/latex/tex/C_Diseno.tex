@@ -15,7 +15,7 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 		\caption{Base de datos en firestore}\label{fig:firestore}
 	\end{figure}
 
-	\item \textbf{Sqlflite:} esta base de datos si que sigue el modelo tradicional del SGBDR. En mi caso fue necesario usar este paquete~\cite{package:sqlflite}, que internamente funciona con sqlite. Usado para almacenar datos en forma local, ya que no era necesario que los datos salieran del terminal. Una de las cosas a tener en cuenta de esto, es que si el usuario borra la caché de la aplicación o la desinstala se borran los ficheros correspondientes. Esto no debe de ser problema, ya que solo queremos almacenar ciertos valores.
+	\item\label{sqlflite} \textbf{Sqlflite:} esta base de datos si que sigue el modelo tradicional del SGBDR. En mi caso fue necesario usar este paquete~\cite{package:sqlflite}, que internamente funciona con sqlite. Usado para almacenar datos en forma local, ya que no era necesario que los datos salieran del terminal. Una de las cosas a tener en cuenta de esto, es que si el usuario borra la caché de la aplicación o la desinstala se borran los ficheros correspondientes. Esto no debe de ser problema, ya que solo queremos almacenar ciertos valores.
 	
 \end{itemize}
 
@@ -48,7 +48,7 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 		
 		\begin{itemize}
 			\item Posición de cada una de las fichas, de tipo String, y los valores que toma son Y, R o \emph{null}, dependiendo de la ficha que se encuentre en la celda.
-			\item Datos de los jugadores de la partida, nombre, imagenUrl, correos ... Todos de tipo String.
+			\item Datos de los jugadores, tanto como para el que crea la partida como el que recibe la invitación, estos son: nombre, imagenUrl, correos ... Todos de tipo String.
 			\item Flags para controlar si se producen ciertos eventos, como puede ser el final de la partida, si se ha mostrado el mensaje, lanzamiento de la moneda para el sorteo de quien inicia o el mensaje escrito por cada uno de los jugadores. Todas ellas son de tipo String, exceptuando las que puedan tomar valores de verdadero o falso.
 		\end{itemize}
 	
@@ -59,9 +59,28 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 		\end{figure}
 	\end{itemize}
 	
-	\item \textbf{Sqlflite:}
+	\item \textbf{Sqlflite:} usada para la persistencia interna de datos. No tiene diagrama de entidad relación ya que solo consta de una tabla. Como se puede ver en la imagen~\ref{fig:tablasqlflite}, este método se encarga de crear el recurso de la tabla, en el caso de que no existan, (cuando se instala la aplicación en el terminal).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{disenio/tablasqlflite.png}
+		\caption{Método para crear la tabla en la base de datos local}\label{fig:tablasqlflite}
+	\end{figure}
+
+	Cada uno de los campos de esta tabla significan:
+	\begin{itemize}
+		\item \textbf{id:} identificador de tipo entero autoincrementable. Se usa internamente nada más, al final estas variables que almacena, se van a identificar por el nombre.
+		\item \textbf{value:} valor que toma esta variable de tipo entero, puede ser 0 o 1, para las de tipo \emph{bool} o valores numéricos. Se hace así con el fin de abarcar estos dos tipos de datos.
+		\item \textbf{nombre:} es de tipo String, usada para reconocer a cada una de las variables en la tabla.
+		\item \textbf{createdTime:} fecha en la que se añade a la tabla una nueva variable. El tipo de dato que almacena es \emph{datetime}.
+	\end{itemize}
+
+	Un ejemplo de uso, lo podemos encontrar dentro de la aplicación en el apartado de \emph{settings}, donde cada vez que se cambia el valor de un \emph{slider} se actualiza en la base de datos. Esto se hace para que cuando el usuario vuelva a la aplicación, la configuración de la última vez que estuvo se siga manteniendo.
 	
 \end{itemize}
+
+Otra de las formas en las que se almacenan los datos es mediante un fichero en local. Esto solo es usado para la configuración del menú, ya que cada vez que se crea el \emph{Widget} del menú lateral, lee el fichero \emph{.json} para sacar los datos necesarios. Esto se podría haber usado de la misma forma para solventar el problema de sqlflite~\pageref{sqlflite}.
+
 \section{Diseño procedimental}
 
 \section{Diseño arquitectónico}
