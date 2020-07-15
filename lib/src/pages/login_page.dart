@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   void initState() {
+    AdMobService.initialize();
     if (ads) {
       AdMobService.showBannerAd();
     } else {
