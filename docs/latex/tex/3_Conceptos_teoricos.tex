@@ -4,7 +4,7 @@ La parte del proyecto más importante es el proceso de lanzar una aplicación An
 
 Todo esto se sitúa en un mercado altamente competitivo, con una gran variabilidad (usuarios, empresas, desarrolladores ...) y con un constante cambio. 
 
-\section{Frameworks}
+\section{Framework}
 Un framework (de origen anglosajón, marco de trabajo), según lo que dice la wikipedia~\cite{wiki:framework}, es una estructura conceptual y tecnológica de soporte definido, normalmente por módulos de software concretos, que sirve de base para la organización y el desarrollo de software. Las ventajas que ofrece son varias, entre las que se puede destacar:
 
 \begin{itemize}
@@ -17,67 +17,46 @@ Un framework (de origen anglosajón, marco de trabajo), según lo que dice la wi
 Por lo tanto, es necesario trabajar mediante frameworks, ya que nos garantizar una aplicación de mayor calidad, que si la hacemos desde cero, en código nativo.
 
 \subsection{Opciones disponibles}
-En el mercado tenemos muchos frameworks disponibles, por lo que elegir uno no es tarea sencilla, ya que como veremos cada uno tiene sus pros y contras
+En el mercado existen muchos frameworks disponibles para el desarrollo de aplicaciones móviles, por lo que decantarse por uno no es tarea sencilla, ya que como se aprecia cada uno tiene sus pros y contras. En una encuesta realizada en un foro ~\cite{foro:encuesta}, a mediados del 2019, la opinión de los más recomendados era~\ref{fig:encuesta}:
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{teoria/encuesta.png}
+	\caption{Encuesta}\label{fig:encuesta}
+\end{figure}
 
+Algo ideal es que se buscó un framework \emph{crossplataform}, con el que abarcar un mayor mercado, a nivel de usuarios y dispositivos.
 
+\subsubsection{Ionic}
+Ionic~\cite{wiki:ionnic} se basa en lenguaje de programación javascript, html y css. Internamente esta basado en otro framework, como es Angularjs. La licencia Open source, fue lanzado en el 2013, permite el desarrollo para iOS y Android. A sufrido gran cantidad de cambios desde entonces.
 
-\section{Imágenes}
-
-Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
-
-\imagen{escudoInfor}{Autómata para una expresión vacía}
-
-
-
-\section{Listas de items}
-
-Existen tres posibilidades:
-
+Ventajas:
 \begin{itemize}
-	\item primer item.
-	\item segundo item.
+	\item Una amplia comunidad de usuarios.
+	\item Documentación extensa y de calidad.
 \end{itemize}
 
-\begin{enumerate}
-	\item primer item.
-	\item segundo item.
-\end{enumerate}
-
-\begin{description}
-	\item[Primer item] más información sobre el primer item.
-	\item[Segundo item] más información sobre el segundo item.
-\end{description}
-	
+Algunas de las desventajas:
 \begin{itemize}
-\item 
+	\item Rendimiento algo menor, ya que no se desarrolla de forma nativa.
+	\item Bibliotecas en constante cambio y evolución, más que ser algo bueno, puede que deje a la aplicación fuera de versión y se tenga que hacer desde cero.
 \end{itemize}
 
-\section{Tablas}
+\subsubsection{React native}
+React native~\cite{wiki:ionnic} 
 
-Igualmente se pueden usar los comandos específicos de \LaTeX o bien usar alguno de los comandos de la plantilla.
+Ventajas:
+\begin{itemize}
+	\item 
+\end{itemize}
 
-\tablaSmall{Herramientas y tecnologías utilizadas en cada parte del proyecto}{l c c c c}{herramientasportipodeuso}
-{ \multicolumn{1}{l}{Herramientas} & App AngularJS & API REST & BD & Memoria \\}{ 
-HTML5 & X & & &\\
-CSS3 & X & & &\\
-BOOTSTRAP & X & & &\\
-JavaScript & X & & &\\
-AngularJS & X & & &\\
-Bower & X & & &\\
-PHP & & X & &\\
-Karma + Jasmine & X & & &\\
-Slim framework & & X & &\\
-Idiorm & & X & &\\
-Composer & & X & &\\
-JSON & X & X & &\\
-PhpStorm & X & X & &\\
-MySQL & & & X &\\
-PhpMyAdmin & & & X &\\
-Git + BitBucket & X & X & X & X\\
-Mik\TeX{} & & & & X\\
-\TeX{}Maker & & & & X\\
-Astah & & & & X\\
-Balsamiq Mockups & X & & &\\
-VersionOne & X & X & X & X\\
-} 
+Algunas de las desventajas:
+\begin{itemize}
+	\item 
+\end{itemize}
+
+\subsubsection{Xamarin}
+
+\subsubsection{Otros}
+
+\section{Flutter}
