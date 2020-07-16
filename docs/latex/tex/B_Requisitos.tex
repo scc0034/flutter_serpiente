@@ -1,27 +1,27 @@
 \apendice{Especificación de Requisitos}
 
 \section{Introducción}\label{requisitos}
-En este apéndice se detallan los requisitos del proyecto, como los funcionales y no funcionales. La finalidad es hacer de intermediario entre el cliente y los programadores, con el objetivo de ayudar a entender, comprender y analizar la aplicación. 
+En este apéndice se detallan los requisitos del proyecto, los funcionales y no funcionales. El objetivo es hacer de analista entre el cliente y los programadores, para entender, comprender y diseñar la aplicación. 
 
 \section{Objetivos generales}
-Este trabajo final de grado focaliza la aplicación mediante dos puntos de vista totalmente diferentes, dependiendo de las situaciones futuras a las que se someta la aplicación, siempre englobado en el marco de que es un producto que nos encarga la universidad de Burgos, como cliente final.
+Este trabajo final de grado tiene dos puntos de vista totalmente diferentes, dependiendo de las situaciones futuras a las que se someta la aplicación. Sin olvidar que es una aplicación que encarga la universidad de Burgos, como cliente final.
 
 \begin{itemize}
-	\item Colección de videojuegos. Tener una gran cantidad de estos mismos, para lograr sacar un rendimiento económico gracias a lo publicidad, por lo que es necesario que la aplicación tenga una gran repercusión en el mercado. Esto implica que a futuro se debe de hacer una inversión en publicidad y \emph{marketing}.
-	\item \emph{Porfolio} \cite{wiki:portafolio} o escaparate con el que mostrar las capacidades técnicas, herramientas usadas o lenguajes de programación aprendidos, ante los equipos de recursos humanos en las empresas, llegado el momento de tener que buscar trabajo. 
+	\item \textbf{Colección de videojuegos} Tener una gran cantidad de estos mismos, para lograr sacar un rendimiento económico gracias a la publicidad, por lo que es necesario que la aplicación tenga una gran repercusión en el mercado. Esto implica que a futuro se debe de hacer una inversión en publicidad y \emph{marketing}.
+	\item \textbf{\emph{Porfolio}} \cite{wiki:portafolio} o escaparate con el que mostrar las capacidades técnicas, herramientas usadas o lenguajes de programación aprendidos.
 \end{itemize}
 
-\section{Catalogo de requisitos}
-A continuación se numeran los requisitos del proyecto extraídos de los generales.
+\section{Catálogo de requisitos}
+A continuación se enumeran los requisitos del proyecto extraídos de los generales.
 
 \subsection{Requisitos funcionles}
-Por cada uno de los requisitos funcionales, va a tener una correlación con la pantalla en la que se da la operatividad del mismo, excepto en los casos en las que este requerimiento abarca varias ventanas.
+Cada uno de los requisitos funcionales tiene una correlación con la pantalla en la que se da la operatividad del mismo, excepto en los casos en las que este requerimiento abarca varias ventanas o que no es una funcionalidad con interfaz.
 
 Algunos de los requisitos funcionales, en el momento de ser tratados con el cliente, tuvieron apoyo de unos \emph{sketch} o bocetos conceptuales, con el fin de dar soporte, ayudar a comprender y facilitar la comunicación cliente - analista. Como podemos ver en la imagen~\ref{fig:bocetolog}, o en el apéndice de diseño~\pageref{diseño}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.9\textwidth]{requisitos/bocetolog.jpeg}
+	\includegraphics[height=0.82\textwidth]{requisitos/bocetolog.jpeg}
 	\caption{Boceto sing in}\label{fig:bocetolog}
 \end{figure}
 
@@ -38,7 +38,7 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	\end{itemize}
 	
 	%% MENÚ DE NAVEGACIÓN PERMANENTE DURANTE LA EJECUCIÓN
-	\item \textbf{RF-2 Menú de navegación:~\ref{fig:menuhome}} Se considera necesario tener la capacidad de navegar de una parte a otra dentro de la aplicación, sin tener que pasar entre ventanas, mediante un menú. 
+	\item \textbf{RF-2 Menú de navegación:~\ref{fig:menuhome}:} Se considera necesario tener la capacidad de navegar de una parte a otra dentro de la aplicación, sin tener que pasar entre ventanas, mediante un menú. 
 	
 	\begin{itemize}
 		\tightlist
@@ -48,12 +48,12 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	\end{itemize}
 
 	%% ALGUNOS DE LOS AJUSTES DEBEN DE SER SELECCIONABLES
-	\item \textbf{RF-3 Configurar app~\ref{fig:settingspage}} la aplicación tiene que ser capad de gestionar algunas de las diferentes capacidades del producto, que el usuario desee.
+	\item \textbf{RF-3 Configurar app~\ref{fig:settingspage}} la aplicación tiene que poder gestionar algunas de las diferentes capacidades del producto, que el usuario desee.
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-3.1 Opción \emph{dark mode}:} la aplicación tiene que ser capada de cambiar el color del sistema, para ahorrar batería o para mejorar el contraste.
-		\item \textbf{RF-3.2 Opciónes del juego snake:} algunas de las opciones de este juego deben de ser controlables desde el apartado de ajustes.
+		\item \textbf{RF-3.1 Opción \emph{dark mode}:} la aplicación tiene que tener la capacidad de cambiar el color del sistema, para ahorrar batería o para mejorar el contraste.
+		\item \textbf{RF-3.2 Opciones del juego snake:} algunas de las opciones de este juego deben de ser controlables desde el apartado de ajustes.
 	\end{itemize}
 	
 	%% INFORMACIÓN RELEVANTE SOBRE EL CREADOR DE LA APLICACIÓN
@@ -61,39 +61,39 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-4.1 Mostrar carousel imagenes:} enseñar al usuario fotografías de los lenguajes de programación que el creador de la aplicación conoce.
+		\item \textbf{RF-4.1 Mostrar carousel imágenes:} enseñar al usuario fotografías de los lenguajes de programación que el creador de la aplicación conoce.
 		\item \textbf{RF-4.2 Consultar mediante \emph{iconbuttons}:} unos botones que redirijan a contenido relevante del creador.
 	\end{itemize}
 	
 	%% PUBLICIDAD INTEGRADA
-	\item \textbf{RF-5 Publicidad integrada} la aplicación debe de ser capad de mostrar anuncios.
+	\item \textbf{RF-5 Publicidad integrada:} la aplicación debe de ser capaz de mostrar anuncios.
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-5.1 Mostrar \emph{banner}:} mostrar en el \emph{footer} un contenedor de anuncios, proporcionados estos por Google.
-		\item \textbf{RF-5.2 Continuar Snake:} el usuario tiene que ser capad de ver un video, como recompensa, continuar en la partida. 
+		\item \textbf{RF-5.1 Mostrar \emph{banner}:} colocar en el \emph{footer} un contenedor de anuncios, proporcionados por Google.
+		\item \textbf{RF-5.2 Continuar Snake:} en el caso de que finalice la partida, la primera vez que muera la serpiente, el usuario tiene la posibilidad de ver un vídeo, que tiene como recompensa continuar con la partida. 
 	\end{itemize}
 
 	%% JUEGO DEL SNAKE
-	\item \textbf{RF-6 Juego del snake \ref{fig:snakepage}:} el usuario tiene que ser capad de jugar a este juego.
+	\item \textbf{RF-6 Juego del snake \ref{fig:snakepage}:} el usuario tiene que tener la posibilidad de jugar.
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-6.1 Jugar snake:} la aplicación tiene que ser capad de trabajar con los choques que se producen, con la comida, pared, bloques, o tuberías.
-		\item \textbf{RF-6.2 Mostrar la puntuación:} la app tiene que ser capad de mostrar la puntuación que lleva en la partida.
-		\item \textbf{RF-6.3 Compartir la puntuación:} el jugador tiene que ser capad de subir la puntuación una vez termine la partida. Siempre y cuando esta sea mejor a otra anterior.
-		\item \textbf{RF-6.4 Mostrar el ranking:} el usuario tiene que ser capad de ver la puntuación del resto de jugadores, así como la que ha logrado.
+		\item \textbf{RF-6.1 Jugar al snake:} la aplicación tiene que manejar la lógica del juego como los choques que se producen con la comida, pared, bloques, o tuberías.
+		\item \textbf{RF-6.2 Mostrar la puntuación:} la app tiene que mostrar la puntuación que lleva el jugador durante la partida.
+		\item \textbf{RF-6.3 Compartir la puntuación:} el jugador tiene que ser capaz de subir la puntuación una vez termine la partida. Siempre y cuando esta sea mejor a otra anterior.
+		\item \textbf{RF-6.4 Mostrar el ranking:} el usuario tiene que ser capaz de ver la puntuación del resto de jugadores, así como la que él ha logrado.
 	\end{itemize}
 
 	%% JUEGO DEL CUATRO EN RAYA
-	\item \textbf{RF-7 Juego del cuatro en raya \ref{fig:cuatromenu}:} el usuario tiene que ser capad de jugar a este juego.
+	\item \textbf{RF-7 Juego del cuatro en raya \ref{fig:cuatromenu}:} el usuario tiene que ser capaz de jugar a este juego.
 	
 	\begin{itemize}
 		\tightlist
-		\item \textbf{RF-7.1 Mostrar menú juego:} la app tiene que ser capad de enseñar un menú intermedio con el fin de poder elegir entre invitar o unirse.
-		\item \textbf{RF-7.2 Invitar:} el usuario tiene que ser capad de invitar a otro jugador, compartiendo una clave de acceso a la partida. Tiene que haber un botón que ayude a hacer esta tarea.
-		\item \textbf{RF-7.3 Unirse:} el usuario mediante un formulario debe de ser capad de ingresar la clave de acceso de la parida.
-		\item \textbf{RF-7.4 Jugar cuatro en raya:} la aplicación tiene que ser capad de controlar los diferentes eventos se producen durante la partida, como pueden ser, sorteo de inicio, ficha no válida, formación del cuatro en raya, advertir de quien gana.
+		\item \textbf{RF-7.1 Mostrar menú juego:} la app tiene que enseñar un menú intermedio con dos opciones a elegir entre invitar o unirse.
+		\item \textbf{RF-7.2 Invitar:} el usuario puede invitar a otro jugador, compartiendo una clave de acceso a la partida. Tiene que haber un botón que ayude a hacer esta tarea.
+		\item \textbf{RF-7.3 Unirse:} el usuario mediante un formulario puede ingresar la clave de acceso a la partida.
+		\item \textbf{RF-7.4 Jugar al cuatro en raya:} la aplicación tiene que manejar la lógica de negocio como controlar los diferentes eventos se producen durante la partida. Estos pueden ser: sorteo de inicio, ficha no válida, formación del cuatro en raya, advertir de quien gana...
 		\item \textbf{RF-7.5 Hablar mediante chat:} el usuario tiene que tener la capacidad de mandar mensajes cortos, de no más de 15 caracteres. Después de remitir el mensaje, se tiene que bloquear esta opción durante 10 segundos, para no sobrescribir otros mensajes o que se sature el juego.
 	\end{itemize}
 
@@ -103,14 +103,14 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 \begin{itemize}
 	\tightlist
 	%%INICIO DE LA SESIÓN
-	\item \textbf{RNF-1 Rendimiento:} la capacidad de dar una calidad de producto homogénea, no se debe ver menguada por tiempos de carga, cuelgues en el sistema o cualquier problema / incidencia que lastre el desempeño del producto.
-	\item \textbf{RNF-2 Seguridad:} ofrecer la aplicación desde la \emph{Store}, ya que esta tiene soporte integrado de antivirus. Lo que una garantía de confianza. Ninguno de los datos deben de ser ofrecidos a terceros, exceptuando a Google. 
+	\item \textbf{RNF-1 Rendimiento:} la capacidad de dar una calidad de producto homogénea, no debe verse menguada por tiempos de carga, cuelgues en el sistema o cualquier problema / incidencia que lastre el desempeño del producto.
+	\item \textbf{RNF-2 Seguridad:} ofrecer la aplicación desde la \emph{Store}, ya que esta tiene soporte integrado de antivirus. Lo que da una garantía de confianza. Ninguno de los datos deben de ser ofrecidos a terceros, exceptuando a Google. 
 	
-	Mediante una cifrado de extremo a extremo (SHA-1~\cite{wiki:sha1}) se realizaran las comunicaciones con \emph{Firebase cloud}.
+	Mediante un cifrado de extremo a extremo (SHA-1~\cite{wiki:sha1}) se realizarán las comunicaciones con \emph{Firebase cloud} y \emph{Play store}.
 	
 	\item \textbf{RNF-3 Escalabilidad:} todo el sistema tiene que ser escalable dependiendo del número de usuarios simultáneos que estén usando la app.
 	\item \textbf{RNF-4 Usabilidad:} interfaces como las interacciones con el usuario, tienen que ser lo más amigables posibles. (\emph{responsive})
-	\item \textbf{RNF-5 Disponibilidad:} la aplicación tiene que estar operativa en cualquier momento, así como garantizar una frecuencia de actualizaciones periódica.
+	\item \textbf{RNF-5 Disponibilidad:} la aplicación tiene que estar operativa en cualquier momento, así como garantizar una frecuencia de actualizaciones periódicas.
 	\item \textbf{RNF-6 Plataforma:} dirigido a dispositivos con el sistema operativo Android, desde la versión 10.0 Lollipop.
 \end{itemize}
 
@@ -118,15 +118,15 @@ Algunos de los requisitos funcionales, en el momento de ser tratados con el clie
 En este apartado se muestran los diagramas de casos de uso, con una breve descripción.
 
 \subsection{Actores}
-Solo tenemos un tipo de actor que puede interactuar con la aplicación, que es el usuario estándar. Este será capad de ver todo el contenido que tiene asociado a su cuenta.
+Solo tenemos un tipo de actor que puede interactuar con la aplicación, que es el usuario estándar.
 
 Como apreciación, los desarrolladores tendrán acceso al \emph{backend}, donde se puede gestionar la plataforma y la tienda. Pero no es un usuario final de la aplicación, por lo que quedan excluidos del diagrama de casos de uso. Ya que esto es algo inherente a su cargo.
 
-\subsection{Diagrama de casos de uso}
+A continuación se muestra el diagrama de casos de uso\ref{fig:diagramauso}:
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.93\textwidth]{requisitos/diagramauso.png}
-	\caption{Diagrama con los casos de uso}\label{fig:diagramausp}
+	\includegraphics[width=0.95\textwidth]{requisitos/diagramauso.png}
+	\caption{Diagrama con los casos de uso}\label{fig:diagramauso}
 \end{figure}
 
 \subsection{Casos de uso}
@@ -141,7 +141,7 @@ Como apreciación, los desarrolladores tendrán acceso al \emph{backend}, donde 
 	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
 	& 1    & EL usuario clicka en 'Privacy policy'.
 	\\\cline{2-3}
-	& 2    & Se muestra el navegador con lo política.
+	& 2    & Se muestra el navegador con la política.
 	\\\cline{2-3}
 	& 3    & Se pulsa en el botón de 'Sign in'.
 	\\\cline{2-3}
@@ -163,7 +163,7 @@ Como apreciación, los desarrolladores tendrán acceso al \emph{backend}, donde 
 	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-2, RF-2.1, RF-2.2, RF-2.3, RF-1.3} \\\cline{1-3}
 	Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Haber realizado el requsito funcional primero.}   \\\hline
 	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
-	& 1    & Deslizamiento horizontal derecho o pulsación en la hamburguesa, para mostrar el menú lateral.
+	& 1    & Deslizamiento horizontal derecho o pulsación en el menú hamburguesa, para mostrar el menú lateral.
 	\\\cline{2-3}
 	& 2    & Elegimos una de las diferentes opciones del menú.
 	\\\cline{2-3}
@@ -201,13 +201,13 @@ Frecuencia                               & Alta \\
 	\multicolumn{3}{l}{Caso de uso 4: Mostrar el contenido de about} \\
 }
 {
-	Descripción                            & \multicolumn{2}{p{10.25cm}}{Disponer de la opción de ver quien es el creador de la aplicación y navegar a recursos.} \\\hline
+	Descripción                            & \multicolumn{2}{p{10.25cm}}{Disponer de la opción de ver quién es el creador de la aplicación y navegar a recursos.} \\\hline
 	Requisitos                         	   & \multicolumn{2}{p{10.25cm}}{RF-4, RF-4.1, RF-4.2} \\\cline{1-3}
 	Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Haber realizado el requisito funcional uno.}   \\\hline
 	\multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
 	& 1    & Escoger del menú lateral la parte de 'About me'.
 	\\\cline{2-3}
-	& 2    & Pulsar en los 'iconbuttons' para mostrar el contenido seleccionado en el navegador. En el caso el botón sea de correo, nos tiene que abrir la aplicación correspondiente para mandar un feedback.
+	& 2    & Pulsar en los "iconbuttons' para mostrar el contenido seleccionado en el navegador. En el caso el botón sea de correo, nos tiene que abrir la aplicación correspondiente para mandar un feedback.
 	\\\hline
 	Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{Ninguna.} \\\hline
 	Excepciones                        & \multicolumn{2}{p{10.25cm}}{Ninguna.}\\\hline
