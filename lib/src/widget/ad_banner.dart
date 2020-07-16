@@ -25,12 +25,11 @@ class _AdBannerState extends State<AdBanner> {
   _AdBannerState({this.ads});
   @override
   void initState() {
-    AdMobService.initialize();
     if (ads) {
-      AdMobService.showBannerAdOficial();
+      AdMobService.showBannerAd();
       //AdMobService.showInterstitialAd();
     } else {
-      AdMobService.hideBannerAdOficial();
+      AdMobService.hideBannerAd();
       //AdMobService.hideInterstitialAd();
     }
     super.initState();

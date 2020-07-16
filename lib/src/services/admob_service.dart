@@ -11,8 +11,8 @@ class AdMobService {
   static InterstitialAd _interstitialAd;
 
   /// Método para inicializar la instancia con admob
-  static Future  initialize() async{
-    FirebaseAdMob.instance.initialize(appId: "ca-app-pub-7462396340145780~9170330392");
+  static void initialize() {
+    FirebaseAdMob.instance.initialize(appId: getAdMobAppId());
   }
 
   /// Datos del target
@@ -63,8 +63,7 @@ class AdMobService {
   }
 
   /// Método que devuelve un bannerAd
-  static Future<BannerAd> _createBannerAd(String adId) async{
-    await initialize();
+  static BannerAd _createBannerAd(String adId) {
     return BannerAd(
       adUnitId: adId,
       size: AdSize.banner,
@@ -77,8 +76,8 @@ class AdMobService {
 
 
   /// Método que carga el banner
-  static void showBannerAd() async{
-    if (_bannerAd == null) _bannerAd = await _createBannerAd(BannerAd.testAdUnitId.toString());
+  static void showBannerAd() {
+    if (_bannerAd == null) _bannerAd = _createBannerAd(BannerAd.testAdUnitId.toString());
     _bannerAd
       ..load()
       ..show(anchorOffset: 0.0, anchorType: AnchorType.bottom);
@@ -91,9 +90,8 @@ class AdMobService {
   }
 
     /// Método que carga el banner
-  static void showBannerAdOficial()async {
-    
-    if (_bannerAdOficial == null) _bannerAdOficial = await _createBannerAd(getIdBanner());
+  static void showBannerAdOficial() {
+    if (_bannerAdOficial == null) _bannerAdOficial = _createBannerAd(getIdBanner());
     _bannerAdOficial
       ..load()
       ..show(anchorOffset: 0.0, anchorType: AnchorType.bottom);
