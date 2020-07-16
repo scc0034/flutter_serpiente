@@ -2,15 +2,16 @@
 
 Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Se comentará de manera breve, las diferentes opciones y la razón porque estás fueron descartadas.
 
+%%%%SISTEMAS OPERATIVOS
 \section{Sistema Operativo}
 
 \subsection{Opciones elegidas}
 
 \subsubsection{Microsoft}
-~\href{https://www.microsoft.com/es-es}{Microsoft} es el sistema operativo generalista. Es de sobra conocido, con sus pros y contras. Fue elegido por comodidad, ya que es el que tengo instalado en mis ordenadores. Además el IDE usado~\pageref{visual} para el desarrollo, será de la misma compañía, por lo que hay mayor optimización para este sistema.
+~\href{https://www.microsoft.com/es-es}{Microsoft} es el sistema operativo generalista por excelencia. Es de sobra conocido, con sus pros y contras. Fue elegido por comodidad, ya que es el que tengo instalado en mis ordenadores. Además el IDE usado~\pageref{visual} para el desarrollo, será de la misma compañía, por lo que hay mayor optimización para este sistema.
 
 \subsubsection{Android}
-~\href{https://www.android.com/intl/es_es/}{Andorid} es un sistema operativo móvil desarrollado por Google. Está basado en el kernel de Linux. Tiene la casi toda la cuota de mercado de telefonía. Este se ha usado en mi \emph{smartphone} personal con el fin de probar las aplicaciones en dispositivo físicos.
+~\href{https://www.android.com/intl/es_es/}{Andorid} es un sistema operativo móvil desarrollado por Google. Está basado en el kernel de Linux. Tiene casi toda la cuota de mercado de telefonía. Este se ha usado en mi \emph{smartphone} personal y en las máquinas virtuales, con el fin de probar las aplicaciones en dispositivo físicos y virtualiazdos respectivamente.
 
 \subsection{Alternativas descartadas}
 
@@ -19,10 +20,12 @@ Esta parte de la memoria tiene como objetivo presentar las técnicas metodológi
 
 
 \subsubsection{macOS X}
-~\href{https://www.apple.com/es/macos}{macOs} sistema operativo creado por Apple, basado en Unix. Se descarta por que se quiere trabajar con dispositivos Android. Pero en el caso de que se quiera desarrollar para iOS~\pageref{ios}, es indispensable usarlo aquí, porque a la hora de compilar tira de las librerías internas del sistema operativo.
+~\href{https://www.apple.com/es/macos}{macOs} sistema operativo creado por Apple, basado en Unix. Se descarta por que se quiere trabajar con dispositivos Android. Pero en el caso de que se quiera desarrollar para iOS~\pageref{ios}, es indispensable usarlo aquí, porque a la hora de compilar, tira de las librerías internas de este sistema operativo.
 
-\subsubsection{iOS}
-~\href{https://www.apple.com/es/macos}{macOs} sistema operativo para \emph{smartphones} creado por Apple, basado en Unix. Se descarta por que se quiere trabajar con dispositivos Android. Pero en el caso de que se quiera desarrollar para iOS~\pageref{ios}, es indispensable usarlo aquí, porque a la hora de compilar tira de las librerías internas del sistema operativo.
+\subsubsection{iOS}~\label{ios}
+~\href{https://www.apple.com/es/ios}{iOS} sistema operativo para \emph{smartphones} creado por Apple, basado en Unix. Se descarta por que se quiere trabajar con dispositivos Android. Pero en el caso de que se quiera desarrollar para iOS~\pageref{ios}, es indispensable usarlo aquí, porque a la hora de compilar tira de las librerías internas del sistema operativo.
+
+%%CONTROL DE VERSIONES
 \section{Control de versiones}
 
 \subsection{Opciones elegidas}
@@ -48,7 +51,7 @@ Se escogió esta porque la hemos usado durante el grado y es de sobra conocida. 
 \subsubsection{Extensiones Visual Studio Code}
 Hay una gran cantidad de herramientas para el control de versiones en la tienda de este editor de código, puede ser práctico, pero las interfaces pueden ser liosas. Por eso me gusta más mediante comando, descartando rápidamente esta opción.
 
-
+%%% GESTION DE PROYECTOS
 \section{Gestión de proyecto}
 
 \subsection{Opción elegida}
@@ -70,6 +73,7 @@ Hay una gran cantidad de herramientas para el control de versiones en la tienda 
 \subsubsection{Trello}
 ~\href{https://trello.com/es}{Trello} es una herramienta de gestión de proyectos, con interfaz móvil y web. Usa el sistema kanban como Zenhub~\pageref{zenhub} y tiene integración con Github~\pageref{github}, pero me parece que no encaja en proyectos unipersonales, como era mi caso. Ya que el enfoque es más colaborativo, con grandes grupos de trabajo, donde es necesario compartir documentos con los requisitos, etc ...
 
+%%% ENTORNOS DE PROGRAMACION
 \section{Entorno de desarrollo integrado (IDE)}
 
 \subsection{Opción elegida}
@@ -89,11 +93,12 @@ Este IDE se descarta para la creación de código, pero no para las máquinas vi
 \subsubsection{Eclipse}~\label{eclipse}
 ~\href{https://www.eclipse.org/}{Eclipse} es la plataforma software compuesta de varias herramientas de programación de código abierto. Se descartó por ser un IDE no recomendado por parte de Google. Además que a mi parecer es algo tosco.
 
+%% MV
 \section{Entorno de virtualización}
 
 \subsection{Opción elegida}
 
-\subsubsection{Visual Studio Code}
+\subsubsection{Android Studio}
 ~\href{https://developer.android.com/studio}{Android Studio}~\pageref{androidstudio} fue elegido para el despliegue de la aplicación en las máquinas virtuales que ofrece este IDE. Es eficiente y simple, centrado en Android. La creación de las VM es muy cómoda, ya que tiene todo integrado, (con cuatro clicks de ratón se puede lanzar una).
 
 Sumado a que algunas herramientas de Visual Studio Code tiran de estas máquinas, hace que sea la opción más recomendable.
@@ -102,3 +107,79 @@ Sumado a que algunas herramientas de Visual Studio Code tiran de estas máquinas
 
 \subsubsection{Virtual Box}
 ~\href{https://www.virtualbox.org/}{Virtual Box} es un software de virtualización desarrollado por Oracle. Es de sobra conocido, ya que lo hemos usado durante el grado. Puede desplegar Android, pero al no estar integrado en el desarrollo de aplicaciones, se descató.
+
+
+%% HERRAMIENTAS DE COMUNICACIÓN
+\section{Herramientas de comunicación}
+
+\subsection{Opciones elegidas}
+
+\subsubsection{MS Teams}
+~\href{https://www.microsoft.com/es-ww/microsoft-365/microsoft-teams/download-app}{Teams} es la herramienta de comunicación y colaboración integrado en el paquete ofimático de \emph{Office} de Microsoft. Se usó esta herramienta porque con la cuenta de la universidad tenemos acceso a ella y mis tutores de proyecto fueron quienes me la propusieron.
+
+\subsubsection{Outlook}
+~\href{https://www.microsoft.com/es-es/microsoft-365/outlook/email-and-calendar-software-microsoft-outlook}{Outlook} es una herramienta de Microsoft para la gestión de la información personal, integrado en la \emph{suite} de Microsoft Office. Se ha usado porque la cuenta de la universidad esta integrada con la plataforma.
+
+\subsection{Alternativas descartadas}
+
+\subsubsection{Gmail}
+Es un servicio de correo electrónico proporcionado pro Google. Se descarta porque no tiene integración con la plataforma de la universidad de Burgos.
+
+%% Herramientas para latex
+\section{Documentación}
+
+\subsection{Opción elegida}
+
+\subsubsection{TexStudio}
+~\href{https://www.texstudio.org/}{TexStudio} es un editor de Latex de código abierto, licencia GNU, muy similar a texmaker~\pageref{textmaker}, ya que es un \emph{fork} de este. Lo que hizo decantarme por el fue la corrección ortográfica interactiva y resaltado de la sintaxis.
+
+\subsection{Alternativas descartadas}
+
+\subsubsection{TexMaker}\label{textmaker}
+~\href{https://www.xm1math.net/texmaker/}{Texmaker} es un IDE gratuito para escribir documentos en Latex, su licencia es GPL.
+
+\subsubsection{Overleaf}
+~\href{https://www.overleaf.com/}{Overleaf} herramienta web para la edición de documentos escritos en Latex. Esta opción fue descartada porque al ser web, no me permite llevar un seguimiento del versionado como lo puedo hacer, si lo tengo en local con git.
+
+\subsubsection{MS Word}
+Editor de documentos de Microsoft, muy conocido, dentro del paquete de ofimática. Se descartó porque la universidad ofrece una plantilla en Latex, de gran calidad y que este no permite el control de versiones.
+
+%% Herramientas varias Google chrome
+\section{Herramientas}
+
+\subsection{Opción elegida}
+
+\subsubsection{Google Chrome}
+Es un navegador web de código cerrado desarrollado por Google, siendo gratuito. Se ha usado este sin plantear alternativas, porque lo llevo usando desde hace muchos años. Fue usado como 'navaja suiza', ya que es una herramienta de herramientas, que ha sido usado para multitud de cosas, como:
+
+\begin{itemize}
+	\item Para descargar programas, paquetes, librerías...
+	\item Para la búsqueda de información.
+	\item Edición de imágenes.
+	\item Generador de iconos \href{https://romannurik.github.io/AndroidAssetStudio}{romannurik}
+	\item Creación de diagramas \href{https://app.creately.com}{creately}
+	\item Armonía de color \href{https://color.adobe.com/es/create/color-wheel}{Adobe color}
+\end{itemize}
+
+%%%METODOLOGIAS
+\section{Metodologías}
+
+\subsection{Scrum}
+Marco de trabajo para el desarrollo ágil de software, implementando una estrategia iterativa incremental, con revisiones y reuniones con los tutores de proyecto cada 5 días.
+
+\subsection{Desarrollo en cascada}
+Es un desarrollo en secuencia, es decir, una vez se pasa de etapa, no se puede volver atrás, se divide en \emph{steps} muy diferenciados, que se adapta my bien con las metodologías ágiles. 
+
+
+\begin{figure}
+	\centering
+	\includegraphics[height=0.7\textwidth]{teoria/cascada.png}
+	\caption{Cascada}\label{fig:cascada}
+\end{figure}
+
+
+
+
+
+
+
