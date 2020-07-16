@@ -1,11 +1,13 @@
-# Flutter Serpiente 
+![header](assets/img/banner.jpg)
+---
+
 ## Trabajo Final de Grado
 ### Grado en Ingeniería Informática, Universidad de Burgos
 [![](https://img.shields.io/badge/flutter-blue?logo=flutter)](https://flutter-es.io/)
 [![](https://img.shields.io/badge/dart-blue?logo=dart)](https://dart.dev/)
 [![](https://img.shields.io/badge/firebase-orange?logo=firebase)](https://firebase.google.com/)
 
-<a href="https://play.google.com/apps/test/com.ubu.flutter_snake/4">
+<a href="https://play.google.com/store/apps/details?id=com.ubu.flutter_snake&hl=es_419">
   <img src="https://enlaps.io/wp-content/uploads/2018/10/get-it-on-google-play.png" height="60">
 </a>
 
