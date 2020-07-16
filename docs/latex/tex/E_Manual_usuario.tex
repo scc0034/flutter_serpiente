@@ -8,7 +8,7 @@ Los requerimientos necesarios para poder ejecutar la aplicación en el teléfono
 \begin{itemize}
 	\tightlist
 	\item
-	Disponer de un terminal que al menos tenga la versión de Android en \emph{Lollipop}, ya que esta cuenta con el SDK mínimo con el que se ha desarrollado la aplicación, siendo este el 21~\cite{wiki:versionAndroid}.
+	Disponer de un terminal que al menos tenga la versión de Android en \emph{Lollipop}. Esto se debe a que cuando se compila la aplicación en Flutter, algunos de los servicios necesitan al menos que el SDK sea el 21~\cite{wiki:versionAndroid}. Limitando por abajo el número de sistemas operativos compatibles.
 	\item
 	Es necesario disponer de conexión a Internet, tanto como para bajarse la aplicación en \emph{Store}, como para usar los servicios, ya que es necesario logearse con \emph{Google}
 	\item La clasificación de contenido, es PEGI 3~\cite{wiki:pegi}. 
@@ -21,7 +21,7 @@ La instalación se puede hacer a través de dos métodos diferentes:
 \subsection{GitHub:}\label{descargaGit}
 Desde el repositorio donde está el proyecto en el apartado de las \emph{releases}~\cite{github:releases}, podemos encontrar la última de las versiones compiladas, con el fin de descargarla.
 
-Al ser una aplicación de orígenes desconocidos debemos permitir dando permisos de la siguiente manera:
+Al ser una aplicación de orígenes desconocidos, ya que no se descarga de la tienda se deben de seguir los siguientes pasos para la instalación:
 \begin{enumerate}
 	\tightlist
 	\item Ir a los ajustes del terminal.
@@ -32,17 +32,17 @@ Al ser una aplicación de orígenes desconocidos debemos permitir dando permisos
 \end{enumerate}
 
 \subsection{Play Store:}
-La manera más cómoda de hacerlo, es dirigirse \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Flutter games}, que es el enlace de descarga para dispositivos móviles Android. La versión disponible es la 6, ya que he tenido que realizar varias pruebas, con el fin de validar la disponibilidad, por eso el número que tiene.
+La manera más cómoda de hacerlo, es dirigirse \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Flutter games}, que es el enlace de descarga para dispositivos móviles Android. La versión disponible es la 6, ya que se han tenido que realizar varias pruebas con el fin de validar la disponibilidad, por eso el número de versión que tiene.
 
 
 
 \imagen{manual/tienda.jpg}{Tienda con el proyecto}
 
-El proceso de instalación es simple, solo tenemos que dar al botón de instalar. En el caso de que nos encontremos en el navegador web, nos deja elegir el dispositivo que tenemos vinculado a nuestra cuenta de \emph{Google}. Si por otra parte nos encontramos desde el terminal, se instalará sin ningún problema.
+El proceso de instalación es simple, solo se tiene que dar al botón de instalar. En el caso de que nos encontremos en el navegador web, deja elegir el dispositivo que tenemos vinculado a nuestra cuenta de \emph{Google}. No sucede lo mismo si nos encontramos desde el terminal, ya se instalará sin ningún problema.
 
-En el caso de que se lancen nuevas versiones del producto, las actualizaciones se realizarán de forma automática.
+En el caso de que se lancen nuevas versiones del producto, las actualizaciones se realizarán de forma automática, en el caso de estar activadas.
 
-\section{Manual del usuario}
+\section{Manual de usuario}
 Se pretende mostrar el funcionamiento de cada una de las ventanas que están disponibles en la aplicación, con el fin de poder informar a los usuarios del funcionamiento de cada una de estas.
 
 Las ventanas de las que consta la aplicación son las siguientes:
@@ -71,7 +71,7 @@ Es la primera ventana que nos encontramos cuando lanzamos la aplicación. Es nec
 	\caption{Log in page}\label{fig:loginpage}
 \end{figure}
 
-Cuando pulsamos en el botón de \emph{sign in with Google}, nos aparecerá la ventana siguiente~\ref{fig:formlog}, donde nos pedirá que ingresemos el usuario de nuestra cuenta de \emph{Google}. También se puede consultar la política de privacidad~\ref{fig:policy}
+Cuando pulsamos en el botón de \emph{sign in with Google}, nos aparecerá la ventana siguiente~\ref{fig:formlog}, dónde nos pedirá que ingresemos el usuario de nuestra cuenta de \emph{Google}. También se puede consultar la política de privacidad~\ref{fig:policy}
 
 \begin{figure}[H]
 	\centering
@@ -111,7 +111,7 @@ Como podemos ver en la imagen~\ref{fig:banner}, tenemos un \emph{banner} donde s
 	\caption{Menú lateral}\label{fig:menuhome}
 \end{figure}
  
-Como se aprecia en el menú~\ref{fig:menuhome}, nos encontramos la siguiente lista de opciones, dependiendo de cual sea la que se pulse nos redirigirá a la ventana correspondiente:
+Como se aprecia en el menú~\ref{fig:menuhome},  se encuentra la siguiente lista de opciones, dependiendo de cual sea la que se pulse nos redirigirá a la ventana correspondiente:
 
 \begin{itemize}
 	\item Home~\ref{fig:homepage}.
@@ -121,7 +121,7 @@ Como se aprecia en el menú~\ref{fig:menuhome}, nos encontramos la siguiente lis
 	\item About me~\ref{fig:aboutpage}.
 \end{itemize}
 
-En el caso de que queramos salir de la sesión que tenemos abierta, debemos de pulsar en nuestra imagen~\ref{fig:mostrarlogout} y nos sale un cuadro de alerta con las opciones disponibles, pulsaremos en \emph{Sign out}n~\ref{fig:salir}.
+En el caso de que se quiera salir de la sesión que tenemos abierta, se debe pulsar en nuestra imagen~\ref{fig:mostrarlogout} y aparecerá un cuadro de alerta con las opciones disponibles, se pulsará en \emph{Sign out}~\ref{fig:salir}.
 
 \begin{figure}[H]
 	\centering
@@ -136,7 +136,7 @@ En el caso de que queramos salir de la sesión que tenemos abierta, debemos de p
 \end{figure}
 
 \subsection{Settings}\label{settings}
-Esta apartado del menú, es para manejar las opciones referentes a la aplicación, como podemos ver~\ref{fig:settingspage}. Cada una de estas, es un \emph{slider} o deslizador, que si está activado, quiere decir que está a \emph{true} o verdadero.
+Este apartado del menú, es para manejar las opciones referentes a la aplicación, como podemos ver~\ref{fig:settingspage}. Cada una de estas, es un \emph{slider} o deslizador, que si está activado, quiere decir que está a \emph{true} o verdadero.
 
 \begin{figure}[H]
 	\centering
@@ -147,7 +147,7 @@ Esta apartado del menú, es para manejar las opciones referentes a la aplicació
 Una descripción de lo que hacen cada uno de los ajustes:
 
 \begin{itemize}
-	\item \textbf{Dark mode:} cambia el color de la aplicación a modo oscuro, con el fin de ahorrar batería o para personas que tengan problemas de dificultad visual~\ref{fig:darkmode}.
+	\item \textbf{Dark mode:} cambia el color de la aplicación a modo oscuro, con el fin de ahorrar batería o para personas que tengan dificultades visuales~\ref{fig:darkmode}.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.8\textwidth]{manual/darkmode.jpg}
@@ -160,7 +160,7 @@ Una descripción de lo que hacen cada uno de los ajustes:
 \end{itemize}
 
 \subsection{About me}\label{about}
-Pretende mostrar la información referente al creador de la aplicación, como muestra el diseño~\ref{fig:aboutpage}. Se aprecia un \emph{corousel}, con imágenes de los lenguajes de programación conocidos y debajo de este unos icono botones, que enlazan con las páginas de interés.
+Pretende mostrar la información referente al creador de la aplicación, como muestra el diseño~\ref{fig:aboutpage}. Se aprecia un \emph{corousel}, con imágenes de los lenguajes de programación conocidos y debajo de dicho elementos, unos icono botones, que enlazan con las páginas de interés.
 
 \begin{figure}[H]
 	\centering
@@ -176,9 +176,9 @@ La lista de \emph{iconbuttons}, con los enlaces:
 	\item Universidad de Burgos~\cite{ubu:page}.
 \end{itemize}
 
-Cada una de las opciones nos abrirá la aplicación correspondiente en el caso de que se encuentre disponible en el terminal, de no ser así se mostrará en el navegador.
+Cada una de las opciones abrirá la aplicación correspondiente en el caso de que se encuentre disponible en el terminal, de no ser así se mostrará en el navegador.
 
-Para el coso de \emph{Gmail}, nos abre la vista~\ref{fig:mailto}, para mandar un correo al creador de la aplicación, con algún tipo de \emph{feedback}.
+En el caso de \emph{Gmail}, nos abre la vista~\ref{fig:mailto}, para mandar un correo al creador de la aplicación, con algún tipo de \emph{feedback}.
 
 \begin{figure}[H]
 	\centering
@@ -187,7 +187,7 @@ Para el coso de \emph{Gmail}, nos abre la vista~\ref{fig:mailto}, para mandar un
 \end{figure}
 
 \subsection{Menú de juegos}\label{menugames}
-En este apartado se nos muestra una lista con todos los juegos de la colección que están disponibles, la finalidad es que el usuario pueda decidir, de una manera sencilla a qué quiere jugar. Por lo que es tan simple como pulsar en la opción correspondiente~\ref{fig:gamespage}.
+En este apartado se muestra una lista con todos los juegos de la colección que están disponibles, la finalidad es que el usuario pueda decidir de una manera sencilla a qué quiere jugar. Por lo que es tan simple como pulsar en la opción correspondiente~\ref{fig:gamespage}.
 
 \begin{figure}[H]
 	\centering
@@ -196,21 +196,21 @@ En este apartado se nos muestra una lista con todos los juegos de la colección 
 \end{figure}
 
 \subsection{Snake}\label{snake}
-Es el juego de la serpiente~\ref{fig:snakepage}. Cuando se entra el juego permanece a la espera hasta que se toca la pantalla (\emph{onTab}. Una vez se produzca esto comienza el la serpiente a moverse. El diseño del tablero, depende de las opciones que se tengan seleccionadas en settings~\ref{fig:settingspage}.
+Es el juego de la serpiente~\ref{fig:snakepage}. Cuando se entra el juego permanece a la espera hasta que se toca la pantalla (\emph{onTab}). Una vez se produzca esto comienza la serpiente a moverse. El diseño del tablero, depende de las opciones que se tengan seleccionadas en settings~\ref{fig:settingspage}.
 
 El juego consiste en lograr la mayor puntuación posible comiendo lenguajes de programación que están repartidos de forma aleatoria por toda la superficie disponible del tablero.
 
 El marcador de los puntos se encuentra arriba a la derecha de la pantalla.
 
-Los controles de desplazamiento son :
+Los controles de desplazamiento son:
 \begin{itemize}
 	\item \textbf{Arriba:} deslizamiento vertical superior.
 	\item \textbf{Abajo:} deslizamiento vertical inferior.
 	\item \textbf{Derecha:} deslizamiento lateral derecho.
-	\item \textbf{Izquierda:} deslizamiento latera izquierdo.
+	\item \textbf{Izquierda:} deslizamiento lateral izquierdo.
 \end{itemize}
 
-Cabe destacar que el menú no está disponibles para las ventanas de los juegos, porque puede que se interfiera con la navegabilidad del sistema.
+Cabe destacar que el menú no está disponible para las ventanas de los juegos, porque puede que se interfiera con la navegabilidad del sistema.
 
 \begin{figure}[H]
 	\centering
@@ -218,11 +218,11 @@ Cabe destacar que el menú no está disponibles para las ventanas de los juegos,
 	\caption{Snake game}\label{fig:snakepage}
 \end{figure}
 
-El juego finaliza, desplegando la ventana~\ref{fig:gameover}, cuando se da una de las siguientes situaciones:
+El juego finaliza desplegando la ventana~\ref{fig:gameover}, cuando se da una de las siguientes situaciones:
 \begin{itemize}
 	\item Impacto en la pared que rodea el tablero.
 	\item Choque contra uno de los bloques repartidos en la superficie.
-	\item No entrar en la tubería por la apertura..
+	\item No entrar en la tubería por la apertura.
 	\item Cabeza de la serpiente choque contra el cuerpo de la misma.
 \end{itemize}
 
@@ -232,11 +232,11 @@ El juego finaliza, desplegando la ventana~\ref{fig:gameover}, cuando se da una d
 	\caption{Snake game over}\label{fig:gameover}
 \end{figure}
 
-Cuando se produce el \emph{game over}~\ref{fig:gameover}, tenemos 3 opciones de las que se debe elegir una:
+Cuando se produce el \emph{game over}~\ref{fig:gameover}, tenemos 3 opciones de las cuales se debe elegir una:
 
 \begin{enumerate}
 	\item \textbf{Play Again:} vuelves a jugar la partida con el contador de los puntos a cero.
-	\item \textbf{Submit score:} si se da la situación de una mejora de puntuación, con respecto a la mejor obtenida en anteriores partidas, para el jugador que se encuentra logueado, se nos mandará al formulario~\ref{fig:rankform} de ingreso de datos.
+	\item \textbf{Submit score:} si se da la situación de una mejora de puntuación, con respecto a anteriores partidas, para el jugador que se encuentra logueado, se enviará al formulario~\ref{fig:rankform} de ingreso de datos.
 	En el caso de que no tengamos mejora, se puede ver el ranking~\ref{fig:rankpage}.
 	
 	\begin{figure}[H]
@@ -245,7 +245,7 @@ Cuando se produce el \emph{game over}~\ref{fig:gameover}, tenemos 3 opciones de 
 		\caption{Formulario del ranking}\label{fig:rankform}
 	\end{figure}
 	
-	En el formulario está el campo de correo y puntuación bloqueadas como medida de seguridad, por lo que se nos deja la opción de añadir un \emph{nick}. Una vez pulsado el botón de \emph{Submit}, nos llevará a la pantalla de ranking~\ref{fig:rankpage}.
+	En el formulario se encuentran el campo de correo y puntuación bloqueadas como medida de seguridad, por lo que se deja la opción de añadir un \emph{nick}. Una vez pulsado el botón de \emph{Submit},se redirigirá a la pantalla de ranking~\ref{fig:rankpage}.
 	
 	\item \textbf{Video:} permite ver un vídeo para volver a continuar con la partida. Esta opción solo está disponible una vez por juego.
 	
@@ -255,16 +255,16 @@ Cuando se produce el \emph{game over}~\ref{fig:gameover}, tenemos 3 opciones de 
 		\caption{Vídeo recompensa}\label{fig:video}
 		\end{figure}
 	
-	Es necesario que se permanezca los segundos indicados para volver a continuar con el juego. 
+	Es necesario que se permanezcan los segundos indicados para volver a continuar con el juego. 
 	
-	Tras el impacto la partida decide que dirección toma la serpiente de forma eficiente para evitar que se produzcan situaciones extrañas.
+	Tras el impacto. la partida decide que dirección toma la serpiente de forma eficiente para evitar que se produzcan situaciones extrañas.
 		
 \end{enumerate}
 
 \subsection{Ranking}\label{rank}
-Es una clasificación de jugadores, dependiendo de la puntuación lograda en el juego del snake~\ref{fig:snakepage}. Según que usuario entre a ver el contenido de este~\ref{fig:rankpage}, se verá una línea de color dorado que indicando el nivel obtenido.
+Es una clasificación de jugadores, dependiendo de la puntuación lograda en el juego del snake~\ref{fig:snakepage}. Según qué usuario entre a ver el contenido de este~\ref{fig:rankpage}, se verá una línea de color dorado indicando el nivel obtenido.
 
-Para el podio de los tres primeros jugadores aparecerá una insignia en forma de medalla, destacando el logro conseguido.
+En el podio de los tres primeros jugadores aparecerá una insignia en forma de medalla, destacando el logro conseguido.
 
 \begin{figure}[H]
 	\centering
@@ -273,9 +273,9 @@ Para el podio de los tres primeros jugadores aparecerá una insignia en forma de
 \end{figure}
 
 \subsection{Menú juego cuatro en raya online}\label{cuatromenu}
-Es la pantalla inicial del juego~\ref{fig:cuatromenu}, ya que siendo en modo online, uno de los jugadores debe de ser el creador de la  partida (\emph{invite friend}) y el otro que se una (\emph{join game}), a la partida creada.
+Es la pantalla inicial del juego~\ref{fig:cuatromenu}, ya que siendo en modo online, uno de los jugadores debe de ser el creador de la  partida (\emph{invite friend}) y el otro el que se una a la partida creada (\emph{join game}).
 
-Por lo que tenemos dos botones que nos redirigen a:
+Por lo que se encuentran dos botones que redirigen a:
 \begin{itemize}
 	\item Invitar a un amigo~\ref{fig:cuatroinvitar}.
 	\item Unirse a una partida creada~\ref{fig:cuatrounir}.
@@ -288,7 +288,7 @@ Por lo que tenemos dos botones que nos redirigen a:
 \end{figure}
 
 \subsubsection{Invitar}\label{cuatroinvitar}
-Cuando se entra en la pantalla, se genera una clave única, que es necesaria para hacer la conexión por parte del invitado. Para ello tenemos un botón \emph{share}, que facilita el compartir la \emph{key}.
+Cuando se entra en la pantalla, se genera una clave única, que es necesaria para hacer la conexión por parte del invitado. Para ello hay un botón \emph{share} que facilita el compartir la \emph{key}.
 
 Hay disponible un botón de volver, que lo que hace es destruir la clave para salir a la pantalla anterior~\ref{fig:cuatromenu}. Es el mismo efecto que si se da a la pestaña de volver atrás.
 
@@ -305,9 +305,9 @@ Hay disponible un botón de volver, que lo que hace es destruir la clave para sa
 	\caption{Compartir clave}\label{fig:sharegame}
 \end{figure}
 
-Cuando se pulsa en el botón de compartir nos sale un cuadro de diálogo~\ref{fig:sharegame} mostrando las aplicaciones que facilitan el envío de la clave.
+Cuando se pulsa en el botón de compartir aparece un cuadro de diálogo~\ref{fig:sharegame} mostrando las aplicaciones que facilitan el envío de la clave.
 
-En el caso de que el contador del tiempo restante \emph{time left}, llegue a cero es porque se da por hecho que no se recibe respuesta por parte invitado, saliendo el cuadro de diálogo~\ref{fig:noplayerfound}.
+En el caso de que el contador del tiempo restante \emph{time left}, llegue a cero es porque se da por hecho que no se recibe respuesta por parte del invitado, saliendo el cuadro de diálogo~\ref{fig:noplayerfound}.
 
 \begin{figure}[H]
 	\centering
@@ -352,7 +352,7 @@ Página con el contenido del juego~\ref{fig:cuatrojuego}. Este consiste en forma
 La distribución de la pantalla~\ref{fig:cuatrojuego} es la siguiente, comenzando por la parte de arriba hasta abajo:
 
 \begin{itemize}
-	\item Cabecera superior~\ref{fig:cabecera}, se encuentra el rival a batirse, representado mediante una imagen, siendo esta la de la cuenta de \emph{Google}. Dependiendo del color de fondo, se nos indica si está en su turno o no.
+	\item Cabecera superior~\ref{fig:cabecera}, se encuentra el rival a batirse, representado mediante una imagen, siendo esta la de la cuenta de \emph{Google}. Dependiendo del color de fondo, se indica si está en su turno o no.
 	
 	En la parte central hay un espacio para mostrar los mensajes recibidos por parte del contrincante.
 	
@@ -364,7 +364,7 @@ La distribución de la pantalla~\ref{fig:cuatrojuego} es la siguiente, comenzand
 	 	\caption{Zona superior}\label{fig:cabecera}
 	 \end{figure}
  
-	\item En la parte central~\ref{fig:tablero} tenemos el tablero, de siete filas por siete columnas. En el caso de que sea nuestro turno, se debe pinchar en la pantalla, donde sea posible colocar una ficha, es decir, que si debajo de la celda se encuentra vacío no será posible colocar la ficha y se deberá proceder a buscar otro sito en el que se pueda.
+	\item En la parte central~\ref{fig:tablero} se dispone el tablero de siete filas por siete columnas. En el caso de que sea nuestro turno, se debe pinchar en la pantalla, donde sea posible colocar una ficha, es decir, que si debajo de la celda se encuentra vacío no será posible colocar la ficha y se deberá proceder a buscar otro sito en el que se pueda.
 	
 	\begin{figure}[H]
 		\centering
@@ -372,9 +372,9 @@ La distribución de la pantalla~\ref{fig:cuatrojuego} es la siguiente, comenzand
 		\caption{Tablero}\label{fig:tablero}
 	\end{figure}
 
-	\item En la parte inferior~\ref{fig:inferior}, se encuentra la imagen de del aliado, es decir, puede ser el jugador que se unió o que creo la partida, dependiendo de quién sea el que haya tomado ese rol.
+	\item En la parte inferior~\ref{fig:inferior}, se encuentra la imagen del aliado, es decir, puede ser el jugador que se unió o que creó la partida, dependiendo de quién sea el que haya tomado ese rol.
 	
-	Si esta zona se encuentra con el color de fondo distinto de blanco indica que es el turno de este.
+	Si esta zona se encuentra con el color de fondo distinto de blanco indica que es el turno de este jugador.
 	
 	\begin{figure}[H]
 		\centering
@@ -382,7 +382,7 @@ La distribución de la pantalla~\ref{fig:cuatrojuego} es la siguiente, comenzand
 		\caption{Zona personal}\label{fig:inferior}
 	\end{figure}
 
-	\item Campo para introducir mensajes~\ref{fig:mensaje}, este está limitado a 15 caracteres, porque está destinado para mensajes breves o emoticonos.
+	\item Campo para introducir mensajes~\ref{fig:mensaje}, está limitado a 15 caracteres, ya que está destinado para mensajes breves o emoticonos.
 	
 	A la derecha de este campo, se encuentra el botón de enviar. Una vez se envía el mensaje, este se deshabilita, para no saturar la línea. Pasados 10 segundos volverá a estar operativo.
 	
@@ -393,7 +393,7 @@ La distribución de la pantalla~\ref{fig:cuatrojuego} es la siguiente, comenzand
 	\end{figure}
 \end{itemize}
 
-En el momento en que se da la situación de fin de juego, salta la alerta para mostrar quién de los dos jugadores es el que consiguió ganar la partida, como se puede ver en la imagen siguiente~\ref{fig:finalcuatro}
+En el momento en que se da la situación de fin de juego, salta la alerta para mostrar quién de los dos jugadores es el ganador de la partida, como se puede ver en la imagen siguiente~\ref{fig:finalcuatro}
 
 \begin{figure}[H]
 	\centering

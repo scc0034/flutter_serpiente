@@ -189,7 +189,7 @@ Se han realizado de forma simple o \emph{hardcodeando prints} en el propio códi
 \end{figure}
 
 \subsubsection{Pruebas de caja negra:}
-En otros casos se han realizado casos de prueba de caja negra para algunas líneas de código~\ref{fig:codigocontrolchoque}. Para realizar las pruebas es necesario construir las tablas con clases de equivalencia válidas y no válidas~\ref{tabla:casosNegros}. Después la tabla de los diferentes casos de prueba con los resultados obtenidos~\ref{tabla:derivacion}.
+En ocasiones se han realizado casos de prueba de caja negra para algunas líneas de código~\ref{fig:codigocontrolchoque}. Para realizar las pruebas es necesario construir las tablas con clases de equivalencia válidas y no válidas~\ref{table:casosNegros}. Después la tabla de los diferentes casos de prueba con los resultados obtenidos~\ref{table:derivacion}.
 
 \begin{figure}[H]
 	\centering
@@ -197,7 +197,7 @@ En otros casos se han realizado casos de prueba de caja negra para algunas líne
 	\caption{Código para las pruebas de caja negra}\label{fig:codigocontrolchoque}
 \end{figure}
 
-Dando como resultado las dos siguientes tablas:
+Dando como resultado las dos tablas siguientes:
 
 La primera de las tablas define las clases de equivalencia que son válidas y las que no.
 \rowcolors {2}{gray!35}{}
@@ -214,7 +214,7 @@ La primera de las tablas define las clases de equivalencia que son válidas y la
 	\end{center}
 \end{table}
 
-La segunda tabla es una comprobación de lo que sucede para cada una de las clases de equivalencia. Dependiendo de si se produce choque con alguno de los elementos se devuelve true, en el caso de que no se devuelve false.
+La segunda tabla es una comprobación de lo que sucede para cada una de las clases de equivalencia. Dependiendo de si se produce choque con alguno de los elementos se devuelve true, en caso contrario false.
 \rowcolors {2}{gray!35}{}
 \begin{table}[H]
 	\begin{center}
@@ -241,9 +241,9 @@ Tras realizar los casos de caja negra, como es el caso anterior, me he dado cuen
 \subsection{Pruebas de integración y sistema:}
 Confirmar que el conjunto de módulos anteriormente validados, funcionen todos de manera interrelacionada unos con otros. Para ello lo que se ha hecho es un testeo de funcionamiento en el terminal físico, lo que conlleva un \emph{testing} simultáneo de la interfaz. 
 
-Muchos de los errores son más fáciles de encontrar así, porque en la máquina virtual no funciona de la misma manera, ya que el rendimiento no es el mismo, o las simulaciones son parciales. Uno de los ejemplos que necesite hacer \emph{in situ}, fue el juego online, a la hora de tener que validar que se producían las conexiones entre los terminales.
+Muchos de los errores son más fáciles de encontrar así, porque en la máquina virtual no funciona de la misma manera, ya que el rendimiento no es el mismo, o las simulaciones son parciales. Uno de los ejemplos que fue necesario hacer \emph{in situ}, fue el juego online, a la hora de tener que validar que se producían las conexiones entre los terminales.
 
-En estas pruebas de interfaz, se encontraron algunos campos que no eran visibles de manera correcta o que su usabilidad era reducida. Lo que supuso la mejora correspondiente.
+En estas pruebas de interfaz, se encontraron algunos campos que no eran visibles de manera correcta o que su usabilidad era reducida. Lo que supuso la realización de la mejora correspondiente.
 
 \subsection{Pruebas de despliegue de la aplicación}
 Este tipo de pruebas es algo muy complejo de controlar, ya que, hasta desplegamos la aplicación en la tienda, algunos de los errores permanecen enmascarados, durante el proceso de implementación. Esto es debido a trabajar con máquinas virtuales, capadas en algunos aspectos o simplemente que es un compilado de la aplicación instalada, sin tener que pasar por la tienda. O simplemente que no es el entorno real de usuario.
