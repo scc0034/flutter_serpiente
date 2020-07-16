@@ -44,11 +44,11 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 	
 		\item \textbf{cuatrorows:} esta colección guarda cada una de las partidas online del juego cuatro en raya~\ref{fig:cuatrorowsexample}. Los nombres de los documentos se generan de manera única en la base de datos, por lo que no puede haber dos partidas iguales.
 		
-		Por lo que la \emph{key} compartida durante el juego es la misma que el nombre del documento, dentro de esta colección. Los campos que tiene este documentos son muchos y variados, pero los más destacados son: 
+		Lo que hace que la \emph{key} compartida durante el juego sea la misma que el nombre del documento dentro de esta colección. Los campos que tiene este documentos son muchos y variados, pero los más destacados son: 
 		
 		\begin{itemize}
 			\item Posición de cada una de las fichas, de tipo String, y los valores que toma son Y, R o \emph{null}, dependiendo de la ficha que se encuentre en la celda.
-			\item Datos de los jugadores, tanto como para el que crea la partida como el que recibe la invitación, estos son: nombre, imagenUrl, correos ... Todos de tipo String.
+			\item Datos de los jugadores, tanto como para el que crea la partida como el que recibe la invitación, estos son: nombre, imagenUrl, correos... Todos de tipo String.
 			\item Flags para controlar si se producen ciertos eventos, como puede ser el final de la partida, si se ha mostrado el mensaje, lanzamiento de la moneda para el sorteo de quien inicia o el mensaje escrito por cada uno de los jugadores. Todas ellas son de tipo String, exceptuando las que puedan tomar valores de verdadero o falso.
 		\end{itemize}
 	
@@ -69,7 +69,7 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 
 	Cada uno de los campos de esta tabla significan:
 	\begin{itemize}
-		\item \textbf{id:} identificador de tipo entero autoincrementable. Se usa internamente nada más, al final estas variables que almacena, se van a identificar por el nombre.
+		\item \textbf{id:} identificador de tipo entero autoincrementable. Solo se utiliza internamente, al final estas variables que almacena se van a identificar por el nombre.
 		\item \textbf{value:} valor que toma esta variable de tipo entero, puede ser 0 o 1, para las de tipo \emph{bool} o valores numéricos. Se hace así con el fin de abarcar estos dos tipos de datos.
 		\item \textbf{nombre:} es de tipo String, usada para reconocer a cada una de las variables en la tabla.
 		\item \textbf{createdTime:} fecha en la que se añade a la tabla una nueva variable. El tipo de dato que almacena es \emph{datetime}.
@@ -82,7 +82,7 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 Otra de las formas en las que se almacenan los datos es mediante un fichero en local. Esto solo es usado para la configuración del menú, ya que cada vez que se crea el \emph{Widget} del menú lateral, lee el \emph{.json} para sacar los datos necesarios. Esta lógica de negocio se podría haber usado de la misma forma para solventar el problema de sqlflite~\pageref{sqlflite}.
 
 \section{Diseño procedimental}
-Para la gran mayoría de procesos importantes se han hecho diagramas de flujo, con el fin de resolver y comprender algunas de las lógicas de negocio más importantes. Un ejemplo de esto es el siguiente diagrama~\ref{fig:snakediagrama} para la partida del snake:
+En la gran mayoría de procesos importantes se han hecho diagramas de flujo, con el fin de resolver y comprender algunas de las lógicas de negocio más importantes. Un ejemplo de esto es el siguiente diagrama~\ref{fig:snakediagrama} para la partida del snake:
 
 	\begin{figure}[H]
 		\centering
@@ -91,9 +91,9 @@ Para la gran mayoría de procesos importantes se han hecho diagramas de flujo, c
 	\end{figure}
 
 \section{Diseño arquitectónico}
-La arquitectura de la aplicación ha seguido el el patrón de diseño BLoC~\cite{xurxodev:bloc}. Significa \emph{Business Logic Component}~\pageref{bloc}. Fue creado por Paolo Soare y Cong Hu, los dos de Google y presentado en la conferencia de Dart en 2018. Por lo que es algo bastante nuevo.
+La arquitectura de la aplicación ha seguido el patrón de diseño BLoC~\cite{xurxodev:bloc}. Significa \emph{Business Logic Component}~\pageref{bloc}. Fue creado por Paolo Soare y Cong Hu, ambos de Google y presentado en la conferencia de Dart en 2018. Por lo que es algo bastante nuevo.
 
-Para comprender el porque de esta arquitectura es necesario saber como funcionan los estados compartidos entre los componentes en los framework declarativos~\pageref{declarativo}.
+Para comprender el por qué de esta arquitectura es necesario saber como funcionan los estados compartidos entre los componentes en los framework declarativos~\pageref{declarativo}.
 
 \subsection{Framework declarativo}\label{declarativo}
 Los framework declarativos son aquellos donde las vistas se crean y actualizan en base a los datos con los que la vista esta enlazada, de tal forma que, cuando estos datos cambian de valor, se actualizan con una nueva renderización. Es decir, cada uno de estos componentes tiene un estado.
@@ -116,12 +116,12 @@ Un ejemplo de declaración de widget que tiene el estado dinámico~\ref{fig:esta
 	\end{figure}
 
 \subsection{BLoC}\label{bloc}
-Este patrón lo que pretende es que los componentes sean intermediarios entre las vistas y el modelo. Esta basado en la programación reactiva, utilizando el patrón observer, en Flutter es llamado \emph{Streams} , lo dota de gran versatilidad.
+Este patrón lo que pretende es que los componentes sean intermediarios entre las vistas y el modelo. Esta basado en la programación reactiva, utilizando el patrón observer, en Flutter es llamado \emph{Streams}, lo dota de gran versatilidad.
 
 Los objetivos cuando se presentó este patrón en la conferencia de Google eran tres:
 
 \begin{itemize}
-	\item \textbf{Centralizar la lógica de negocio:} pretende crear aplicaciones sin una arquitectura definida, con componentes de gran tamaño, con toda la lógica de negocio, donde se incluye también las llamadas a un web service o una API, todo dentro del widget.
+	\item \textbf{Centralizar la lógica de negocio:} pretende crear aplicaciones sin una arquitectura definida, con componentes de gran tamaño, con toda la lógica de negocio, dónde se incluye también las llamadas a una web service o una API, todo dentro del widget.
 	
 	La idea es que con este principio de inversión de la dependencia, estas clases solo tengan la lógica, permitiendo que la aplicación escale mejor o que se pueda integrar con diferentes tecnologías.
 	
@@ -139,7 +139,7 @@ Los objetivos cuando se presentó este patrón en la conferencia de Google eran 
 	\caption{Diseño bloc}\label{fig:bloc}
 \end{figure}
 
-Por lo que una vez sabemos que la arquitectura es BLoC, he pretendido tener internamente una estructura de directorios ordenada, dependiendo de cada uno de los componentes que integre, como se puede ver en la imagen~\ref{fig:estructura}
+Por lo que una presentada la arquitectura es BLoC, se pretendió tener internamente una estructura de directorios ordenada, dependiendo de cada uno de los componentes que integre, como se puede ver en la imagen~\ref{fig:estructura}
 
 \begin{figure}[H]
 	\centering
@@ -160,7 +160,7 @@ Por lo que una vez sabemos que la arquitectura es BLoC, he pretendido tener inte
 	
 	\item \textbf{services:} componentes que proveen de servicios externos, como es el caso de Firebase.
 	
-	\item \textbf{utils:} componentes que tiene utilidades, de tal manera que puedan ser reutilizados.
+	\item \textbf{utils:} componentes que tienen utilidades, de tal manera que puedan ser reutilizados.
 	
 	\item \textbf{widget:} ficheros que contienen componentes para que puedan ser reutilizados.
 	
@@ -194,7 +194,7 @@ En el caso que la paleta de colores no sea del agrado del usuario final, se pued
 \end{figure}
 
 \subsection{Iconos}
-Los iconos son provistos por Google, también dentro del material design. La lista de los icono se puede encontrar \href{https://material.io/resources/icons/?style=sharp}{aquí}, un fragmento de esta lista~\ref{fig:iconos}:
+Los iconos son provistos por Google, también dentro del material design. La lista de los iconos se puede encontrar \href{https://material.io/resources/icons/?style=sharp}{aquí}, un fragmento de esta lista~\ref{fig:iconos}:
 
 \begin{figure}[H]
 	\centering

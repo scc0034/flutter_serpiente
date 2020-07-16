@@ -6,21 +6,21 @@ En este anexo se describe la documentación técnica de programación para este 
 
 %% eSTRUCTURA DE DIRECTORIOS
 \section{Estructura de directorios}
-El repositorio se encuentra alojado en \href{https://github.com/scc0034/flutter_serpiente}{Github}. La estructura de ficheros que sigue es la siguiente, destacando algunos de los más importantes:
+El repositorio se encuentra alojado en \href{https://github.com/scc0034/flutter_serpiente}{Github}. La estructura de ficheros más relevantes que tiene el proyecto es la siguiente:
 
 \begin{itemize}
 \item \textbf{./}
 Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de los archivos más importantes, que es es \emph{pubspec.yalm}. Este archivos se usa para hacer las importaciones de lós paquetes con las funcionalidades que queramos dar a nuestra aplicación.
 
 \begin{itemize}
-	\item \textbf{build}: Este directorio contiene todo lo relativo a las compilaciones, es decir, tanto como para hacer las pruebas en local de la aplicación , o crear los \emph{releases} que creamos oportunos. Además contiene todo lo relativo a las conexiones con Android Studio y Firebase, ya que necesita hacer las llamadas a este para lanzar los emuladores con la máquina virtual correspondiente. Dentro de esta estructura algunos de los ficheros más importantes son:
+	\item \textbf{build}: Este directorio contiene todo lo relativo a las compilaciones, es decir, tanto como para hacer las pruebas en local de la aplicación, o crear los \emph{releases} que creamos oportunos. Además contiene todo lo relativo a las conexiones con Android Studio y Firebase, ya que necesita hacer las llamadas a este para lanzar los emuladores con la máquina virtual correspondiente. Dentro de esta estructura algunos de los ficheros más importantes son:
 	\begin{itemize}
-		\item \textbf{key.properties}: propeidades de la key, ya que esta nos permite desplegar la aplicación en la \emph{Play Store}. Es algo que no se tiene que perder ni modificar, ya que es de sumo valor. 
+		\item \textbf{key.properties}: propiedades de la key, ya que esta nos permite desplegar la aplicación en la \emph{Play Store}. Es algo que no se tiene que perder ni modificar, ya que es de sumo valor. 
 		\item \textbf{app/google-services.json}: fichero que descargamos desde Firebase, para que la aplicación tenga las conexiones con este \emph{Cloud service}, es decir, contienen las claves de conexión. En el caso de que tengamos que lanzar la app con otro de servicio de Firebase, podemos hacerlo cambiando este fichero.
 		\imagen{techprog/google-services.jpg}{Google services}
-		\item \textbf{app/build.gradle}: Fichero que contiene lo necesario para hacer las compilaciones, ya que como vemos tiene el SDK mínimo y máximo con el que trabaja (limitando el número de dispositivos que son compatibles),el número de versión, ya que cuando lo subamos a la \emph{Play Store}, es algo que debemos de revisar, ya que si no vamos a tener problemas de versionado. Además de los parámetros usados en la clave como podemos ver en la siguiente imagen.
+		\item \textbf{app/build.gradle}: Fichero que contiene lo necesario para hacer las compilaciones, ya que como vemos tiene el SDK mínimo y máximo con el que trabaja (limitando el número de dispositivos que son compatibles). El número de versión para cuando sea subido a la \emph{Play Store}, es algo que se debe revisar siempre, ya que si no vamos a tener problemas de versionado. Además de los parámetros usados en la clave como podemos ver en la siguiente imagen.
 		\imagen{techprog/app_build_gradle.jpg}{app/build.gradle}
-		\item \textbf{app/key/keysnake.jks}: clave cifrada generada mediante el comando \ref{fig:commandkey}, esta no se puede perder, ya que sin ella es imposible desplegar la aplicación en la \emph{Play Store}.Es conveniente hacer alguna copia de seguridad en local.
+		\item \textbf{app/key/keysnake.jks}: clave cifrada generada mediante el comando \ref{fig:commandkey}, esta no se puede perder, ya que sin ella es imposible desplegar la aplicación en la \emph{Play Store}. Es conveniente hacer alguna copia de seguridad en local.
 		
 		\begin{figure}[H]
 			\centering
@@ -29,7 +29,7 @@ Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de
 			\label{fig:commandkey}
 		\end{figure}	 
 	\end{itemize}
-	\item \textbf{assets}: directorio que contiene los activos de imágenes y audio de la aplicación. 
+	\item \textbf{assets}: directorio que contiene los archivos de imágenes y audio de la aplicación. 
 	\item \textbf{data/menu-opt.json}: fichero \emph{json} con la estructura del menú \emph{drawer}, con los nombres de ruta, nombre de icono y nombre de la página. 
 	\item \textbf{docs/latex}: memoria y anexos del trabajo final de grado.
 	\item \textbf{lib}: contiene los ficheros que se compilan para crear la aplicación. La estructura interna de directorios es la siguiente:
@@ -49,7 +49,7 @@ Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de
 
 %% MANUAL DEL PROGRAMADOR
 \section{Manual del programador}
-Este manual del programador tiene como objetivo ayudar a las personas futuras que estén interesadas en la continuación del proyecto, o simplemente que tengan ganas de aprender como se ha realizado. Para ello debemos de realizar las instalaciones de las siguientes herramientas:
+Este manual del programador tiene como objetivo ayudar a personas que en un futuro estén interesadas en la continuación del proyecto, o simplemente que tengan ganas de aprender como se ha realizado. Para ello debemos de realizar las instalaciones de las siguientes herramientas:
 
 \begin{itemize}
 	\tightlist
@@ -66,23 +66,23 @@ Es un SDK de código abierto creado por Google. Ofrece la versatilidad de crear 
 
 Para la instalación de Flutter debemos de ir a su \href{https://flutter.dev/docs/get-started/install}{web oficial} y descargarlo, dependiendo del sistema operativo que tengamos usaremos una versión u otra. (v.17.5 \emph{stable}).
 
-Al descomprimir el fichero nos daremos cuenta de que tenemos un directorio (no ejecutables), por lo que debemos de dejar este en un lugar en concreto para después añadirlo a las variables de usuario. En mi caso yo lo deje en la siguiente ruta de mi ordenador personal C:$\backslash$src$\backslash$flutter.
+Al descomprimir el fichero nos daremos cuenta de que tenemos un directorio (no ejecutable), por lo que debemos de dejar este en un lugar en concreto para después añadirlo a las variables de usuario. En mi caso lo dejé en la siguiente ruta de mi ordenador personal C:$\backslash$src$\backslash$flutter.
 
-Una vez tengamos el paso anterior debemos de actualizar las variables de usuario, apuntando al directorio bin de la ruta anterior, como vemos en la siguiente imagen:
+Una vez realizado el paso anterior debemos de actualizar las variables de usuario, apuntando al directorio bin de la ruta anterior, como vemos en la siguiente imagen:
 
 \imagen{techprog/variablesEntorno.jpg}{Variables entorno}
 
 Por defecto la rama de Flutter es la \emph{stable}, de las ramas disponibles: \emph{stable, beta, dev, master}. Pero si en el caso de necesitar la misma versión de Flutter, el comando necesario es:
 
-\imagen{techprog/version}{Comando version Flutter}
+\imagen{techprog/versión}{Comando version Flutter}
 
 
 \subsection{Android Studio:}
 Es el IDE oficial de Google, que remplaza a Eclipse, basado en \emph{IntelliJ IDEA}, publicado de manera gratuita con Licencia Apache 2.0.
 
-En nuestro caso, no programaremos en este IDE, ya que es complicado trabajar con Flutter directamente, solo lo vamos a utilizar para la creación de las máquinas virtuales para emular el sistema operativo Android. Por lo que descargamos de la \href{https://developer.android.com/studio}{web oficial Android Studio} e instalamos, en mi caso uso la versión 3.6.
+En nuestro caso, no programaremos en este IDE, ya que es complicado trabajar con Flutter directamente, solo lo vamos a utilizar para la creación de las máquinas virtuales para emular el sistema operativo Android. Por lo que descargamos de la \href{https://developer.android.com/studio}{web oficial Android Studio} e instalamos, en mi caso utilicé la versión 3.6.
 
-Una vez lo tengamos instalado creamos las máquinas virtuales, para ello nos vamos a la barra de herramientas Tools>AVD manager y creamos las que sean necesarias, en mi caso tengo dos, con Andorid R, que es la versión 10 de sistema operativo, ya que es la última estable que nos ofrece el IDE.
+Una vez instalado, creamos las máquinas virtuales. Para ello se va a la barra de herramientas Tools>AVD manager y se crean las que sean necesarias,. En mi caso tengo dos, ambas con Andorid R, que es la versión 10 de sistema operativo, ya que es la última estable que nos ofrece el IDE.
 \imagen{techprog/vm.jpg}{Máquinas virtuales}
 
 \subsection{Visual Studio Code:}
@@ -90,7 +90,7 @@ Es el editor de código creado por Microsoft, permite mucha versatilidad y es ef
 
 Lo podemos descargar de la \href{https://code.visualstudio.com/}{web VS Code}, en mi caso uso la versión 1.47.
 
-Una vez lo tengamos instalado, procedemos a instalar los siguiente \emph{Snippets} que nos ayudan a la creación del código, ya que son como los atajos de teclado. En cada uno de los enlaces, podemos ver una descripción de que es lo que hace cada una de estas herramientas:
+Una vez lo tengamos instalado, procedemos a instalar los siguientes \emph{Snippets} que nos ayudan a la creación del código, ya que son como los atajos de teclado. En cada uno de los enlaces, podemos ver una descripción de cada una de estas herramientas:
 
 \begin{itemize}
 	\tightlist
@@ -101,21 +101,21 @@ Una vez lo tengamos instalado, procedemos a instalar los siguiente \emph{Snippet
 \end{itemize}
 
 \subsection{Git:}
-Es un software para el control de las versiones, que nos permite trabajar mediante comandos desde \emph{Git Bash}, la licencia es GNU-GPL v2.  La última versión estable con la que he trabajado es 2.27 y la podemos encontrar \href{https://git-scm.com/}{web ofical}.
+Es un software para el control de las versiones, que nos permite trabajar mediante comandos desde \emph{Git Bash}, la licencia es GNU-GPL v2.  La última versión estable con la que he trabajado es 2.27 y la podemos encontrar \href{https://git-scm.com/}{web oficial}.
 
 \subsection{Firebase Console:}
 La consola de \href{https://console.firebase.google.com/?hl=es}{Firebase} es la que nos permite el control de todas las características de \emph{Cloud Services}, desde la autentificación de los usuarios, base de datos o AdMob services, entre otras muchas.
 
-Al estar registrado con mi cuenta personal, os tengo que dar permisos de administrador en el caso de que fuera necesario, para ello no dudéis en mandarme un correo \href{mailto:casalyepa@gmail.com}{casalyepa@gmail.com}
+Al estar registrado con mi cuenta personal, tendría que dar permisos de administrador en el caso de que fuera necesario, para ello pueden mandarme un correo a \href{mailto:casalyepa@gmail.com}{casalyepa@gmail.com}
 
 \imagen{techprog/firebase.jpg}{Firebase console}
 
 \subsection{Play Store Console:}
-La consola de \href{https://play.google.com/apps/publish/?account=9184458375980004308#AppListPlace}{Play Store} es la herramienta web que nos permite hacer el despligue de la aplicación, tanto como para hacer las pruebas beta, o para subirla y que todo el mundo se la pueda descargar.
+La consola de \href{https://play.google.com/apps/publish/?account=9184458375980004308#AppListPlace}{Play Store} es la herramienta web que nos permite hacer el despligue de la aplicación, hacer las pruebas alfa y beta, o para subirla y que todo el mundo se la pueda descargar.
 
-La revisión de cada una de las nuevas versiones puede tardar en ser validada, por lo que tenemos que tener paciencia.
+La revisión de cada una de las nuevas versiones puede tardar en ser validada, por lo que se debe tener paciencia.
 
-Al igual que con Firebase, os tengo que dar permisos en el caso de que sea necesario hacer nuevos despliegues de la app \href{mailto:casalyepa@gmail.com}{casalyepa@gmail.com}
+Al igual que con Firebase, tendría que dar permisos en el caso de que sea necesario hacer nuevos despliegues de la app, correo a \href{mailto:casalyepa@gmail.com}{casalyepa@gmail.com}
 
 \imagen{techprog/playstore.jpg}{Play Store console}
 
@@ -124,34 +124,40 @@ Al igual que con Firebase, os tengo que dar permisos en el caso de que sea neces
 En este apartado se muestran los pasos necesarios para hacer una copia del proyecto en Github y poder trabajar en local desplegando la aplicación en los emuladores.
 
 \subsection{Clonación del proyecto:}
+
 \begin{enumerate}
 	\item Nos colocamos en el directorio donde queramos tener el proyecto y abrimos \emph{git bash} mediante el botón derecho:\imagen{techprog/clonar.png}{Abrir git bash}
 	\item Procedemos a clonar el proyecto con el comando : 
 	\texttt{git clone \\https://github.com/scc0034/flutter\_serpiente.git}~\ref{fig:git-clone}
 \end{enumerate}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{techprog/gitclone.jpg}
 	\caption{Comando para clonar el repositorio.}\label{fig:git-clone}
 \end{figure}
+
 \subsection{Instalación de los paquetes:}
-Una vez tengamos el proyecto clonado, debemos de ejecutar el comando \texttt{flutter upgrade}, para traer todos los paquetes, ya que si no las importaciones de cada uno de las páginas van a aparecer como erróneas.
+Una vez esté el proyecto clonado, se debe ejecutar el comando \texttt{flutter upgrade}, para traer todos los paquetes, ya que si no en las importaciones de cada uno de los ficheros van a aparecer como erróneas.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{techprog/flutterupgrade.jpg}
-	\caption{Actualización paquetes}\label{fig:upgrade}
+	\caption{Actualización de paquetes}\label{fig:upgrade}
 \end{figure}
 
-Una vez lo hagamos debemos de reiniciar Visual Studio Code.
+Una vez realizado debemos reiniciar Visual Studio Code.
 
 \subsection{Ejecución del proyecto:}
-Podemos hacerlo de tres maneras:
+Se puede hacer de tres maneras diferentes:
+
 \begin{enumerate}
-	\item Descargar la última versión de subida a la \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Play Store}, esto solo es válido para el despliegue de la aplicación, no para desarrollo.
-	\item Desde la consola de git, \texttt{flutter devices}, para ver que dispositivos tenemos disponibles, en el caso de que dentro de la lista no se muestre nada, debemos de ir a Andorid Studio y arrancar una de las máquinas virtuales~\ref{fig:run} .
-	Si en la lista tenemos dispositivos, ejecutamos el siguiente comando \texttt{flutter run -d emulator-id}, siendo el id, el número de la máquina virtual que nos muestra el comando anterior.
-	\item Desde Visual Studio Code (debemos de tener las herramientas de visual studio), damos al \texttt{F5} nos pide que dispositivo queremos arrancar, en el caso de que tengamos un movil físico conectado, aparecerá en la lista, una vez elijamos donde se lanza, lo veremos ahí.\ref{fig:run}.
+	\item Descargar la última versión subida a la \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Play Store}, esto solo es válido para el despliegue de la aplicación, no para desarrollo. Por los tiempos de despliegue.
+
+	\item Desde la consola de git, \texttt{flutter devices}, para ver que dispositivos tenemos disponibles, en el caso de que dentro de la lista no se muestre nada, se debe de ir a Andorid Studio y arrancar una de las máquinas virtuales~\ref{fig:run} .
+	Si la lista presenta dispositivos, ejecutamos el siguiente comando \texttt{flutter run -d emulator-id}, siendo el id, el número de la máquina virtual que muestra el comando anterior.
+	
+	\item Desde Visual Studio Code (se debe tener las herramientas de visual studio), se da al \texttt{F5}, se mostrará una lista con los dispositivos encontrados en el sistema. En el caso de que se disponga de un móvil físico conectado, aparecerá también en la lista anterior. Finalmente arrancará la aplicación en el terminal seleccionado.\ref{fig:run}.
 \end{enumerate} 	
 
 \begin{figure}[H]
@@ -161,20 +167,20 @@ Podemos hacerlo de tres maneras:
 \end{figure}
 
 \subsection{Generar los apks}
-Hay dos opciones para generar los ficheros, dependiendo del destino de cada uno de ellos, es decir, las opciones que nos encontramos son la siguientes:
+Hay dos opciones para generar los ficheros, dependiendo del destino de cada uno de ellos, es decir, las opciones que se encuentran son la siguientes:
 \begin{enumerate}
-	\item \textbf{Para la tienda:} Generar el \emph{bundle}~\cite{wiki:bundle} para hacer el despliegue en \emph{Play Store}, para ello el comando que tenemos que escribir en la consola es: \texttt{flutter build appbundle}. Nos genera un archivo \emph{.aab}, de tal forma que dependiendo de que dispositivo descargue la app, desde la tienda, se baje unos archivos u otros, con el fin de que la aplicación pese menos.  Antes de generar el nuevo \emph{bundle}, debemos mirar que versión de la app tenemos en la tienda, para cambiar la versión de la aplicación en local a una mayor, de tal forma que al subirla no se den problemas de incompatibilidad. En la salida por pantalla del comando nos dice en que ruta se encuentran los ficheros generados.
-	\item \textbf{Apks:} Generar las apks para cada uno de los sistemas: \texttt{flutter build apk --releases}. En la ejecución del comando nos dice la ruta en la que se encuentran los ficheros generados.
+	\item \textbf{Para la tienda:} Generar el \emph{bundle}~\cite{wiki:bundle} para hacer el despliegue en \emph{Play Store}, para ello el comando que se ha de escribir en la consola es: \texttt{flutter build appbundle}. Se genera un archivo \emph{.aab}, de tal forma que dependiendo de que dispositivo descargue la app, desde la tienda, se baje unos archivos u otros, con el fin de que la aplicación pese menos.  Antes de generar el nuevo \emph{bundle}, se debe mirar que versión de la app tiene la tienda, para cambiar la versión de la aplicación en local a una mayor, de tal forma que al subirla no se den problemas de incompatibilidad. En la salida por pantalla del comando nos dice en que ruta se encuentran los ficheros generados.
+	\item \textbf{Apks:} Generar las apks para cada uno de los sistemas: \texttt{flutter build apk --releases}. En la ejecución del comando se muestra la ruta donde se encuentran los ficheros generados.
 \end{enumerate} 
 
 %% PRUEBAS DEL SISTEMA
 \section{Pruebas del sistema}
-Para validar el correcto funcionamiento del producto, se han hecho diferentes tipos de pruebas: unitarias, de integración y de sistema. Hay que destacar que Flutter tiene herramientas para la automatización de test (\emph{Appian} es una de ellas), pero debido a lo ajustado del proyecto, no se han realizado, mediante estas, ya que no se pueden grabar los test como con \emph{Selenium}, por poner un ejemplo similar. 
+Para validar el correcto funcionamiento del producto, se han realizado diferentes tipos de pruebas: unitarias, de integración y de sistema. Hay que destacar que Flutter tiene herramientas para la automatización de test (\emph{Appian} es una de ellas), pero debido a lo ajustado que está el proyecto, no se han realizado mediante estas, ya que no se pueden grabar los test como con \emph{Selenium}, por poner un ejemplo similar. 
 
-Es decir, prácticamente es otro trabajo final de grado, que se puede incluir la aplicación, por eso es otra de la líneas futuras con las que seguir, con metodologías de programación dirigida por los test, como es el caso de \empt{TDD: Test-Driven Development}.
+Es decir, se puede considerar como línea de trabajo futura, con metodologías de programación dirigida por los test, como es el caso de \empt{TDD: Test-Driven Development}.
 
-\subsection{Pruebas de unitarias:}
-Se han realizado de forma simple o \emph{hardcodeando prints} en el propio código y mostrándolos por el terminal en tiempo de ejecución. Sabiendo que la aplicación es sencilla, puedo permitírmelo, pero en el caso de continuar con el desarrollo, sería algo imprescindible. Han validado pequeños módulos o fragmentos de código, con el fin de garantizar de que estas pequeñas unidades funcionen. Uno de los ejemplos es~\ref{fig:impacto}:
+\subsection{Pruebas unitarias:}
+Se han realizado de forma simple o \emph{hardcodeando prints} en el propio código y mostrándolos por el terminal en tiempo de ejecución. En el caso de continuar con el desarrollo sería imprescindible trabajar con test automáticos. Han validado pequeños módulos o fragmentos de código, con el fin de garantizar de que estas pequeñas unidades funcionen. Uno de los ejemplos es~\ref{fig:impacto}:
 
 \begin{figure}[H]
 	\centering
