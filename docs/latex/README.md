@@ -1,1 +1,1 @@
-![header](assets/img/poster.jpg)
+![body](assets/img/poster.jpg)
