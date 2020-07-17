@@ -19,7 +19,17 @@ class HomePage extends StatelessWidget {
           title: Text("Home"),
         ),
         body: Scaffold(
-          body: AdBanner(ads: this.ads),
+          backgroundColor: Colors.grey,
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              
+              new Image.asset("assets/img/poster.jpg"),
+              AdBanner(ads: this.ads),
+            ],
+          )
+            
+           
         ));
   }
 }
