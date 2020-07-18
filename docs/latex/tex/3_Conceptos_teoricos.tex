@@ -4,25 +4,46 @@ La parte del proyecto más importante es el proceso de lanzar una aplicación An
 
 Todo esto se sitúa en un mercado altamente competitivo, con una gran variabilidad (usuarios, empresas, desarrolladores ...) y con un constante cambio. 
 
-\section{Framework}
+\section{Aplicaciones nativas}
+Estas se denominan así porque se desarrollan en le lenguaje nativo de cada uno de los sistemas operativos. Dependiendo de la plataforma en la que se desee crear esta nueva aplicación requerirá conocer un lenguaje de programación y un entorno de desarrollo en concreto. A continuación se muestra una tabla~\ref{table:nativos} con las herramientas y lenguajes nativos:
+
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{ccc}
+			\hline
+			Sistema Operativo                        & Lenguaje Programación & Entorno \\ \hline
+			Android				    & Java      & Android Studio					\\
+			iOS			    & Objetive C, Swift       & Xcode						\\ \hline
+		\end{tabular}
+		\caption{Herramientas y lenguaje nativos}
+		\label{table:nativos}
+	\end{center}
+\end{table}
+
+La ventajas principales son: que están desarrolladas directamente sobre la capa nativa del dispositivo, el rendimiento será óptimo y todas las funcionalidades y características estarán disponibles desde el primer momento.
+
+Entre las desventajas: el elevado coste y mantenimiento, ya que requiere personal más especializado, con mayor tiempo destinado al desarrollo. Pero el mayor \emph{gap} lo encontramos en que el codigo nativo de una plataforma no puede ser reutilizado para la otra. Algo que los frameworks actuales están empezando a ofrecer.
+
+\section{Aplicaciones híbreidas mediante Framework}
 Un framework (de origen anglosajón, marco de trabajo), según lo que dice la wikipedia~\cite{wiki:framework}, es una estructura conceptual y tecnológica de soporte definido, normalmente por módulos de software concretos, que sirve de base para la organización y el desarrollo de software. Las ventajas que ofrece son varias, entre las que se puede destacar:
 
 \begin{itemize}
+	\item{Único código fuente}: desarrollo de aplicaciones multiplataforma con un único lenguaje, reduciendo los costes de creación / mantenimiento y recursos destinados.
 	\item \textbf{Evita repetición de código:} las partes más usadas, pasan a ser algo del \emph{core} del framework.
 	\item \textbf{Uso de buenas prácticas:} muchos de estos están basados en patrones de diseño que nos obligan a usar.
-	\item \textbf{Elementos avanzados integrados:} cosas complejas y que implementarlas llevaría mucho tiempo, suelen venir integradas.
+	\item \textbf{Elementos avanzados integrados:} dispone de librerías nativas que ofrecen \emph{Widgets} o funcionalidades de gran calidad, que llevarían mucho tiempo implementar, o que la creación de los mismo desde cero, no llegaría a obtener una calidad del mismo nivel.
 	\item \textbf{Desarrollo ágil:} por los factores anteriores, podemos centrarnos más en la lógica de negocio de la aplicación que se desea hacer, de una manera más rápida y segura.
 \end{itemize}
 
 Por lo tanto, es necesario trabajar mediante frameworks, ya que nos garantizar una aplicación de mayor calidad, que si la hacemos desde cero, en código nativo.
 
 \subsection{Opciones disponibles}
-En el mercado existen muchos frameworks disponibles para el desarrollo de aplicaciones móviles, por lo que decantarse por uno no es tarea sencilla, ya que como se aprecia cada uno tiene sus pros y contras. En una encuesta realizada en un foro ~\cite{foro:encuesta}, a mediados del 2019, la opinión de los más recomendados era~\ref{fig:encuesta}:
+En el mercado existen muchos frameworks disponibles para el desarrollo de aplicaciones móviles, por lo que decantarse por uno no es tarea sencilla, ya que como se aprecia cada uno tiene sus pros y contras. En una encuesta realizada en un foro ~\cite{foro:encuesta}, a mediados del 2019, la opinión de los más recomendados era Flutter como se puede ver en la imagen~\ref{fig:encuesta}:
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{teoria/encuesta.png}
-	\caption{Encuesta}\label{fig:encuesta}
+	\caption{Encuesta en el foro}\label{fig:encuesta}
 \end{figure}
 
 Algo ideal es que se intento buscar un framework \emph{crossplataform}, con el que abarcar un mayor mercado, a nivel de usuarios y dispositivos.
