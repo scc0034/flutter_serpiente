@@ -1,1 +1,1 @@
-![header](assets/img/poster.jpg)
+![picture](./../../assets/img/poster.jpg =500)
