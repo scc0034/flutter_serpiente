@@ -10,7 +10,7 @@ El repositorio se encuentra alojado en \href{https://github.com/scc0034/flutter_
 
 \begin{itemize}
 \item \textbf{./}
-Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de los archivos más importantes, que es es \emph{pubspec.yalm}. Este archivos se usa para hacer las importaciones de lós paquetes con las funcionalidades que queramos dar a nuestra aplicación.
+Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de los archivos más importantes, que es es \path{pubspec.yalm}. Este archivos se usa para hacer las importaciones de los paquetes con las funcionalidades que queramos dar a nuestra aplicación.
 
 \begin{itemize}
 	\item \textbf{build}: Este directorio contiene todo lo relativo a las compilaciones, es decir, tanto como para hacer las pruebas en local de la aplicación, o crear los \emph{releases} que creamos oportunos. Además contiene todo lo relativo a las conexiones con Android Studio y Firebase, ya que necesita hacer las llamadas a este para lanzar los emuladores con la máquina virtual correspondiente. Dentro de esta estructura algunos de los ficheros más importantes son:
@@ -66,7 +66,7 @@ Es un SDK de código abierto creado por Google. Ofrece la versatilidad de crear 
 
 Para la instalación de Flutter debemos de ir a su \href{https://flutter.dev/docs/get-started/install}{web oficial} y descargarlo, dependiendo del sistema operativo que tengamos usaremos una versión u otra. (v.17.5 \emph{stable}).
 
-Al descomprimir el fichero nos daremos cuenta de que tenemos un directorio (no ejecutable), por lo que debemos de dejar este en un lugar en concreto para después añadirlo a las variables de usuario. En mi caso lo dejé en la siguiente ruta de mi ordenador personal C:$\backslash$src$\backslash$flutter.
+Al descomprimir el fichero nos daremos cuenta de que tenemos un directorio (no ejecutable), por lo que debemos de dejar este en un lugar en concreto para después añadirlo a las variables de usuario. En mi caso lo dejé en la siguiente ruta de mi ordenador personal \verb|C:\src\flutter|.
 
 Una vez realizado el paso anterior debemos de actualizar las variables de usuario, apuntando al directorio bin de la ruta anterior, como vemos en la siguiente imagen:
 
@@ -82,7 +82,7 @@ Es el IDE oficial de Google, que remplaza a Eclipse, basado en \emph{IntelliJ ID
 
 En nuestro caso, no programaremos en este IDE, ya que es complicado trabajar con Flutter directamente, solo lo vamos a utilizar para la creación de las máquinas virtuales para emular el sistema operativo Android. Por lo que descargamos de la \href{https://developer.android.com/studio}{web oficial Android Studio} e instalamos, en mi caso utilicé la versión 3.6.
 
-Una vez instalado, creamos las máquinas virtuales. Para ello se va a la barra de herramientas Tools>AVD manager y se crean las que sean necesarias,. En mi caso tengo dos, ambas con Andorid R, que es la versión 10 de sistema operativo, ya que es la última estable que nos ofrece el IDE.
+Una vez instalado, creamos las máquinas virtuales. Para ello se va a la barra de herramientas Tools>AVD manager y se crean las que sean necesarias,. En mi caso tengo dos, ambas con Android R, que es la versión 10 de sistema operativo, ya que es la última estable que nos ofrece el IDE.
 \imagen{techprog/vm.jpg}{Máquinas virtuales}
 
 \subsection{Visual Studio Code:}
@@ -111,7 +111,7 @@ Al estar registrado con mi cuenta personal, tendría que dar permisos de adminis
 \imagen{techprog/firebase.jpg}{Firebase console}
 
 \subsection{Play Store Console:}
-La consola de \href{https://play.google.com/apps}{Play Store} es la herramienta web que nos permite hacer el despligue de la aplicación, hacer las pruebas alfa y beta, o para subirla y que todo el mundo se la pueda descargar.
+La consola de \href{https://play.google.com/apps}{Play Store} es la herramienta web que nos permite hacer el despliegue de la aplicación, hacer las pruebas alfa y beta, o para subirla y que todo el mundo se la pueda descargar.
 
 La revisión de cada una de las nuevas versiones puede tardar en ser validada, por lo que se debe tener paciencia.
 
@@ -154,7 +154,7 @@ Se puede hacer de tres maneras diferentes:
 \begin{enumerate}
 	\item Descargar la última versión subida a la \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Play Store}, esto solo es válido para el despliegue de la aplicación, no para desarrollo. Por los tiempos de despliegue.
 
-	\item Desde la consola de git, \texttt{flutter devices}, para ver que dispositivos tenemos disponibles, en el caso de que dentro de la lista no se muestre nada, se debe de ir a Andorid Studio y arrancar una de las máquinas virtuales~\ref{fig:run} .
+	\item Desde la consola de git, \texttt{flutter devices}, para ver que dispositivos tenemos disponibles, en el caso de que dentro de la lista no se muestre nada, se debe de ir a Android Studio y arrancar una de las máquinas virtuales~\ref{fig:run} .
 	Si la lista presenta dispositivos, ejecutamos el siguiente comando \texttt{flutter run -d emulator-id}, siendo el id, el número de la máquina virtual que muestra el comando anterior.
 	
 	\item Desde Visual Studio Code (se debe tener las herramientas de visual studio), se da al \texttt{F5}, se mostrará una lista con los dispositivos encontrados en el sistema. En el caso de que se disponga de un móvil físico conectado, aparecerá también en la lista anterior. Finalmente arrancará la aplicación en el terminal seleccionado.\ref{fig:run}.
@@ -175,12 +175,12 @@ Hay dos opciones para generar los ficheros, dependiendo del destino de cada uno 
 
 %% PRUEBAS DEL SISTEMA
 \section{Pruebas del sistema}
-Para validar el correcto funcionamiento del producto, se han realizado diferentes tipos de pruebas: unitarias, de integración y de sistema. Hay que destacar que Flutter tiene herramientas para la automatización de test (\emph{Appian} es una de ellas), pero debido a lo ajustado que está el proyecto, no se han realizado mediante estas, ya que no se pueden grabar los test como con \emph{Selenium}, por poner un ejemplo similar. 
+Para validar el correcto funcionamiento del producto, se han realizado diferentes tipos de pruebas: unitarias, de integración y de sistema. Hay que destacar que Flutter tiene herramientas para la automatización de test,pero debido del tiempo de que se disponía para finalizar el proyecto, no se han realizado mediante estas, ya que no se pueden grabar los test como con \emph{Selenium}, por poner un ejemplo similar. 
 
 Es decir, se puede considerar como línea de trabajo futura, con metodologías de programación dirigida por los test, como es el caso de \empt{Test-Driven Development}.
 
 \subsection{Pruebas unitarias:}
-Se han realizado de forma simple o \emph{hardcodeando prints} en el propio código y mostrándolos por el terminal en tiempo de ejecución. En el caso de continuar con el desarrollo sería imprescindible trabajar con test automáticos. Han validado pequeños módulos o fragmentos de código, con el fin de garantizar de que estas pequeñas unidades funcionen. Uno de los ejemplos es~\ref{fig:impacto}:
+Se han realizado de forma simple o introduciendo impresiones explícitas en el propio código y mostrándolos por el terminal en tiempo de ejecución. En el caso de continuar con el desarrollo sería imprescindible trabajar con test automáticos. Han validado pequeños módulos o fragmentos de código, con el fin de garantizar de que estas pequeñas unidades funcionen. Uno de los ejemplos es~\ref{fig:impacto}:
 
 \begin{figure}[H]
 	\centering
@@ -239,7 +239,7 @@ La segunda tabla es una comprobación de lo que sucede para cada una de las clas
 Tras realizar los casos de caja negra, como es el caso anterior, me he dado cuenta de que es imprescindible la automatización de los test. Ya que nos ahorra gran cantidad de tiempo, y en el momento que la aplicación falle, veremos si se produce el error.
 
 \subsection{Pruebas de integración y sistema:}
-Confirmar que el conjunto de módulos anteriormente validados, funcionen todos de manera interrelacionada unos con otros. Para ello lo que se ha hecho es un testeo de funcionamiento en el terminal físico, lo que conlleva un \emph{testing} simultáneo de la interfaz. 
+Hay que confirmar que el conjunto de módulos anteriormente validados, funcionen todos de manera interrelacionada unos con otros. Para ello lo que se ha hecho es un testeo de funcionamiento en el terminal físico, lo que conlleva un \emph{testing} simultáneo de la interfaz. 
 
 Muchos de los errores son más fáciles de encontrar así, porque en la máquina virtual no funciona de la misma manera, ya que el rendimiento no es el mismo, o las simulaciones son parciales. Uno de los ejemplos que fue necesario hacer \emph{in situ}, fue el juego online, a la hora de tener que validar que se producían las conexiones entre los terminales.
 

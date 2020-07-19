@@ -7,7 +7,7 @@ En este apéndice se recoge el diseño de las interfaces, la manera en la que se
 En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferentes, esto es debido, a que se necesita persistencia local y externa. Dependiendo de eso, aparecen dos diseños de datos diferentes.
 
 \begin{itemize}
-	\item \textbf{FireStore:} es la base de datos integrada en Firestore. Esta no sigue el modelo clásico, ya que es noSQL~\cite{wiki:nosql}, es decir, al igual que mongoDB~\cite{wiki:mongodb}, esta se gestiona mediante ficheros \emph{.json}. A diferencia SGBDR (Sistema gestor de bases de datos relacionales), la manera de trabajar de Firestore, es mediante modelos no relacionales. Esta fue usada para la persistencia externa de datos. Esta idea se puede ver en la siguiente imagen~\ref{fig:firestore} de la consola de Firebase:
+	\item \textbf{FireStore:} es la base de datos integrada en Firestore. Esta no sigue el modelo clásico, ya que es noSQL~\cite{wiki:nosql}, es decir, al igual que mongoDB~\cite{wiki:mongodb}, esta se gestiona mediante ficheros \path{.json}. A diferencia SGBDR (Sistema gestor de bases de datos relacionales), la manera de trabajar de Firestore, es mediante modelos no relacionales. Esta fue usada para la persistencia externa de datos. Esta idea se puede ver en la siguiente imagen~\ref{fig:firestore} de la consola de Firebase:
 	
 	\begin{figure}[H]
 		\centering
@@ -21,7 +21,7 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 
 \subsection{Diagrama entidad relación}
 \begin{itemize}
-	\item \textbf{FireStore:} la distribución en la base de datos es mediante colecciones, ver imagen~\ref{fig:diagramfirestore}. Como ejemplo podemos tener la colección para almacenar los datos del ranking, y para cada una de las entradas del ranking un fichero \emph{.josn} que haga referencia a los datos de cada usuario. Aunque esta no siga el modelo relacional, si que se podría implementar un diagrama entidad-relación, pero no se hace, porque es similar a tener dos tablas en la base de datos y que no tiene relación entre sí  (colecciones en este caso).
+	\item \textbf{FireStore:} la distribución en la base de datos es mediante colecciones, ver imagen~\ref{fig:diagramfirestore}. Como ejemplo podemos tener la colección para almacenar los datos del ranking, y para cada una de las entradas del ranking un fichero \path{.json} que haga referencia a los datos de cada usuario. Aunque esta no siga el modelo relacional, si que se podría implementar un diagrama entidad-relación, pero no se hace, porque es similar a tener dos tablas en la base de datos y que no tiene relación entre sí  (colecciones en este caso).
 	
 	\begin{figure}[H]
 		\centering
@@ -39,7 +39,7 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.9\textwidth]{disenio/rankingexample.jpg}
-			\caption{Contenido json de rankinig}\label{fig:rankingexample}
+			\caption{Contenido fichero en base de datos para un jugador usado en raking}\label{fig:rankingexample}
 		\end{figure}
 	
 		\item \textbf{cuatrorows:} esta colección guarda cada una de las partidas online del juego cuatro en raya~\ref{fig:cuatrorowsexample}. Los nombres de los documentos se generan de manera única en la base de datos, por lo que no puede haber dos partidas iguales.
@@ -55,7 +55,7 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.9\textwidth]{disenio/cuatrorowsexample.jpg}
-			\caption{Contenido json de cuatorows}\label{fig:cuatrorowsexample}
+			\caption{Contenido fichero de cuatro en raya base de datos}\label{fig:cuatrorowsexample}
 		\end{figure}
 	\end{itemize}
 	
@@ -154,7 +154,7 @@ Por lo que una presentada la arquitectura es BLoC, se pretendió tener intername
 	
 	\item \textbf{pages:} ficheros que contienen la vista de la aplicación, así como la lógica de negocio para cada una de estas. 
 	
-	\item \textbf{providers:} ficheros que porveen (\emph{future binding}) de contenido internamente.
+	\item \textbf{providers:} ficheros que proveen (\emph{future binding}) de contenido internamente.
 	
 	\item \textbf{routes:} directorio con el fichero del componente de las rutas. Facilita la navegabilidad, ya que las rutas ahora se pueden hacer mediante llamadas por nombre.
 	
@@ -178,14 +178,14 @@ Como se comenta en el apéndice del especificación de requisitos~\pageref{requi
 El diseño final de cada una de las interfaces de la aplicación se puede encontrar en el apéndice Manual de usuario~\pageref{manualusuario}.
 
 \subsection{Material Design}
-Gran parte de los componentes o widgets de la aplicación son provistos por la compañía Google y su paquete de diseño llamado: Material Desing. Podemos encontrar en la \href{https://material.io/develop/flutter}{web} toda la documentación. Por lo que esto nos ha garantizado tener unos patrones de diseño según el estándar de Android. 
+Gran parte de los componentes o widgets de la aplicación son provistos por la compañía Google y su paquete de diseño llamado: Material Design. Podemos encontrar en la \href{https://material.io/develop/flutter}{web} toda la documentación. Por lo que esto nos ha garantizado tener unos patrones de diseño según el estándar de Android. 
 
 Para los juegos habría que testear si el diseño responsive se garantiza, ya que el diseño de los tableros está en contenedores que no son dinámicos. Lo que implica que con la gran heterogeneidad del ecosistema, encontremos fallos.
 
 \subsection{Paleta de colores}
-La paleta de colores es la ofrecida por Material Desing Palete,. Se supone que garantiza un gran contraste para facilitar la lectura, como el reconocimiento correcto de los contornos. Como consecuencia lo dota de gran usabilidad.
+La paleta de colores es la ofrecida por Material Design Palette,. Se supone que garantiza un gran contraste para facilitar la lectura, como el reconocimiento correcto de los contornos. Como consecuencia lo dota de gran usabilidad.
 
-En el caso que la paleta de colores no sea del agrado del usuario final, se puede meter dentro del apartado 'settings', para poner la aplicación de color negro, esto incrementa el contraste, lo que es una mejora de usabilidad.
+En el caso que la paleta de colores no sea del agrado del usuario final, se puede meter dentro del apartado `settings', para poner la aplicación de color negro, esto incrementa el contraste, lo que es una mejora de usabilidad.
 
 \begin{figure}[H]
 	\centering

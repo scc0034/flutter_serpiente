@@ -33,3 +33,16 @@
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
 - Copyright (c) 2019 - 2020 Samuel Casal Cantero 
+
+---
+
+## Clonación del proyecto
+1. Instalar la herramienta <a href="https://git-scm.com/download/">git</a>
+2. Abrir la consola de la herramienta instalada en el directorio que deseemos. Ejecutar el comando:
+```
+git clone https://github.com/scc0034/flutter_serpiente.git
+```
+3. Instalación de los paquetes:
+```
+flutter upgrade
+```
