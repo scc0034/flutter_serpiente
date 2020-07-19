@@ -18,9 +18,9 @@ En definitiva me siento muy agradecido a mis tutores, por haberme dejado cambiar
 Al final la idea fue la de realizar una aplicación móvil para Android con Flutter, para ello fue necesario realizar un curso en ~\href{https://www.udemy.com/course/flutter-primeros-pasos/}{Udemy}, de unas 40 horas en dos días y medio, para conocer los elementos más básicos de este lenguaje.
 
 \section{Flutter es asíncrono}
-Uno de los mayores retos cuando empiezas a trabajar con este \emph{framework} (ya que en el curso que hice ni se tocan prácticamente), es que se trabaja de manera asíncrona.
+Uno de los mayores retos cuando empiezas a trabajar con este \emph{framework} es que se trabaja de manera asíncrona. Durante el curso estos aspectos se ven de una manera muy básica, por lo que fue necesario una mayor documentación al respecto.
 
-Es decir, todo la aplicación se ejecuta en un único hilo, por lo que si un bloque de código se queda congelado, se cuelga todo. Entonces surgen las operaciones asíncronas, que permiten crear funciones o fragmentos de código que no detengan la aplicación entera. Ya que para algunas situaciones es necesario quedarse a la espera como puede ser la llegada de datos de un servidor muy lejano, por lo que no se puede dar al cliente la sensación de que la aplicación se a \emph{freezeado}.
+Es decir, todo la aplicación se ejecuta en un único hilo, por lo que si un bloque de código se queda congelado, se cuelga todo el programa. Entonces surgen las operaciones asíncronas, que permiten crear funciones o fragmentos de código que no detengan la aplicación entera, porque estas se ejecutan en otros hilos. Ya que para algunas situaciones es necesario quedarse a la espera, como puede ser la llegada de datos de un servidor muy lejano, por lo que no se puede dar al cliente la sensación de que la aplicación se a \emph{freezeado}.
 
 Dentro de Dart son los llamados Future<Object>. Básicamente son tareas que se quedan a la espera, con el fin de que se las devuelva el objeto pedido. Un ejemplo de esto lo podemos ver en~\ref{fig:future}.
 
@@ -32,11 +32,12 @@ Dentro de Dart son los llamados Future<Object>. Básicamente son tareas que se q
 
 Para ello tenemos que declarar las funciones que son asíncronas con la palabra reservada \emph{async}, de tal manera que devolverá los resultados en un tiempo x.
 
-Cuando realicemos la llamada a estas indicaremos que se queden a la espera de respuesta con \emph{await}.
+Cuando realicemos la llamada a estas funciones, indicaremos que se queden a la espera de respuesta con la palabra reservada del lenguaje \emph{await}.
 
-Pero podemos encontrarnos con otros objetos que también manejan tareas futuras que son los Streams. Haciendo que la aplicación de flutter sea reactiva, como es el caso del cuatro en raya o el ranking.
+Pero podemos encontrarnos con otros objetos que también manejan tareas futuras, como es el caso de los Streams. Haciendo que la aplicación de flutter sea reactiva, como cuatro en raya o el ranking del snake.
 
-Estos se definen en un lugar, cogen datos de otro lugar y se queda a la escucha de que se produzcan cambios. En el caso de disparen esos cambios, el Stream se encargará de rediseñar la interfaz del usuario o de actualizar la variables, según el caso.
+Que una aplicación tenga Streams significa que esta se queda a la escucha de cambios de los datos. Estos generalmente se encuentran en un servidor. En el momento en el que se produzca un cambio de estos datos, desencadenará un evento del Stream para actualizar las variables locales.
+Para que esta sea reactiva, los datos del Stream tienen que estar en el builder, de tal manera que la interfaz de usuario se va a rediseñar por cada cambio.
 
 %\section{Nuevas formas de hacer if}
 %Desconocía totalmente esta nueva forma de hacer los condicionales, ya que deja un código más limpio, que ocupa menos líneas e intuitivo. Un ejemplo de esto se puede ver en la imagen siguiente~\ref{fig:nuevoif}:
@@ -50,14 +51,14 @@ Estos se definen en un lugar, cogen datos de otro lugar y se queda a la escucha 
 \section{Play Store}
 Uno de los problemas encontrados fue a la hora de tener que generar las claves de seguridad, para que la aplicación se pueda subir a la tienda y que ciertos de los servicios estén operativos.
 
-La incidencia estaba que no estaba generando una clave para \emph{debug} y no para \emph{release}, imposiblitando la subida.
+La incidencia se producía cuando generaba las claves, debido a que estaba usando la clave para \emph{debug} y no para \emph{release}, imposiblitando la subida, por el control que hace la tienda de las aplicaciones que se suben.
 
-Esto era debido a que en la documentación de Flutter siempre se realiza para el modo de test. Luego otra de las cosas a vigilar, es la ruta en la que dejamos la clave y la configuración de algunos ficheros, como los .gradle o el manifest.
+Esto era debido a que en la documentación de Flutter siempre se realiza para el modo de test. Luego otra de las cosas a vigilar, es la ruta donde dejamos la clave y la configuración de algunos de los ficheros, como los .gradle o el manifest.
 
-Es muy importante tener la clave bien guardada porque en el caso de que se pierda, vamos a tener que volver a realizar el proceso desde cero y es algo tedioso.
+También es fundamental tener la clave bien guardada porque en el caso de que se pierda, vamos a tener que volver a realizar el proceso desde cero y se convertiría en algo tedioso.
 
 \section{AdMob}
-Otro de los problemas que he tenido es que a la hora de mostrar los anuncios en la aplicación, no me deja usar los que no son test. He revisado cada uno de los Ids~\ref{fig:idbanner}, pero nada.
+Otro de los problemas que se me presentaron fue cuando pretendía mostrar los anuncios en la aplicación, ya que solo me dejaba usar los anuncios de test que me proporciona Google Ad. He revisado cada uno de los Ids~\ref{fig:idbanner}, pero no lo he conseguido.
 
 \begin{figure}[H]
 	\centering
@@ -65,7 +66,7 @@ Otro de los problemas que he tenido es que a la hora de mostrar los anuncios en 
 	\caption{Banner}\label{fig:idbanner}
 \end{figure}
 
-Y las métricas de usuario si que funcionan~\ref{fig:metricas}, por lo que la instancia de adMob es la correcta.
+Y las métricas de usuario si que funcionan~\ref{fig:metricas}, lo que indica que la instancia de adMob es la correcta.
 
 \begin{figure}[H]
 	\centering
