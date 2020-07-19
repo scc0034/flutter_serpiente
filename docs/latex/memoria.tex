@@ -16,6 +16,8 @@
 
 % Links
 \PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
+\let\oldhref\href
+\renewcommand{\href}[2]{\oldhref{#1}{#2}\footnote{\url{#1}}}
 \hypersetup{
 	allcolors = {red}
 }
@@ -349,7 +351,11 @@
     \noindent\LARGE
     Presentado por \@author{}\\ 
     en Universidad de Burgos --- \@date{}\\
-    Tutor: \@tutor{}\\
+    \begin{tabbing}
+    	Tutores: \= Dr. César Ignacio García Osorio \kill
+    	Tutores: \> Dr. César Ignacio García Osorio \\
+    	\> Dr. José Francisco Diez Pastor
+    \end{tabbing}
   }%
   \end{center}%
   \null
@@ -399,14 +405,14 @@ En Burgos, {\large \today}
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del Tutor:\\[2cm]
-D. nombre tutor
+Dr. César Ignacio García Osorio
 \end{flushleft}
 \end{minipage}
 \hfill
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del co-tutor:\\[2cm]
-D. nombre co-tutor
+Dr. José Francisco Diez Pastor
 \end{flushleft}
 \end{minipage}
 \hfill
