@@ -70,7 +70,7 @@ flutter upgrade
 ```
 
 ## Creación VM Android en Android Studio
-* [Guía]https://developer.android.com/studio/run/managing-avds
+* [Guía](https://developer.android.com/studio/run/managing-avds)
 
 ## Ejecución en el emulador
 Desde Visual Studio Code `Ctrl + Shift + P --> Flutter: Select Device `. Nos debe aparecer la lista con las máquinas Android que se puede emular, se debe seleccionar una.  Cuando la tengamos damos  `F5` y se ejecutará la aplicación en `debug mode` en el terminal emulado.
