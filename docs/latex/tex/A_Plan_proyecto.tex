@@ -58,7 +58,7 @@ Todas las \emph{issues} realizadas para este \emph{sprint}, están disponibles e
 
 La estimación fue de 54 horas, pero que finalmente se destinaron 45,5 horas, debido en gran parte a la reutilización de código del curso, aunque dicha formación duró más tiempo de lo que se había estimado.
 
-\imagen{burndowns/sp1.png}{Sprint 1.}
+\imagen{burndowns/sp1.png}{Sprint 1.}\label{sp1}
 
 %%% SPRINT 2
 \subsection{Sprint 2 (27/06/20 - 01/07/20)}\label{sprint-1-270620---010720}
@@ -169,7 +169,7 @@ El día 20 de Julio, día de la entrega se tiene que hacer la reunión final de 
 
 Las diferentes \emph{issues} se encuentran en \href{https://github.com/scc0034/flutter_serpiente/milestone/6?closed=1}{Sprint 6}
 
-\imagen{burndowns/sp1.png}{Sprint 6. }
+\imagen{burndowns/sp6.png}{Sprint 6. }
 Para el cierre de este \emph{sprint} todas las tareas fueron completadas, ya que también era el cierre del proyecto. El número de horas que se destinaron para este fueron de 38.
 
 
@@ -186,7 +186,7 @@ Otra de las vías para obtener ingresos es mediante los anuncios ofrecidos por \
 Aunque la app disponga de publicidad, se desestimará para el cálculo del beneficio, ya que es complicado tener una gran repercusión en las primeras etapas de proyecto, o incluso una vez finalizado. 	
 
 \subsubsection{Coste hardware}
-Se desglosa el coste de los dispositivos usados para la implementación, suponiendo que la amortización del PC de sobremesa es aproximadamente de 5 años y de 2 años para el \emph{smartphone}, con la duración del proyecto de 1 mes.
+Se desglosa el coste de los dispositivos usados para la implementación, suponiendo que la amortización del PC de sobremesa es aproximadamente de 5 años y de 2 años para el \emph{smartphone}, con la duración del proyecto de 1 mes. Ver tabla~\ref{table:costehw}
 
 \begin{table}[H]
 	\begin{center}
@@ -206,7 +206,7 @@ Se desglosa el coste de los dispositivos usados para la implementación, suponie
 El coste de las librerías, \emph{cloud services}, entornos de desarrollo, licencias, cursos, máquinas virtuales, entre otros, han sido de uso gratuito, dando lugar a un coste software de 0 euros.
 
 \subsubsection{Coste personal}
-El proyecto fue llevado por un solo trabajador (Samuel Casal Cantero), ya que es un proyecto unipersonal, que se encargaba del desarrollo de software y la planificación. El tiempo inicialmente estimado fue de 250 horas. Siendo el trabajador autónomo se considera el siguiente salario:
+El proyecto fue llevado por un solo trabajador (Samuel Casal Cantero), ya que es un proyecto unipersonal, que se encargaba del desarrollo de software y la planificación. El tiempo inicialmente estimado fue de 250 horas. Siendo el trabajador autónomo se considera el siguiente salario, ver tabla~\ref{table:costepersonal}:
 
 \begin{table}[H]
 	\begin{center}
@@ -221,7 +221,7 @@ El proyecto fue llevado por un solo trabajador (Samuel Casal Cantero), ya que es
 	\end{center}
 \end{table}
 
-En lo referente a las cuotas de la seguridad social, para el año 2020, tenemos que la cuota mínima a pagar es el resultado de aplicar el 30,3\% al salario mínimo interprofesional~\cite{xurxodev:smi} que es de 944,4 €, dando lugar a que esta cuota sea de 286,15 €. Dependiendo de la contingencia el desglose es:
+En lo referente a las cuotas de la seguridad social, para el año 2020, tenemos que la cuota mínima a pagar es el resultado de aplicar el 30,3\% al salario mínimo interprofesional~\cite{xurxodev:smi} que es de 944,4 €, dando lugar a que esta cuota sea de 286,15 €. Dependiendo de la contingencia el desglose, ver en la tabla~\ref{table:costecuota}:
 
 \begin{table}[H]
 	\begin{center}
@@ -243,7 +243,7 @@ En lo referente a las cuotas de la seguridad social, para el año 2020, tenemos 
 Finalmente vemos que el coste del empleado para este proyecto es de 5286,15 €.
 
 \subsubsection{Otros costes}
-Son otro tipo de gastos que también se deben tener en cuenta.
+Son otro tipo de gastos que también se deben tener en cuenta. Ver tabla~\ref{table:costevario}
 
 \begin{table}[H]
 	\begin{center}
@@ -344,6 +344,7 @@ Para el completar el proyecto han sido necesarias gran multitud de herramientas,
 Aclarar que de las herramientas anteriores, las dos que aparecen como licencia gratuita, es debido a la escalabilidad de aplicación. Hace referencia que a partir de una cantidad de usuarios/consultas tienes que pagar por el servicio para el caso de firebase console. Para el caso de admob, depende del número de clicks en los anuncios, impuestos y regulaciones varias. En mi caso es una aplicación pequeña, siendo el servicio gratuito con los beneficios para Google.
 
 \subsubsection{Imágenes y material gráfico}
+En la siguiente tabla~\ref{table:fuenteimagenes}, se muestran las fuentes del material gráfico.
 
 \begin{table}[H]
 	\begin{center}
@@ -359,6 +360,7 @@ Aclarar que de las herramientas anteriores, las dos que aparecen como licencia g
 \end{table}
 
 \subsection{Música y sonido}
+El material musical tiene como fuentes las que se encuentran en la tabla~\ref{table:fuentesonido}
 
 \begin{table}[H]
 	\begin{center}
@@ -374,7 +376,7 @@ Aclarar que de las herramientas anteriores, las dos que aparecen como licencia g
 \end{table}
 
 \subsection{Herramientas}
-En Flutter son conocidos como \emph{packages}, paquetes que ofrecen funcionalidades que ya han sido implementadas. Todas ellas se pueden encontrar en la siguiente \href{https://pub.dev/}{web}. Estos se integran en el fichero \texttt{pubspec.yaml}, siendo este muy importante. Para el proyecto se usaron: 
+En Flutter son conocidos como \emph{packages}, paquetes que ofrecen funcionalidades que ya han sido implementadas. Todas ellas se pueden encontrar en la siguiente \href{https://pub.dev/}{web}. Estos se integran en el fichero \texttt{pubspec.yaml}, siendo este muy importante. Para el proyecto se usaron: (ver tabla~\ref{table:paquetes}) 
 
 
 \begin{table}[H]

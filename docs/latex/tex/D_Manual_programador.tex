@@ -16,18 +16,32 @@ Directorio raíz del que cuelgan todas los demás ficheros. Este contiene uno de
 	\item \textbf{build}: Este directorio contiene todo lo relativo a las compilaciones, es decir, tanto como para hacer las pruebas en local de la aplicación, o crear los \emph{releases} que creamos oportunos. Además contiene todo lo relativo a las conexiones con Android Studio y Firebase, ya que necesita hacer las llamadas a este para lanzar los emuladores con la máquina virtual correspondiente. Dentro de esta estructura algunos de los ficheros más importantes son:
 	\begin{itemize}
 		\item \textbf{key.properties}: propiedades de la key, ya que esta nos permite desplegar la aplicación en la \emph{Play Store}. Es algo que no se tiene que perder ni modificar, ya que es de sumo valor. 
-		\item \textbf{app/google-services.json}: fichero que descargamos desde Firebase, para que la aplicación tenga las conexiones con este \emph{Cloud service}, es decir, contienen las claves de conexión. En el caso de que tengamos que lanzar la app con otro de servicio de Firebase, podemos hacerlo cambiando este fichero.
-		\imagen{techprog/google-services.jpg}{Google services}
-		\item \textbf{app/build.gradle}: Fichero que contiene lo necesario para hacer las compilaciones, ya que como vemos tiene el SDK mínimo y máximo con el que trabaja (limitando el número de dispositivos que son compatibles). El número de versión para cuando sea subido a la \emph{Play Store}, es algo que se debe revisar siempre, ya que si no vamos a tener problemas de versionado. Además de los parámetros usados en la clave como podemos ver en la siguiente imagen.
-		\imagen{techprog/app_build_gradle.jpg}{app/build.gradle}
-		\item \textbf{app/key/keysnake.jks}: clave cifrada generada mediante el comando \ref{fig:commandkey}, esta no se puede perder, ya que sin ella es imposible desplegar la aplicación en la \emph{Play Store}. Es conveniente hacer alguna copia de seguridad en local.
+		\item \textbf{app/google-services.json}: fichero que descargamos desde Firebase, para que la aplicación tenga las conexiones con este \emph{Cloud service}, es decir, contienen las claves de conexión. En el caso de que tengamos que lanzar la app con otro de servicio de Firebase, podemos hacerlo cambiando este fichero.Ver figura~\ref{fig:googleservices}.
+		\begin{figure}%[H]
+			\centering
+			\includegraphics[width=1.0\textwidth]{/techprog/google-services.jpg}
+			\caption{Google service}
+			\label{fig:googleservices}
+		\end{figure}
 		
-		\begin{figure}[H]
+		\item \textbf{app/build.gradle}: Fichero que contiene lo necesario para hacer las compilaciones, ya que como vemos tiene el SDK mínimo y máximo con el que trabaja (limitando el número de dispositivos que son compatibles). El número de versión para cuando sea subido a la \emph{Play Store}, es algo que se debe revisar siempre, ya que si no vamos a tener problemas de versionado. Además de los parámetros usados en la clave como podemos ver en la siguiente figura~\ref{fig:gradle}.
+		\item \textbf{app/key/keysnake.jks}: clave cifrada generada mediante el comando, ver figura~\ref{fig:commandkey}, esta no se puede perder, ya que sin ella es imposible desplegar la aplicación en la \emph{Play Store}. Es conveniente hacer alguna copia de seguridad en local.
+		\begin{figure}%[H]
+			\centering
+			\includegraphics[width=1.0\textwidth]{techprog/app_build_gradle.jpg}
+			\caption{fichero app/build.gradle}
+			\label{fig:gradle}
+		\end{figure}
+		
+		\begin{figure}%[H]
 			\centering
 			\includegraphics[width=1.0\textwidth]{/techprog/keysnakecommand}
 			\caption{Comando generar clave keyStore}
 			\label{fig:commandkey}
-		\end{figure}	 
+		\end{figure}
+	
+
+	 
 	\end{itemize}
 	\item \textbf{assets}: directorio que contiene los archivos de imágenes y audio de la aplicación. 
 	\item \textbf{data/menu-opt.json}: fichero \emph{json} con la estructura del menú \emph{drawer}, con los nombres de ruta, nombre de icono y nombre de la página. 
@@ -68,13 +82,23 @@ Para la instalación de Flutter debemos de ir a su \href{https://flutter.dev/doc
 
 Al descomprimir el fichero nos daremos cuenta de que tenemos un directorio (no ejecutable), por lo que debemos de dejar este en un lugar en concreto para después añadirlo a las variables de usuario. En mi caso lo dejé en la siguiente ruta de mi ordenador personal \verb|C:\src\flutter|.
 
-Una vez realizado el paso anterior debemos de actualizar las variables de usuario, apuntando al directorio bin de la ruta anterior, como vemos en la siguiente imagen:
+Una vez realizado el paso anterior debemos de actualizar las variables de usuario, apuntando al directorio bin de la ruta anterior, como vemos en la siguiente figura~\ref{fig:entorno}.
 
-\imagen{techprog/variablesEntorno.jpg}{Variables entorno}
+\begin{figure}%[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{/techprog/variablesEntorno.jpg}
+	\caption{Variables entorno}
+	\label{fig:entorno}
+\end{figure}
 
-Por defecto la rama de Flutter es la \emph{stable}, de las ramas disponibles: \emph{stable, beta, dev, master}. Pero si en el caso de necesitar la misma versión de Flutter, el comando necesario es:
+Por defecto la rama de Flutter es la \emph{stable}, de las ramas disponibles: \emph{stable, beta, dev, master}. Pero si en el caso de necesitar la misma versión de Flutter, el comando necesario se puede ver en la figura~\ref{fig:comandoupdate}:
 
-\imagen{techprog/version}{Comando version Flutter}
+\begin{figure}%[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{/techprog/version.jpg}
+	\caption{Comando versión Flutter}
+	\label{fig:comandoupdate}
+\end{figure}
 
 
 \subsection{Android Studio:}
@@ -82,8 +106,15 @@ Es el IDE oficial de Google, que remplaza a Eclipse, basado en \emph{IntelliJ ID
 
 En nuestro caso, no programaremos en este IDE, ya que es complicado trabajar con Flutter directamente, solo lo vamos a utilizar para la creación de las máquinas virtuales para emular el sistema operativo Android. Por lo que descargamos de la \href{https://developer.android.com/studio}{web oficial Android Studio} e instalamos, en mi caso utilicé la versión 3.6.
 
-Una vez instalado, creamos las máquinas virtuales. Para ello se va a la barra de herramientas Tools>AVD manager y se crean las que sean necesarias,. En mi caso tengo dos, ambas con Android R, que es la versión 10 de sistema operativo, ya que es la última estable que nos ofrece el IDE.
-\imagen{techprog/vm.jpg}{Máquinas virtuales}
+Una vez instalado, creamos las máquinas virtuales. Para ello se va a la barra de herramientas Tools>AVD manager y se crean las que sean necesarias,. En mi caso tengo dos, ambas con Android R, que es la versión 10 de sistema operativo, ya que es la última estable que nos ofrece el IDE. Ver figura~\ref{fig:astudio}.
+
+\begin{figure}%[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{/techprog/vm.jpg}
+	\caption{Máquinas virtuales}
+	\label{fig:astudio}
+\end{figure}
+
 
 \subsection{Visual Studio Code:}
 Es el editor de código creado por Microsoft, permite mucha versatilidad y es eficiente para la edición del código en flutter. Es de código abierto bajo la licencia MIT.
@@ -104,20 +135,33 @@ Una vez lo tengamos instalado, procedemos a instalar los siguientes \emph{Snippe
 Es un software para el control de las versiones, que nos permite trabajar mediante comandos desde \emph{Git Bash}, la licencia es GNU-GPL v2.  La última versión estable con la que he trabajado es 2.27 y la podemos encontrar \href{https://git-scm.com/}{web oficial}.
 
 \subsection{Firebase Console:}
-La consola de \href{https://console.firebase.google.com/?hl=es}{Firebase} es la que nos permite el control de todas las características de \emph{Cloud Services}, desde la autentificación de los usuarios, base de datos o AdMob services, entre otras muchas.
+La consola de \href{https://console.firebase.google.com/?hl=es}{Firebase} es la que nos permite el control de todas las características de \emph{Cloud Services}, desde la autentificación de los usuarios, base de datos o AdMob services, entre otras muchas. Ver figura~\ref{fig:firebaseconsole}.
 
 Al estar registrado con mi cuenta personal, tendría que dar permisos de administrador en el caso de que fuera necesario, para ello pueden mandarme un correo a \href{mailto:casalyepa@gmail.com}{casalyepa@gmail.com}
 
-\imagen{techprog/firebase.jpg}{Firebase console}
+\begin{figure}%[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{/techprog/firebase.jpg}
+	\caption{Firebase console}
+	\label{fig:firebaseconsole}
+\end{figure}
+
+\imagen{techprog/}{}
 
 \subsection{Play Store Console:}
 La consola de \href{https://play.google.com/apps}{Play Store} es la herramienta web que nos permite hacer el despliegue de la aplicación, hacer las pruebas alfa y beta, o para subirla y que todo el mundo se la pueda descargar.
 
-La revisión de cada una de las nuevas versiones puede tardar en ser validada, por lo que se debe tener paciencia.
+La revisión de cada una de las nuevas versiones puede tardar en ser validada, por lo que se debe tener paciencia. Ver figura~\ref{fig:playconsole}.
 
 Al igual que con Firebase, tendría que dar permisos en el caso de que sea necesario hacer nuevos despliegues de la app, correo a \href{mailto:casalyepa@gmail.com}{casalyepa@gmail.com}
 
-\imagen{techprog/playstore.jpg}{Play Store console}
+\begin{figure}%[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{/techprog/playstore.jpg}
+	\caption{Play Store console}
+	\label{fig:palyconsole}
+\end{figure}
+
 
 %% 	COMPILACIÓN DEL PROYECTO INSTALACIÓN Y EJECUCION
 \section{Compilación, instalación y ejecución del proyecto}
@@ -126,21 +170,28 @@ En este apartado se muestran los pasos necesarios para hacer una copia del proye
 \subsection{Clonación del proyecto:}
 
 \begin{enumerate}
-	\item Nos colocamos en el directorio donde queramos tener el proyecto y abrimos \emph{git bash} mediante el botón derecho:\imagen{techprog/clonar.png}{Abrir git bash}
+	\item Nos colocamos en el directorio donde queramos tener el proyecto y abrimos \emph{git bash} mediante el botón derecho, ver figura~\ref{fig:opengitbash}.
+	
+	\begin{figure}%[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{/techprog/clonar.png}
+		\caption{Abrir git bash}
+		\label{fig:opengitbash}
+	\end{figure}
+
 	\item Procedemos a clonar el proyecto con el comando : 
-	\texttt{git clone \\https://github.com/scc0034/flutter\_serpiente.git}~\ref{fig:git-clone}
+	\texttt{git clone \\https://github.com/scc0034/flutter\_serpiente.git}, ver figura~\ref{fig:git-clone}
 \end{enumerate}
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
 	\includegraphics[width=1\textwidth]{techprog/gitclone.jpg}
 	\caption{Comando para clonar el repositorio.}\label{fig:git-clone}
 \end{figure}
 
 \subsection{Instalación de los paquetes:}
-Una vez esté el proyecto clonado, se debe ejecutar el comando \texttt{flutter upgrade}, para traer todos los paquetes, ya que si no en las importaciones de cada uno de los ficheros van a aparecer como erróneas.
-
-\begin{figure}[H]
+Una vez esté el proyecto clonado, se debe ejecutar el comando \texttt{flutter upgrade}, para traer todos los paquetes, ya que si no en las importaciones de cada uno de los ficheros van a aparecer como erróneas. Ver figura~\ref{fig:upgrade}
+\begin{figure}%[H]
 	\centering
 	\includegraphics[width=1\textwidth]{techprog/flutterupgrade.jpg}
 	\caption{Actualización de paquetes}\label{fig:upgrade}
@@ -154,13 +205,13 @@ Se puede hacer de tres maneras diferentes:
 \begin{enumerate}
 	\item Descargar la última versión subida a la \href{https://play.google.com/store/apps/details?id=com.ubu.flutter_snake}{Play Store}, esto solo es válido para el despliegue de la aplicación, no para desarrollo. Por los tiempos de despliegue.
 
-	\item Desde la consola de git, \texttt{flutter devices}, para ver que dispositivos tenemos disponibles, en el caso de que dentro de la lista no se muestre nada, se debe de ir a Android Studio y arrancar una de las máquinas virtuales~\ref{fig:run} .
+	\item Desde la consola de git, \texttt{flutter devices}, para ver que dispositivos tenemos disponibles, en el caso de que dentro de la lista no se muestre nada, se debe de ir a Android Studio y arrancar una de las máquinas virtuales, ver figura~\ref{fig:run} .
 	Si la lista presenta dispositivos, ejecutamos el siguiente comando \texttt{flutter run -d emulator-id}, siendo el id, el número de la máquina virtual que muestra el comando anterior.
 	
-	\item Desde Visual Studio Code (se debe tener las herramientas de visual studio), se da al \texttt{F5}, se mostrará una lista con los dispositivos encontrados en el sistema. En el caso de que se disponga de un móvil físico conectado, aparecerá también en la lista anterior. Finalmente arrancará la aplicación en el terminal seleccionado.\ref{fig:run}.
+	\item Desde Visual Studio Code (se debe tener las herramientas de visual studio), se da al \texttt{F5}, se mostrará una lista con los dispositivos encontrados en el sistema. En el caso de que se disponga de un móvil físico conectado, aparecerá también en la lista anterior. Finalmente arrancará la aplicación en el terminal seleccionado. Ver figura~\ref{fig:run}.
 \end{enumerate} 	
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
 	\includegraphics[width=1\textwidth]{techprog/inicio.jpg}
 	\caption{Máquina virtual}\label{fig:run}
@@ -180,18 +231,18 @@ Para validar el correcto funcionamiento del producto, se han realizado diferente
 Es decir, se puede considerar como línea de trabajo futura, con metodologías de programación dirigida por los test, como es el caso de \empt{Test-Driven Development}.
 
 \subsection{Pruebas unitarias:}
-Se han realizado de forma simple o introduciendo impresiones explícitas en el propio código y mostrándolos por el terminal en tiempo de ejecución. En el caso de continuar con el desarrollo sería imprescindible trabajar con test automáticos. Han validado pequeños módulos o fragmentos de código, con el fin de garantizar de que estas pequeñas unidades funcionen. Uno de los ejemplos es~\ref{fig:impacto}:
+Se han realizado de forma simple o introduciendo impresiones explícitas en el propio código y mostrándolos por el terminal en tiempo de ejecución. En el caso de continuar con el desarrollo sería imprescindible trabajar con test automáticos. Han validado pequeños módulos o fragmentos de código, con el fin de garantizar de que estas pequeñas unidades funcionen. Uno de los ejemplos se encuentra en la figura~\ref{fig:impacto}:
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
 	\includegraphics[width=1\textwidth]{techprog/impacto.jpg}
 	\caption{Máquina virtual}\label{fig:impacto}
 \end{figure}
 
 \subsubsection{Pruebas de caja negra:}
-En ocasiones se han realizado casos de prueba de caja negra para algunas líneas de código~\ref{fig:codigocontrolchoque}. Para realizar las pruebas es necesario construir las tablas con clases de equivalencia válidas y no válidas~\ref{table:casosNegros}. Después la tabla de los diferentes casos de prueba con los resultados obtenidos~\ref{table:derivacion}.
+En ocasiones se han realizado casos de prueba de caja negra para algunas líneas de código, ver figura~\ref{fig:codigocontrolchoque}. Para realizar las pruebas es necesario construir las tablas con clases de equivalencia válidas y no válidas, ver tabla~\ref{table:casosNegros}. Después la tabla de los diferentes casos de prueba con los resultados obtenidos, ver tabla~\ref{table:derivacion}.
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
 	\includegraphics[width=1\textwidth]{techprog/codigocontrolchoque.jpg}
 	\caption{Código para las pruebas de caja negra}\label{fig:codigocontrolchoque}

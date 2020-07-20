@@ -21,9 +21,9 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 
 \subsection{Diagrama entidad relación}
 \begin{itemize}
-	\item \textbf{FireStore:} la distribución en la base de datos es mediante colecciones, ver imagen~\ref{fig:diagramfirestore}. Como ejemplo podemos tener la colección para almacenar los datos del ranking, y para cada una de las entradas del ranking un fichero \path{.json} que haga referencia a los datos de cada usuario. Aunque esta no siga el modelo relacional, si que se podría implementar un diagrama entidad-relación, pero no se hace, porque es similar a tener dos tablas en la base de datos y que no tiene relación entre sí  (colecciones en este caso).
+	\item \textbf{FireStore:} la distribución en la base de datos es mediante colecciones, ver figura~\ref{fig:diagramfirestore}. Como ejemplo podemos tener la colección para almacenar los datos del ranking, y para cada una de las entradas del ranking un fichero \path{.json} que haga referencia a los datos de cada usuario. Aunque esta no siga el modelo relacional, si que se podría implementar un diagrama entidad-relación, pero no se hace, porque es similar a tener dos tablas en la base de datos y que no tiene relación entre sí  (colecciones en este caso).
 	
-	\begin{figure}[H]
+	\begin{figure}%[H]
 		\centering
 		\includegraphics[height=0.9\textwidth]{disenio/diagramafirestore.jpg}
 		\caption{Diagrama BD firestore}\label{fig:diagramfirestore}
@@ -32,17 +32,17 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 	Una vez que se sabe como es el funcionamiento de la base de datos noSQL, las dos colecciones necesarias para la aplicación fueron:
 	
 	\begin{itemize}
-		\item \textbf{ranking:} se encarga de almacenar la mejor puntuación de cada uno de los jugadores del snake~\ref{fig:rankingexample}. Para distinguir cada uno de los documentos, se usa como clave primaria el correo del usuario, que también será el nombre que identifique a cada uno de estos ficheros.
+		\item \textbf{ranking:} se encarga de almacenar la mejor puntuación de cada uno de los jugadores del snake, ver figura~\ref{fig:rankingexample}. Para distinguir cada uno de los documentos, se usa como clave primaria el correo del usuario, que también será el nombre que identifique a cada uno de estos ficheros.
 		
 		Las variables que almacena son: nombre(String), imagenUrl(String) y puntuación(int). 
 		
-		\begin{figure}[H]
+		\begin{figure}%[H]
 			\centering
 			\includegraphics[width=0.9\textwidth]{disenio/rankingexample.jpg}
 			\caption{Contenido fichero en base de datos para un jugador usado en raking}\label{fig:rankingexample}
 		\end{figure}
 	
-		\item \textbf{cuatrorows:} esta colección guarda cada una de las partidas online del juego cuatro en raya~\ref{fig:cuatrorowsexample}. Los nombres de los documentos se generan de manera única en la base de datos, por lo que no puede haber dos partidas iguales.
+		\item \textbf{cuatrorows:} esta colección guarda cada una de las partidas online del juego cuatro en raya, ver figura~\ref{fig:cuatrorowsexample}. Los nombres de los documentos se generan de manera única en la base de datos, por lo que no puede haber dos partidas iguales.
 		
 		Lo que hace que la \emph{key} compartida durante el juego sea la misma que el nombre del documento dentro de esta colección. Los campos que tiene este documentos son muchos y variados, pero los más destacados son: 
 		
@@ -52,16 +52,16 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 			\item Flags para controlar si se producen ciertos eventos, como puede ser el final de la partida, si se ha mostrado el mensaje, lanzamiento de la moneda para el sorteo de quien inicia o el mensaje escrito por cada uno de los jugadores. Todas ellas son de tipo String, exceptuando las que puedan tomar valores de verdadero o falso.
 		\end{itemize}
 	
-		\begin{figure}[H]
+		\begin{figure}%[H]
 			\centering
 			\includegraphics[width=0.9\textwidth]{disenio/cuatrorowsexample.jpg}
 			\caption{Contenido fichero de cuatro en raya base de datos}\label{fig:cuatrorowsexample}
 		\end{figure}
 	\end{itemize}
 	
-	\item \textbf{Sqlflite:} usada para la persistencia interna de datos. No tiene diagrama de entidad relación ya que solo consta de una tabla. Como se puede ver en la imagen~\ref{fig:tablasqlflite}, este método se encarga de crear el recurso de la tabla, en el caso de que no existan, (cuando se instala la aplicación en el terminal).
+	\item \textbf{Sqlflite:} usada para la persistencia interna de datos. No tiene diagrama de entidad relación ya que solo consta de una tabla. Como se puede ver en la figura~\ref{fig:tablasqlflite}, este método se encarga de crear el recurso de la tabla, en el caso de que no existan, (cuando se instala la aplicación en el terminal).
 	
-	\begin{figure}[H]
+	\begin{figure}%[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{disenio/tablasqlflite.png}
 		\caption{Método para crear la tabla en la base de datos local}\label{fig:tablasqlflite}
@@ -79,21 +79,21 @@ En el tratamiento de los datos, se ha optado por hacerlo de dos formas diferente
 	
 \end{itemize}
 
-Otra de las formas en las que se almacenan los datos es mediante un fichero en local. Esto solo es usado para la configuración del menú, ya que cada vez que se crea el \emph{Widget} del menú lateral, lee el \emph{.json} para sacar los datos necesarios. Esta lógica de negocio se podría haber usado de la misma forma para solventar el problema de sqlflite~\pageref{sqlflite}.
+Otra de las formas en las que se almacenan los datos es mediante un fichero en local. Esto solo es usado para la configuración del menú, ya que cada vez que se crea el \emph{Widget} del menú lateral, lee el \emph{.json} para sacar los datos necesarios. Esta lógica de negocio se podría haber usado de la misma forma para solventar el problema de sqlflite, ver página~\pageref{sqlflite}.
 
 \section{Diseño procedimental}
-En la gran mayoría de procesos importantes se han hecho diagramas de flujo, con el fin de resolver y comprender algunas de las lógicas de negocio más importantes. Un ejemplo de esto es el siguiente diagrama~\ref{fig:snakediagrama} para la partida del snake:
+En la gran mayoría de procesos importantes se han hecho diagramas de flujo, con el fin de resolver y comprender algunas de las lógicas de negocio más importantes. Un ejemplo de esto es el siguiente diagrama,ver figura~\ref{fig:snakediagrama}, para la partida del snake:
 
-	\begin{figure}[H]
+	\begin{figure}%[H]
 		\centering
-		\includegraphics[height=1.2\textwidth]{disenio/flow.png}
+		\includegraphics[width=1\textwidth]{disenio/flow.png}
 		\caption{Diagrama de flujo juego snake}\label{fig:snakediagrama}
 	\end{figure}
 
 \section{Diseño arquitectónico}
 La arquitectura de la aplicación ha seguido el patrón de diseño BLoC~\cite{xurxodev:bloc}. Significa \emph{Business Logic Component}~\pageref{bloc}. Fue creado por Paolo Soare y Cong Hu, ambos de Google y presentado en la conferencia de Dart en 2018. Por lo que es algo bastante nuevo.
 
-Para comprender el por qué de esta arquitectura es necesario saber como funcionan los estados compartidos entre los componentes en los framework declarativos~\pageref{declarativo}.
+Para comprender el por qué de esta arquitectura es necesario saber como funcionan los estados compartidos entre los componentes en los framework declarativos, como se encuentra a continuación.
 
 \subsection{Framework declarativo}\label{declarativo}
 Los framework declarativos son aquellos donde las vistas se crean y actualizan en base a los datos con los que la vista esta enlazada, de tal forma que, cuando estos datos cambian de valor, se actualizan con una nueva renderización. Es decir, cada uno de estos componentes tiene un estado.
@@ -108,7 +108,7 @@ En el caso de flutter, los componentes son conocidos como Widgets, y pueden tene
 	\item \textbf{Con estado global:} para compartir datos entre diferentes widgets. Como puede ser la sesión de usuario.
 \end{itemize}
 
-Un ejemplo de declaración de widget que tiene el estado dinámico~\ref{fig:estado}, para este caso extiende de \emph{statefulwidget}:
+Un ejemplo de declaración de widget que tiene el estado dinámico, ver figura ~\ref{fig:estado}, para este caso extiende de \emph{statefulwidget}:
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{disenio/estado.png}
@@ -116,7 +116,7 @@ Un ejemplo de declaración de widget que tiene el estado dinámico~\ref{fig:esta
 	\end{figure}
 
 \subsection{BLoC}\label{bloc}
-Este patrón lo que pretende es que los componentes sean intermediarios entre las vistas y el modelo. Esta basado en la programación reactiva, utilizando el patrón observer, en Flutter es llamado \emph{Streams}, lo dota de gran versatilidad.
+Este patrón lo que pretende es que los componentes sean intermediarios entre las vistas y el modelo. Esta basado en la programación reactiva, utilizando el patrón observer, en Flutter es llamado \emph{Streams}, lo dota de gran versatilidad. Ver figura~\ref{fig:bloc}
 
 Los objetivos cuando se presentó este patrón en la conferencia de Google eran tres:
 
@@ -133,15 +133,15 @@ Los objetivos cuando se presentó este patrón en la conferencia de Google eran 
 	
 \end{itemize}
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
 	\includegraphics[width=1\textwidth]{disenio/bloc.png}
 	\caption{Diseño bloc}\label{fig:bloc}
 \end{figure}
 
-Por lo que una presentada la arquitectura es BLoC, se pretendió tener internamente una estructura de directorios ordenada, dependiendo de cada uno de los componentes que integre, como se puede ver en la imagen~\ref{fig:estructura}
+Por lo que una presentada la arquitectura es BLoC, se pretendió tener internamente una estructura de directorios ordenada, dependiendo de cada uno de los componentes que integre, como se puede ver en la figura~\ref{fig:estructura}
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
 	\includegraphics[height=0.75\textwidth]{disenio/estructura.png}
 	\caption{Estructura de directorios aplicación}\label{fig:estructura}
@@ -167,15 +167,15 @@ Por lo que una presentada la arquitectura es BLoC, se pretendió tener intername
 \end{itemize}
 
 \section{Diseño de interfaces}\label{nterfaces }
-Como se comenta en el apéndice del especificación de requisitos~\pageref{requisitos}, la mayor parte de las interfaces se diseñaron con el cliente, a través de bocetos, con la finalidad de facilitar la comunicación y el entendimiento cliente-analista. Un ejemplo de esto es la siguiente imagen~\ref{fig:borrador}.
+Como se comenta en el apéndice del especificación de requisitos, ver pág.~\pageref{requisitos}, la mayor parte de las interfaces se diseñaron con el cliente, a través de bocetos, con la finalidad de facilitar la comunicación y el entendimiento cliente-analista. Un ejemplo de esto es la siguiente figura~\ref{fig:borrador}.
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
-	\includegraphics[height=1.2\textwidth]{disenio/borrador2.jpeg}
+	\includegraphics[width=1\textwidth]{disenio/borrador2.jpeg}
 	\caption{Boceto de diseño}\label{fig:borrador}
 \end{figure}
 
-El diseño final de cada una de las interfaces de la aplicación se puede encontrar en el apéndice Manual de usuario~\pageref{manualusuario}.
+El diseño final de cada una de las interfaces de la aplicación se puede encontrar en el apéndice Manual de usuario, ver página~\pageref{manualusuario}.
 
 \subsection{Material Design}
 Gran parte de los componentes o widgets de la aplicación son provistos por la compañía Google y su paquete de diseño llamado: Material Design. Podemos encontrar en la \href{https://material.io/develop/flutter}{web} toda la documentación. Por lo que esto nos ha garantizado tener unos patrones de diseño según el estándar de Android. 
@@ -183,22 +183,22 @@ Gran parte de los componentes o widgets de la aplicación son provistos por la c
 Para los juegos habría que testear si el diseño responsive se garantiza, ya que el diseño de los tableros está en contenedores que no son dinámicos. Lo que implica que con la gran heterogeneidad del ecosistema, encontremos fallos.
 
 \subsection{Paleta de colores}
-La paleta de colores es la ofrecida por Material Design Palette,. Se supone que garantiza un gran contraste para facilitar la lectura, como el reconocimiento correcto de los contornos. Como consecuencia lo dota de gran usabilidad.
+La paleta de colores es la ofrecida por Material Design Palette. Se supone que garantiza un gran contraste para facilitar la lectura, como el reconocimiento correcto de los contornos. Como consecuencia lo dota de gran usabilidad. Ver figura~\ref{fig:palette}
 
 En el caso que la paleta de colores no sea del agrado del usuario final, se puede meter dentro del apartado `settings', para poner la aplicación de color negro, esto incrementa el contraste, lo que es una mejora de usabilidad.
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{disenio/palette.png}
+	\includegraphics[width=0.6\textwidth]{disenio/palette.png}
 	\caption{Paleta de colores}\label{fig:palette}
 \end{figure}
 
 \subsection{Iconos}
-Los iconos son provistos por Google, también dentro del material design. La lista de los iconos se puede encontrar \href{https://material.io/resources/icons/?style=sharp}{aquí}, un fragmento de esta lista~\ref{fig:iconos}:
+Los iconos son provistos por Google, también dentro del material design. La lista de los iconos se puede encontrar \href{https://material.io/resources/icons/?style=sharp}{aquí}, un fragmento de esta lista se puede ver en la figura~\ref{fig:iconos}:
 
-\begin{figure}[H]
+\begin{figure}%[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{disenio/iconos.png}
+	\includegraphics[width=0.5\textwidth]{disenio/iconos.png}
 	\caption{Algunos iconos}\label{fig:iconos}
 \end{figure}
 
