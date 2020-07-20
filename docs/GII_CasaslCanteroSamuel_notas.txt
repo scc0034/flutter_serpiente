@@ -1,0 +1,15 @@
+REPOSITORIO:
+https://github.com/scc0034/flutter_serpiente
+
+REPOSITORIO CON LA MEMORIA:
+https://github.com/scc0034/flutter_serpiente/tree/master/docs
+
+GOOGLE DRIVE CON EL VIDEO Y MV (SOLO PERSONAS CON ENLACE):
+https://drive.google.com/drive/folders/1-7tym8Xq6lxiv4EI7WUJN1taTnFVqbII?usp=sharing
+
+PLAY STORE CON LA APLICACIÓN:
+https://play.google.com/store/apps/details?id=com.ubu.flutter_snake&hl=es
+
+CONSOLA FIREBASE (cloud) Y PLAY CONSOLE(tienda de la aplicación):
+USUARIO: samuel.casal.itcl@gmail.com
+PASS: GII_CasalCanteroSamuel_pass2020&%$
