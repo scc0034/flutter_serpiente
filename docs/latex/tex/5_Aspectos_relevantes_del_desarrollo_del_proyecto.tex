@@ -28,7 +28,7 @@ Desde la web anterior también se nos indica la referencia a muchos de los paque
 \section{Flutter es asíncrono}
 Uno de los mayores retos cuando empiezas a trabajar con este \emph{framework} es que se trabaja de manera asíncrona. Durante el curso estos aspectos se ven de una manera muy básica, por lo que fue necesario una mayor documentación al respecto.
 
-Es decir, todo la aplicación se ejecuta en un único hilo, por lo que si un bloque de código se queda congelado, se cuelga todo el programa. Entonces surgen las operaciones asíncronas, que permiten crear funciones o fragmentos de código que no detengan la aplicación entera, porque estas se ejecutan en otros hilos. Ya que para algunas situaciones es necesario quedarse a la espera, como puede ser la llegada de datos de un servidor muy lejano, por lo que no se puede dar al cliente la sensación de que la aplicación se a congelado y no responde.
+Es decir, todo la aplicación se ejecuta en un único hilo, por lo que si un bloque de código se queda congelado, se cuelga todo el programa. Entonces surgen las operaciones asíncronas, que permiten crear funciones o fragmentos de código que no detengan la aplicación entera, porque estas se ejecutan en otros hilos. Ya que para algunas situaciones es necesario quedarse a la espera, como puede ser la llegada de datos de un servidor muy lejano, por lo que no se puede dar al cliente la sensación de que la aplicación se ha congelado y no responde.
 
 Dentro de Dart son los llamados \verb|Future<Object>|. Básicamente son tareas que se quedan a la espera, con el fin de que se las devuelva el objeto pedido. Un ejemplo de esto lo podemos ver en la figura~\ref{fig:future}.
 
