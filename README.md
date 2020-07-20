@@ -35,10 +35,32 @@
 - Copyright (c) 2019 - 2020 Samuel Casal Cantero 
 
 ---
+## Instalaciones necesarias
+### Programas
+* Editor de código: [Visual Studio Code](https://code.visualstudio.com/). 
+
+* Herramienta versionado: [Git](https://git-scm.com/)
+
+* Emulador Android: [Android Studio](https://developer.android.com/studio)
+
+
+### Plugins
+
+
+* [Dart](https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code)
+
+* [Flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
+
+* [Awesome Flutter Snippets](https://marketplace.visualstudio.com/items?itemName=Nash.awesome-flutter-snippets)
+
+* [Bracket Pair Colorizer 2](https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2)
+
+* [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme)
+
+
 
 ## Clonación del proyecto
-1. Instalar la herramienta <a href="https://git-scm.com/download/">git</a>
-2. Abrir la consola de la herramienta instalada en el directorio que deseemos. Ejecutar el comando:
+2. Abrir la consola de git en el directorio que deseemos. Ejecutar el comando:
 ```
 git clone https://github.com/scc0034/flutter_serpiente.git
 ```
