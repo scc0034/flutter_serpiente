@@ -60,11 +60,11 @@
 
 
 ## Clonación del proyecto
-2. Abrir la consola de git en el directorio que deseemos. Ejecutar el comando:
+1. Abrir la consola de git en el directorio que deseemos. Ejecutar el comando:
 ```
 git clone https://github.com/scc0034/flutter_serpiente.git
 ```
-3. Instalación de los paquetes:
+2. Instalación de los paquetes:
 ```
 flutter upgrade
 ```
